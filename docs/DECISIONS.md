@@ -2,6 +2,16 @@
 
 Keep durable architecture and gameplay decisions here. Add a dated entry for each substantial change.
 
+## 2026-11-14 — Reaffirm original mechanical-fidelity mandate
+
+- **Product target since inception:** a mechanically faithful recreation of Magic Survival **0.9941** with original branding/presentation and idiomatic Persian/Iranian localization. This is a reaffirmation of the original brief, **not a change of product direction**.
+- Match recovered numerical equations, application order and stacking, spell behavior, content prerequisites, artifacts, enemy AI and waves, progression and reward probabilities. Reconstruct missing behavior through evidence-driven research; never call approximate mechanics parity-complete.
+- Existing four-hero Phase 1 gameplay is a technical foundation and working testbed, **not the final feature/content scope**.
+- Historical balance-bot win-rate optimization is not a fidelity benchmark; compare against verified reference mechanics and deterministic fixtures.
+- `src/game/reference/` remains a non-production integration sandbox until enough reference rules are verified. Correct and validated implementations are intended to become normal gameplay incrementally.
+- Persian/Iranian text, cultural presentation, art, sound and branding remain independently authored and do not license third-party copyrighted creative material. Cultural adaptation must preserve functional mechanics.
+- Keep a research evidence trail and record uncertainty (`stored`, `inferred`, `static_verified`, `runtime_verified`); source data alone may not establish effective runtime values.
+
 ## 2026-11-14 — Initial repository migration
 - Source of truth: the user-provided `the-mage (11).zip`.
 - Android-first product, Persian RTL UI, engine-agnostic future. Existing React/TypeScript/Vite/Canvas 2D implementation is retained.
