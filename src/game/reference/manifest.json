@@ -18,7 +18,7 @@
       "found": 21,
       "of": 21,
       "imported": false,
-      "note": "groups identified; per-level rows not yet supplied"
+      "note": "21 definitions, 131 stored magic base-parameter cells, not imported"
     },
     "progressionRows": {
       "found": 129,
@@ -33,9 +33,10 @@
       "note": "active rows recovered; full table not yet supplied"
     },
     "statVariableIds": {
-      "found": 492,
-      "of": 492,
-      "imported": false
+      "found": 479,
+      "of": 479,
+      "imported": false,
+      "note": "458 ally + 21 enemy stat variable declarations, confirmed by the separate research workspace; earlier 492 claim unsupported; data not yet imported"
     },
     "effectIds": {
       "found": 371,
@@ -54,12 +55,12 @@
     "magicCombinations": {
       "found": 65,
       "imported": false,
-      "note": "65 stored definition rows reported; active/playable subsets and runtime activation semantics require verification (previous snapshot reported 63)"
+      "note": "65 stored definition rows in dedicated export; previous catalog listed 63, active/playable subsets not automatically assumed"
     },
     "synergies": {
       "found": 63,
       "imported": false,
-      "note": "63 active among 100 stored synergy definition rows; runtime handling not yet verified"
+      "note": "63 active among 100 stored definition rows; runtime handling not yet verified"
     },
     "zones": {
       "found": 14,
@@ -69,12 +70,12 @@
     "verificationChecks": {
       "found": 2607,
       "imported": false,
-      "note": "2,607 checks passing reported in separate RE workspace; structural/numerical/native tests, not 2,607 parity tests against running Persian game"
+      "note": "source workspace 2,607 passed / 0 failed; portable handoff 2,580 passed / 0 failed with 27 binary-dependent checks skipped; structural/numerical/native checks not equivalent to gameplay parity"
     },
     "enemyDefinitions": {
       "found": 38,
       "imported": false,
-      "note": "38 named rows; 36 identified as active (research-reported, raw table not supplied)"
+      "note": "38 named rows: 36 combat rows and 2 placeholders; raw table not supplied to The Mage yet"
     },
     "nativeEffectBindings": {
       "found": 458,
@@ -96,6 +97,38 @@
       "found": 59,
       "imported": false,
       "note": "reported numerical/localization TextAssets recovered from the reference version"
+    },
+    "artifactRows": {
+      "found": 182,
+      "imported": false,
+      "note": "research-exported inventory; raw rows not yet uploaded"
+    },
+    "classes": {
+      "found": 49,
+      "imported": false
+    },
+    "researchDefinitions": {
+      "found": 22,
+      "imported": false
+    },
+    "formulaRecords": {
+      "found": 16,
+      "imported": false,
+      "note": "not all complete runtime-verified equations"
+    },
+    "waveTimingAlternatives": {
+      "found": 142,
+      "imported": false,
+      "note": "71+71 alternative wave timing entries, not a single reconciled schedule"
+    },
+    "hpIncrementEntries": {
+      "found": 77,
+      "imported": false
+    },
+    "probabilityInputRecords": {
+      "found": 18,
+      "imported": false,
+      "note": "input data, not final probability distributions"
     }
   },
   "datasets": [],
