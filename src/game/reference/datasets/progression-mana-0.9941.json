@@ -6,7 +6,7 @@
   "sourceCsvSha256": "769df81d56d6210862b842a39aae7bacbcbb8620ad53a922a5ac242c0c078eb5",
   "handoffArchiveSha256": "c5eb6039953d5a5a1393a2aee7ee72e8dd0dc12a2e1084e92420d103eb4ee10d",
   "valuesSha256": "cc74851569309ab6a4b9201ed1d2c4312240de869eb5423b9341ad42a4541b35",
-  "runtimeLookupSemantics": "unknown: current-level vs destination-level lookup, reset and carry-over not established",
+  "runtimeLookupSemantics": "static_verified: ManaGain uses stored current level L (clamped 1–100); ordinary accepted choice increments L then mode2 refreshes. Live scheduling, startup and resume remain unverified.",
   "rows": [
     {
       "storedLevel": 0,
