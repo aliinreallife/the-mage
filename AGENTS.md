@@ -8,6 +8,20 @@ Use this file as persistent project context when working on the repository from 
 - Player-facing text is Persian. Keep the joystick/game-world coordinates independent of RTL layout.
 - Keep art, characters, names and branding original; the Magic Survival 0.9941 data is a mechanics reference, not permission to redistribute proprietary artwork or the APK.
 
+## Non-negotiable product goal — mechanical fidelity
+
+**The Mage is an original Persian/Iranian-localized adaptation whose intended gameplay target is Magic Survival 0.9941, not a loosely inspired or independently rebalanced roguelite.** This goal has applied since the project began.
+
+- Replicate **verified** rules and functional relationships: player stats, progression, spells and levels, combinations, artifacts, class distinctions, damage/critical/defense/cooldown formulas and ordering, enemy AI and wave schedules, drops, probability rules, and permanent progression.
+- Treat the current four-hero / reduced-spell Phase 1 game as a **working scaffold**, not proof of full content or mechanical completion. Existing win-rate tuning against our own bots is diagnostic, not the definition of correct balance.
+- Do not invent alternative mechanics or rebalance heroes/spells based merely on equal win rates or perceived fun when reference values/behavior can be recovered.
+- Mark unknown behavior as **unknown**. Temporary implementations may keep the current game playable, but must be isolated, documented and replaced only after sufficient evidence and parity tests.
+- Keep gameplay parity distinct from presentation: natural Persian and Iranian cultural adaptation of text, terminology, names, and original visual identity must **not change mechanics**.
+- Do not copy/distribute proprietary game sprites, audio, logos, dialogue, source assets, or APK content without rights. Pursue mechanical accuracy with our own protected creative expression.
+- Use development-only reference mode as a **temporary verification gate**. Once a mechanic is supported and validated, the intended long-term default is faithful reference behavior, not permanent coexistence of two differently balanced games.
+- Track progress with **system coverage and measured parity** (verified fixtures, behavior, numerical outputs), not just completed tickets, test counts or 20-minute-run success.
+- Keep regressions under control: update one coherent subsystem at a time, validate against reference fixtures and the existing tests, and preserve current saves and Android/PWA usability.
+
 ## Existing functionality to preserve
 - Core survival game, enemy AI, 4 heroes, combat, spells, talents/fusions, artifact choices and synergies, waves and bosses.
 - Local Gold/research progression, checkpoint/resume, PWA offline behavior and asset self-healing export.
