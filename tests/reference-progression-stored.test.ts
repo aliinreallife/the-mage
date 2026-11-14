@@ -64,6 +64,7 @@ describe("Magic Survival 0.9941 — stored progression (reference only)", () => 
     getStoredManaReferenceDataset();
     expect(getProgressionTable()).toBeNull();
     expect(game.snapshot().xpNeed).toBe(7);
-    expect(STORED_MANA_SOURCE.runtimeLookupSemantics).toContain("unknown");
+    expect(STORED_MANA_SOURCE.runtimeLookupSemantics).toContain("current level L");
+    expect(STORED_MANA_SOURCE.runtimeLookupSemantics).toContain("unverified");
   });
 });
