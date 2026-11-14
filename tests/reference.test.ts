@@ -48,6 +48,9 @@ describe("reference manifest", () => {
     expect(inv.enemyDefinitions.found).toBe(38); // 36 active
     expect(inv.nativeEffectBindings.found).toBe(458); // mappings, not distinct IDs
     expect(inv.effectIdsWithNativeBindings.found).toBe(272); // distinct shipped IDs
+    expect(inv.statVariableIds.found).toBe(479); // 458 ally + 21 enemy; corrected from 492
+    expect(inv.artifactRows.found).toBe(182);
+    expect(inv.formulaRecords.found).toBe(16);
     expect(inv.effectIds.found).toBe(371);
     expect(inv.verificationChecks.found).toBe(2607); // separate RE checks, not game parity
     expect(Object.values(inv).every((e) => e.imported === false)).toBe(true);
