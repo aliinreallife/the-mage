@@ -23,7 +23,7 @@ Updated: November 14, 2026. Based on the imported `the-mage (11).zip` source; hi
 
 ### New external RE checkpoint — November 14, 2026
 
-The separate WSL research reports **2,607 passing checks**, native dispatch at `V_Ability_Manager.AbilityStatApply` (`0x1103210`), 458 effect-to-stat bindings, and 272/371 shipped effect IDs backed by native-code analysis. This is static evidence, not verified end-to-end gameplay or imported data. Details: [`docs/reference/RESEARCH-CHECKPOINT-2026-11-14.md`](reference/RESEARCH-CHECKPOINT-2026-11-14.md).
+The separate WSL research reports **2,607 passing checks**, native dispatch at `V_Ability_Manager.AbilityStatApply` (`0x1103210`), 458 effect-to-stat bindings, and 272/371 shipped effect IDs backed by native-code analysis. The source-workspace suite passed 2,607 checks; the binary-free portable handoff passed 2,580 with 27 binary-dependent checks skipped. The latest audited namespace is **479 variables (458 ally + 21 enemy)**, correcting the earlier unsubstantiated 492. This is static evidence, not verified end-to-end gameplay or imported data. Details: [`docs/reference/RESEARCH-CHECKPOINT-2026-11-14.md`](reference/RESEARCH-CHECKPOINT-2026-11-14.md).
 
 **Next integration gate:** obtain actual versioned 129-row progression data, confirm level index semantics, validate fixture outputs. Extend schemas for effect binding and active/inactive record flags **before** importing later data, without changing current mode or saves.
 
