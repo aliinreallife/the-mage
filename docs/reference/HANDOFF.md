@@ -8,6 +8,8 @@ validated on arrival and reported, never guessed.
 
 Reverse-engineering workspace: `/home/ali/rea-magic` (WSL). Arena cannot read it — send files.
 
+**2026-11-14 export status:** OpenCode reports a completed portable handoff ZIP, but its contents have **not yet been uploaded and reviewed here**. Latest namespace count is **479 (458 ally + 21 enemy)**, correcting the old 492 estimate. Source workspace: 2,607 checks passed. Portable suite: 2,580 passed, 27 binary-dependent skipped. Level keys cover 0–128, while *current-vs-destination-level lookup* and XP carry-over remain unresolved. Do not shift levels or infer semantics to satisfy the importer.
+
 ## 1. File naming and envelope
 
 ```
