@@ -16,7 +16,7 @@ The goal is to compare verified numerical mechanics with the existing Persian-la
 | Player base fields | 143/146 | Three unresolved |
 | Magic parameter groups | 21/21 | Parameter structures identified, application still under investigation |
 | Enemy definitions | 38 named rows; 36 active | Base stats, not final runtime effective stats |
-| Stat-variable namespace | 492 | Names/identifiers cataloged |
+| Stat-variable namespace | **479 (458 ally + 21 enemy)** | Saved namespace and metadata declarations agree; older 492 count unsupported |
 | Effect IDs | 371 shipped | Distinct IDs, not all implemented effects |
 | Effect IDs with native-supported bindings | 272/371 | Native code evidence for relevant stat writes |
 | Effect-to-stat-variable bindings | 458 | Mappings; **not** 458 distinct effect IDs |
@@ -24,7 +24,10 @@ The goal is to compare verified numerical mechanics with the existing Persian-la
 | Magic combination definitions | 65 stored rows | Stored definitions; do not presume all are playable |
 | Synergy definitions | 100 stored rows, 63 identified active | Active subset matters for in-game parity |
 | Named classes | 49 | Dataset entries, not current game's playable class count |
-| Research validation | 2,607 checks passing, 0 failed | Mixed structural/data/native checks, **not** game-to-game parity |
+| Research validation — full source workspace | 2,607 passed, 0 failed | Includes binary-dependent checks, **not** game-to-game parity |
+| Research validation — portable handoff | 2,580 passed, 0 failed; 27 binary-dependent skipped | Skipped checks must not be counted as portable passes |
+| Handoff record inventories | 182 artifacts; 49 classes; 22 research definitions; 16 formula records | Raw exported counts, **not** full runtime implementation |
+| Wave/probability records | 71 + 71 alternate wave timings; 77 HP increments; 18 probability inputs | Alternatives unresolved; inputs are not final distributions |
 
 ## Native stat dispatch
 
@@ -34,6 +37,10 @@ The research reports a native dispatcher:
 - Reported 458 native effect-to-stat-variable bindings, covering 272 distinct shipped effect IDs
 - Some IDs increase magic levels, and special cases/array effects are handled separately
 - Static code evidence **does not alone prove** end-to-end damage, buff stacking, trigger ordering, or runtime semantics
+
+The separate research reports the packaged handoff at `/home/ali/rea-magic/handoff/magic-survival-0.9941-research-handoff.zip` (SHA-256 `c5eb6039953d5a5a1393a2aee7ee72e8dd0dc12a2e1084e92420d103eb4ee10d`, 2,592,848 bytes). **This repository has not received or inspected that ZIP yet**. The package reportedly contains 33 JSON/CSV pairs, 341 files, and 373 integrity/round-trip checks passing. Its data will be independently validated when uploaded.
+
+Progression keys span levels 0–128, but the RE evidence **does not establish whether the runtime lookup uses current or destination level**, or the XP reset/carry-over behavior. Preserve raw keys; do not assume indexing semantics based on a fitted formula.
 
 The separate research team should export a machine-readable table of mappings with at least: effect ID, target variable, operation, operand(s), native source/address, confidence/evidence, and unresolved paths. The current importer has **no `effects` dataset kind**; add an appropriately tested schema *before* importing these mappings, not by forcing them into unrelated kinds.
 
