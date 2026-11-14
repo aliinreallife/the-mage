@@ -42,9 +42,14 @@ describe("reference manifest", () => {
     const inv = manifest.inventory as Record<string, { found: number; imported?: boolean }>;
     expect(inv.progressionRows.found).toBe(129);
     expect(inv.enemyStatRows.found).toBe(36);
-    expect(inv.magicCombinations.found).toBe(63);
-    expect(inv.synergies.found).toBe(63);
+    expect(inv.magicCombinations.found).toBe(65); // stored definitions, not proven active
+    expect(inv.synergies.found).toBe(63); // identified active of 100 definitions
+    expect(inv.synergyDefinitions.found).toBe(100);
+    expect(inv.enemyDefinitions.found).toBe(38); // 36 active
+    expect(inv.nativeEffectBindings.found).toBe(458); // mappings, not distinct IDs
+    expect(inv.effectIdsWithNativeBindings.found).toBe(272); // distinct shipped IDs
     expect(inv.effectIds.found).toBe(371);
+    expect(inv.verificationChecks.found).toBe(2607); // separate RE checks, not game parity
     expect(Object.values(inv).every((e) => e.imported === false)).toBe(true);
   });
 
