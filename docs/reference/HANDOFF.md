@@ -1,10 +1,14 @@
 # Data handoff contract — Magic Survival 0.9941 → «آخرین افسونگر»
 
+> **Research checkpoint (2026-11-14):** [See reported native-dispatch and inventory findings](RESEARCH-CHECKPOINT-2026-11-14.md). Counts now distinguish 65 stored combination rows, 100 synergy rows (63 identified active), and 458 native effect-to-stat bindings covering 272 shipped IDs. None of those full datasets are imported here yet. The current schema does not support importing native effect bindings; it must be extended and tested first.
+
 You do **not** need to send the APK or decompilation output. Structured numerical exports
 (JSON preferred, CSV accepted) are sufficient. Upload them as they become ready; each file is
 validated on arrival and reported, never guessed.
 
 Reverse-engineering workspace: `/home/ali/rea-magic` (WSL). Arena cannot read it — send files.
+
+**2026-11-14 export status:** OpenCode reports a completed portable handoff ZIP, but its contents have **not yet been uploaded and reviewed here**. Latest namespace count is **479 (458 ally + 21 enemy)**, correcting the old 492 estimate. Source workspace: 2,607 checks passed. Portable suite: 2,580 passed, 27 binary-dependent skipped. Level keys cover 0–128, while *current-vs-destination-level lookup* and XP carry-over remain unresolved. Do not shift levels or infer semantics to satisfy the importer.
 
 ## 1. File naming and envelope
 
@@ -20,9 +24,9 @@ reference-0.9941-<kind>.csv          # CSV: header row = record field names
 | `progression` | level → mana/exp rows |
 | `enemies` | enemy base stat rows |
 | `magic` | magic parameter groups with per-level numbers |
-| `combinations` | magic combinations and their stored modifiers |
+| `combinations` | magic-combination definition rows, active status and stored modifiers |
 | `artifacts` | artifacts/abilities with effects |
-| `synergies` | set/synergy definitions |
+| `synergies` | synergy definition rows with active/inactive status |
 | `formulas` | recovered equations (mana, research, chest, wave ratio…) |
 | `stats` | stat-variable catalog (492 identifiers) |
 | `stages` | zones and stage variants |
@@ -109,9 +113,9 @@ npm test               # writes/refreshes docs/reference/PARITY-REPORT.md
 2. **enemies** — the 36 base rows plus the runtime multiplier chain, or a clear statement
    that the chain is still unknown.
 3. **magic** — 21 parameter groups with per-level rows and the units of each field.
-4. **combinations** — 63 records with primary/consumed ids and whether modifiers are applied
-   natively.
-5. **formulas** — the recovered equations, each with its inputs and evidence.
+4. **combinations** — 65 stored definition rows reported as of Nov 14; supply primary/consumed IDs and explicitly mark active/unknown entries. Do not assume all are playable.
+5. **effect bindings** — 458 research-reported native bindings across 272 distinct effect IDs; extend the schema before import and include source addresses, target stat fields, operations, and unresolved special cases.
+6. **formulas** — recovered equations, each with inputs, evidence, and worked examples.
 
 Partial batches are welcome: each is validated and reported on its own. Never send a file
 with invented rows to fill a gap — gaps are reported as gaps.

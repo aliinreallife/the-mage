@@ -19,7 +19,13 @@ Updated: November 14, 2026. Based on the imported `the-mage (11).zip` source; hi
 - Research summary inventories in `src/game/reference/manifest.json` are **not actual imported datasets**.
 - Only a few example fixtures are present; do not confuse inventory counts with data parity.
 - **Next data task:** import complete progression levels 0–128, verify level/index and mana semantics, run parity tests without altering normal game mode.
-- After that: enemy base rows and scaling; spell parameters; effect-to-stat bindings; fusion and artifact tables; damage formula/stacking, wave schedules and RNG.
+- After that: 38 named enemy rows (36 active), spell parameters, **458 native effect-to-stat bindings covering 272 IDs**, 65 stored magic-combination definitions, 100 synergy definitions (63 active), damage formula/stacking, wave schedules and RNG. These are **reported inventories**, not yet imported datasets.
+
+### New external RE checkpoint — November 14, 2026
+
+The separate WSL research reports **2,607 passing checks**, native dispatch at `V_Ability_Manager.AbilityStatApply` (`0x1103210`), 458 effect-to-stat bindings, and 272/371 shipped effect IDs backed by native-code analysis. The source-workspace suite passed 2,607 checks; the binary-free portable handoff passed 2,580 with 27 binary-dependent checks skipped. The latest audited namespace is **479 variables (458 ally + 21 enemy)**, correcting the earlier unsubstantiated 492. This is static evidence, not verified end-to-end gameplay or imported data. Details: [`docs/reference/RESEARCH-CHECKPOINT-2026-11-14.md`](reference/RESEARCH-CHECKPOINT-2026-11-14.md).
+
+**Next integration gate:** obtain actual versioned 129-row progression data, confirm level index semantics, validate fixture outputs. Extend schemas for effect binding and active/inactive record flags **before** importing later data, without changing current mode or saves.
 
 ## Workflow for continued ChatGPT development
 

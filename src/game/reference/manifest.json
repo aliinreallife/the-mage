@@ -1,30 +1,180 @@
 {
   "schemaVersion": 1,
   "gameVersion": "0.9941",
-  "evidenceCategories": ["stored", "inferred", "static_verified", "runtime_verified"],
+  "evidenceCategories": [
+    "stored",
+    "inferred",
+    "static_verified",
+    "runtime_verified"
+  ],
   "inventory": {
-    "playerFields": { "found": 143, "of": 146, "imported": false, "note": "inventory reported by the reverse-engineering project; raw rows not yet supplied" },
-    "magicParameterGroups": { "found": 21, "of": 21, "imported": false, "note": "groups identified; per-level rows not yet supplied" },
-    "progressionRows": { "found": 129, "of": 129, "imported": false, "note": "levels 0–128; only the three sample mana values below are supplied" },
-    "enemyStatRows": { "found": 36, "of": 36, "imported": false, "note": "active rows recovered; full table not yet supplied" },
-    "statVariableIds": { "found": 492, "of": 492, "imported": false },
-    "effectIds": { "found": 371, "of": 371, "imported": false, "note": "299 interpreted from descriptions; native effect-to-stat bindings not verified" },
-    "nativeMethodsWithAddresses": { "found": 51909, "imported": false },
-    "abilities": { "found": 351, "imported": false },
-    "magicCombinations": { "found": 63, "imported": false },
-    "synergies": { "found": 63, "imported": false },
-    "zones": { "found": 14, "imported": false, "note": "stage variants require reconciliation" },
-    "verificationChecks": { "found": 2000, "imported": false, "note": "passing checks over heterogeneous evidence; not proof of gameplay parity" }
+    "playerFields": {
+      "found": 143,
+      "of": 146,
+      "imported": false,
+      "note": "inventory reported by the reverse-engineering project; raw rows not yet supplied"
+    },
+    "magicParameterGroups": {
+      "found": 21,
+      "of": 21,
+      "imported": false,
+      "note": "21 definitions, 131 stored magic base-parameter cells, not imported"
+    },
+    "progressionRows": {
+      "found": 129,
+      "of": 129,
+      "imported": false,
+      "note": "levels 0–128; only the three sample mana values below are supplied"
+    },
+    "enemyStatRows": {
+      "found": 36,
+      "of": 36,
+      "imported": false,
+      "note": "active rows recovered; full table not yet supplied"
+    },
+    "statVariableIds": {
+      "found": 479,
+      "of": 479,
+      "imported": false,
+      "note": "458 ally + 21 enemy stat variable declarations, confirmed by the separate research workspace; earlier 492 claim unsupported; data not yet imported"
+    },
+    "effectIds": {
+      "found": 371,
+      "of": 371,
+      "imported": false,
+      "note": "371 shipped IDs; 299 inferred meanings, 272 IDs supported by native effect-to-stat bindings; not all runtime behaviors established"
+    },
+    "nativeMethodsWithAddresses": {
+      "found": 51909,
+      "imported": false
+    },
+    "abilities": {
+      "found": 351,
+      "imported": false
+    },
+    "magicCombinations": {
+      "found": 65,
+      "imported": false,
+      "note": "65 stored definition rows in dedicated export; previous catalog listed 63, active/playable subsets not automatically assumed"
+    },
+    "synergies": {
+      "found": 63,
+      "imported": false,
+      "note": "63 active among 100 stored definition rows; runtime handling not yet verified"
+    },
+    "zones": {
+      "found": 14,
+      "imported": false,
+      "note": "stage variants require reconciliation"
+    },
+    "verificationChecks": {
+      "found": 2607,
+      "imported": false,
+      "note": "source workspace 2,607 passed / 0 failed; portable handoff 2,580 passed / 0 failed with 27 binary-dependent checks skipped; structural/numerical/native checks not equivalent to gameplay parity"
+    },
+    "enemyDefinitions": {
+      "found": 38,
+      "imported": false,
+      "note": "38 named rows: 36 combat rows and 2 placeholders; raw table not supplied to The Mage yet"
+    },
+    "nativeEffectBindings": {
+      "found": 458,
+      "imported": false,
+      "note": "native dispatcher mappings reportedly recovered in V_Ability_Manager.AbilityStatApply at 0x1103210; mapping count is not distinct effect-ID coverage"
+    },
+    "effectIdsWithNativeBindings": {
+      "found": 272,
+      "of": 371,
+      "imported": false,
+      "note": "shipped IDs supported by native bindings; excludes special-purpose IDs handled elsewhere; not equivalent to complete stacking/parity"
+    },
+    "synergyDefinitions": {
+      "found": 100,
+      "imported": false,
+      "note": "63 identified as active, 37 other rows not assumed active"
+    },
+    "unityTextAssets": {
+      "found": 59,
+      "imported": false,
+      "note": "reported numerical/localization TextAssets recovered from the reference version"
+    },
+    "artifactRows": {
+      "found": 182,
+      "imported": false,
+      "note": "research-exported inventory; raw rows not yet uploaded"
+    },
+    "classes": {
+      "found": 49,
+      "imported": false
+    },
+    "researchDefinitions": {
+      "found": 22,
+      "imported": false
+    },
+    "formulaRecords": {
+      "found": 16,
+      "imported": false,
+      "note": "not all complete runtime-verified equations"
+    },
+    "waveTimingAlternatives": {
+      "found": 142,
+      "imported": false,
+      "note": "71+71 alternative wave timing entries, not a single reconciled schedule"
+    },
+    "hpIncrementEntries": {
+      "found": 77,
+      "imported": false
+    },
+    "probabilityInputRecords": {
+      "found": 18,
+      "imported": false,
+      "note": "input data, not final probability distributions"
+    }
   },
   "datasets": [],
   "sampleExpectations": [
-    { "system": "progression", "targetLevel": 1, "manaRequired": 100, "evidence": "stored" },
-    { "system": "progression", "targetLevel": 2, "manaRequired": 136, "evidence": "stored" },
-    { "system": "progression", "targetLevel": 3, "manaRequired": 173, "evidence": "stored" },
-    { "system": "enemy", "name": "Small Swarm", "baseHp": 100, "evidence": "stored", "runtimeModifiers": "unresolved" },
-    { "system": "enemy", "name": "Revenant", "baseHp": 10000, "evidence": "stored", "runtimeModifiers": "unresolved", "note": "stored 10,000 may be modified by stage, wave, elapsed time or difficulty" },
-    { "system": "combination", "name": "Empyrean Wrath", "damageMultiplier": 5, "countMultiplier": 3, "evidence": "stored", "modifiersApplied": "not_verified" }
+    {
+      "system": "progression",
+      "targetLevel": 1,
+      "manaRequired": 100,
+      "evidence": "stored"
+    },
+    {
+      "system": "progression",
+      "targetLevel": 2,
+      "manaRequired": 136,
+      "evidence": "stored"
+    },
+    {
+      "system": "progression",
+      "targetLevel": 3,
+      "manaRequired": 173,
+      "evidence": "stored"
+    },
+    {
+      "system": "enemy",
+      "name": "Small Swarm",
+      "baseHp": 100,
+      "evidence": "stored",
+      "runtimeModifiers": "unresolved"
+    },
+    {
+      "system": "enemy",
+      "name": "Revenant",
+      "baseHp": 10000,
+      "evidence": "stored",
+      "runtimeModifiers": "unresolved",
+      "note": "stored 10,000 may be modified by stage, wave, elapsed time or difficulty"
+    },
+    {
+      "system": "combination",
+      "name": "Empyrean Wrath",
+      "damageMultiplier": 5,
+      "countMultiplier": 3,
+      "evidence": "stored",
+      "modifiersApplied": "not_verified"
+    }
   ],
   "handoff": "docs/reference/HANDOFF.md",
-  "updatedAt": "2026-11-12"
+  "updatedAt": "2026-11-14"
 }
