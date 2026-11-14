@@ -1,0 +1,2 @@
+ad311b74bedc9aa6cb4cdd043d02e3a3e790ca0f8fe30ed3c946e897fd2e3f77  the-mage-source.zip
+924350e39ab9dad66e2a7db5a61f3adf8df672837c58c30e95adf94dede65878  the-mage-production.zip

@@ -1,0 +1,1 @@
+SUMMARY seed=12 runs=24 victories=9 fusions=18 bossPhase2=10

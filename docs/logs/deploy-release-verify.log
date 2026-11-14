@@ -1,0 +1,19 @@
+PASS  manifest icon ./icons/icon-192.png (192x192, any)  — 192x192
+PASS  manifest icon ./icons/icon-512.png (512x512, any)  — 512x512
+PASS  manifest icon ./icons/icon-maskable-512.png (512x512, maskable)  — 512x512
+PASS  service-worker core file ./
+PASS  service-worker core file ./index.html
+PASS  service-worker core file ./manifest.webmanifest
+PASS  service-worker core file ./icons/icon-192.png
+PASS  service-worker core file ./icons/icon-512.png
+PASS  service-worker core file ./icons/icon-maskable-512.png
+PASS  fonts inlined into the page (offline)  — 7 woff2 faces
+PASS  no internet font requests
+PASS  service worker registered in the page
+PASS  developer panel absent ("+۱۰۰۰")
+PASS  developer panel absent ("پرش به موج")
+PASS  developer panel absent ("کیت ")
+PASS  developer panel absent ("کپی داده‌های تعادل")
+PASS  apple touch icon exists
+
+all release checks passed

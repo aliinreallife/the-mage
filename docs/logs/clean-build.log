@@ -1,0 +1,22 @@
+
+> react-vite-tailwind@0.0.0 prebuild
+> node scripts/make-icons.mjs
+
+public/icons/icon-192.png  13177 bytes  192x192
+public/icons/icon-512.png  42881 bytes  512x512
+public/icons/icon-maskable-512.png  39911 bytes  512x512 (maskable)
+
+> react-vite-tailwind@0.0.0 build
+> vite build
+
+vite v7.3.2 building client environment for production...
+transforming...
+✓ 55 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-DIoezBhM.js
+[plugin vite:singlefile] Inlining: style-D6bA0kPd.css
+computing gzip size...
+dist/index.html  709.52 kB │ gzip: 308.32 kB
+✓ built in 2.31s

@@ -1,0 +1,76 @@
+# Hero balance — 240-run before/after
+
+Seeds: 11, 12, 13, 14, 15, 16, 17, 18, 19, 20. 4 heroes × 3 difficulties × 2 strategies × 10 seeds = **240 before / 240 after** runs.
+Simulation: scripted kiting bot in Node. **Not human play, not Android hardware.**
+
+## Overall
+
+| Metric | Before | After |
+| --- | --- | --- |
+| Victories | 78/240 (33%) | 104/240 (43%) |
+| Early deaths (<5 min) | 24 | 17 |
+| Runs with a fusion | 200/240 (83%) | 216/240 (90%) |
+| Mean survival (s) | 826 | 920 |
+| Mediansurvival (s) | 1170 | 1200 |
+| Mean level | 70.9 | 81.2 |
+| Reached boss phase 2 | 106 | 124 |
+| Mean boss fight (s) | 30.9 | 27.4 |
+| Telegraphed attacks | 2792 | 2925 |
+
+## Matched pairs (identical seed/hero/difficulty/strategy)
+
+- 240 pairs; wins 78 → 104; improved 43, regressed 17, mean survival change 95s.
+
+## By hero
+
+| Hero | Wins before | Wins after | Early deaths | Fusion runs | Mean survival |
+| --- | --- | --- | --- | --- | --- |
+| farzan | 33/60 (55%) | 31/60 (52%) | 3 → 2 | 57/60 (95%) → 56/60 (93%) | 989s → 999s |
+| azar | 10/60 (17%) | 21/60 (35%) | 11 → 4 | 47/60 (78%) → 54/60 (90%) | 675s → 881s |
+| bahman | 14/60 (23%) | 31/60 (52%) | 6 → 7 | 48/60 (80%) → 58/60 (97%) | 691s → 854s |
+| tishtar | 21/60 (35%) | 21/60 (35%) | 4 → 4 | 48/60 (80%) → 48/60 (80%) | 947s → 947s |
+
+## Hero × difficulty (wins of 20 runs)
+
+| Hero | Normal before → after | Adaptive before → after | Brutal before → after |
+| --- | --- | --- | --- |
+| farzan | 17/20 → 14/20 | 10/20 → 11/20 | 6/20 → 6/20 |
+| azar | 9/20 → 13/20 | 1/20 → 4/20 | 0/20 → 4/20 |
+| bahman | 10/20 → 19/20 | 3/20 → 9/20 | 1/20 → 3/20 |
+| tishtar | 14/20 → 14/20 | 6/20 → 6/20 | 1/20 → 1/20 |
+
+## By difficulty
+
+| Difficulty | Wins before | Wins after | Early deaths | Mean survival |
+| --- | --- | --- | --- | --- |
+| normal | 50/80 (63%) | 60/80 (75%) | 0 → 0 | 1108s → 1158s |
+| adaptive | 20/80 (25%) | 30/80 (38%) | 4 → 5 | 798s → 887s |
+| brutal | 8/80 (10%) | 14/80 (18%) | 20 → 12 | 571s → 716s |
+
+## By strategy
+
+| Strategy | Wins before | Wins after | Fusion runs |
+| --- | --- | --- | --- |
+| naive | 38/120 (32%) | 57/120 (48%) | 82/120 (68%) → 96/120 (80%) |
+| focused | 40/120 (33%) | 47/120 (39%) | 118/120 (98%) → 120/120 (100%) |
+
+## Fusion recipes obtained
+
+| Recipe | Before | After |
+| --- | --- | --- |
+| polymorph | 57 | 57 |
+| fireworks | 49 | 55 |
+| heavyshot | 58 | 68 |
+| maelstrom | 119 | 137 |
+
+## First five minutes (naive builds, all difficulties)
+
+| Hero | Alive at 5m | DPS | Damage taken | Gems | Level | Distance | Enemies within 120 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| farzan | 3/3 → 3/3 | 276.1 → 174.2 | 10 → 40 | 1444 → 1015 | 28 → 21.3 | 41663 → 37110 | 0.81 → 1.54 |
+| azar | 2/3 → 3/3 | 186.4 → 237.7 | 98 → 49 | 932 → 1326 | 21.3 → 28.3 | 34692 → 37559 | 2.5 → 1.15 |
+| bahman | 3/3 → 3/3 | 133.9 → 331.7 | 64 → 39 | 980 → 1710 | 22 → 29 | 31651 → 32210 | 1.77 → 0.97 |
+| tishtar | 3/3 → 3/3 | 226.9 → 226.9 | 121 → 121 | 1317 → 1317 | 30.3 → 30.3 | 40339 → 40339 | 1.17 → 1.17 |
+
+Raw JSONL: `docs/balance/before/`, `docs/balance/after/`; five-minute: `docs/balance/five-minute-{before,after}/`. Structured summary: `docs/balance/comparison.json`.
+

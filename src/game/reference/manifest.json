@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "0.9941",
+  "evidenceCategories": ["stored", "inferred", "static_verified", "runtime_verified"],
+  "inventory": {
+    "playerFields": { "found": 143, "of": 146, "imported": false, "note": "inventory reported by the reverse-engineering project; raw rows not yet supplied" },
+    "magicParameterGroups": { "found": 21, "of": 21, "imported": false, "note": "groups identified; per-level rows not yet supplied" },
+    "progressionRows": { "found": 129, "of": 129, "imported": false, "note": "levels 0–128; only the three sample mana values below are supplied" },
+    "enemyStatRows": { "found": 36, "of": 36, "imported": false, "note": "active rows recovered; full table not yet supplied" },
+    "statVariableIds": { "found": 492, "of": 492, "imported": false },
+    "effectIds": { "found": 371, "of": 371, "imported": false, "note": "299 interpreted from descriptions; native effect-to-stat bindings not verified" },
+    "nativeMethodsWithAddresses": { "found": 51909, "imported": false },
+    "abilities": { "found": 351, "imported": false },
+    "magicCombinations": { "found": 63, "imported": false },
+    "synergies": { "found": 63, "imported": false },
+    "zones": { "found": 14, "imported": false, "note": "stage variants require reconciliation" },
+    "verificationChecks": { "found": 2000, "imported": false, "note": "passing checks over heterogeneous evidence; not proof of gameplay parity" }
+  },
+  "datasets": [],
+  "sampleExpectations": [
+    { "system": "progression", "targetLevel": 1, "manaRequired": 100, "evidence": "stored" },
+    { "system": "progression", "targetLevel": 2, "manaRequired": 136, "evidence": "stored" },
+    { "system": "progression", "targetLevel": 3, "manaRequired": 173, "evidence": "stored" },
+    { "system": "enemy", "name": "Small Swarm", "baseHp": 100, "evidence": "stored", "runtimeModifiers": "unresolved" },
+    { "system": "enemy", "name": "Revenant", "baseHp": 10000, "evidence": "stored", "runtimeModifiers": "unresolved", "note": "stored 10,000 may be modified by stage, wave, elapsed time or difficulty" },
+    { "system": "combination", "name": "Empyrean Wrath", "damageMultiplier": 5, "countMultiplier": 3, "evidence": "stored", "modifiersApplied": "not_verified" }
+  ],
+  "handoff": "docs/reference/HANDOFF.md",
+  "updatedAt": "2026-11-12"
+}

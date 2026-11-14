@@ -1,0 +1,284 @@
+@import "tailwindcss";
+
+@theme {
+  /* شب لاجوردی */
+  --color-night-950: #070b1d;
+  --color-night-900: #0b1230;
+  --color-night-800: #121b44;
+  --color-night-700: #1b2a63;
+  --color-night-600: #2a3d85;
+  /* فیروزه، زر، انار، کاغذ */
+  --color-firoozeh: #3fd9c8;
+  --color-firoozeh-deep: #1aa79b;
+  --color-zar: #f2b84b;
+  --color-zar-soft: #ffd98a;
+  --color-anar: #e23d4f;
+  --color-kaghaz: #f4ecd8;
+
+  --font-display: "Lalezar", "Vazirmatn", "Segoe UI", Tahoma, sans-serif;
+  --font-sans: "Vazirmatn", "Segoe UI", Tahoma, sans-serif;
+
+  --animate-rise: rise 0.38s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-fade: fade 0.3s ease-out both;
+  --animate-banner: banner 2.8s ease-in-out both;
+  --animate-pulse-soft: pulse-soft 1.6s ease-in-out infinite;
+  --animate-float: float 3.4s ease-in-out infinite;
+  --animate-spin-slow: spin 28s linear infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-7px);
+    }
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(18px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes banner {
+    0% {
+      opacity: 0;
+      transform: translateY(10px) scale(0.96);
+    }
+    12%,
+    78% {
+      opacity: 1;
+      transform: none;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+  }
+  @keyframes pulse-soft {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.55;
+    }
+  }
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+  background: var(--color-night-950);
+  color: var(--color-kaghaz);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* قاب دوخطی، به سبک حاشیه‌ی نسخه‌های خطی */
+.frame {
+  background: color-mix(in srgb, var(--color-night-900) 92%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--color-zar) 45%, transparent),
+    inset 0 0 0 5px var(--color-night-900),
+    inset 0 0 0 6px color-mix(in srgb, var(--color-zar) 18%, transparent),
+    0 24px 60px -20px rgb(0 0 0 / 0.7);
+}
+
+.title-glow {
+  text-shadow:
+    0 2px 0 #8a5a12,
+    0 0 42px rgb(242 184 75 / 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  /* اعلان‌ها بدون حرکت هم باید دیده شوند */
+  .banner-msg {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Card rarity — the same language for level-ups and relics.
+   common: quiet parchment · rare: turquoise trim · legendary: living gold
+   ------------------------------------------------------------------ */
+.card {
+  position: relative;
+  isolation: isolate;
+  --card-accent: #c9d2e4;
+}
+/* Focus follows rarity too; autofocus is intentionally not used on cards. */
+.choice-card:focus {
+  outline: none;
+}
+.choice-card:focus-visible {
+  outline: 2px solid var(--card-accent);
+  outline-offset: 3px;
+}
+.card-common {
+  --card-accent: #c9d2e4;
+  box-shadow:
+    inset 0 0 0 1px rgb(201 210 228 / 0.16),
+    0 16px 32px -22px rgb(0 0 0 / 0.9);
+}
+.card-rare {
+  --card-accent: #3fd9c8;
+  box-shadow:
+    inset 0 0 0 1px rgb(63 217 200 / 0.55),
+    inset 0 0 24px -12px rgb(63 217 200 / 0.6),
+    0 0 26px -10px rgb(63 217 200 / 0.45),
+    0 16px 32px -22px rgb(0 0 0 / 0.9);
+}
+.card-rare::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgb(63 217 200 / 0.22);
+  clip-path: polygon(
+    0 0, 18px 0, 18px 1px, 1px 1px, 1px 18px, 0 18px,
+    0 100%, 18px 100%, 18px calc(100% - 1px), 1px calc(100% - 1px), 1px calc(100% - 18px), 0 calc(100% - 18px),
+    100% 100%, 100% calc(100% - 18px), calc(100% - 1px) calc(100% - 18px), calc(100% - 1px) calc(100% - 1px), calc(100% - 18px) calc(100% - 1px), calc(100% - 18px) 100%,
+    100% 0, calc(100% - 18px) 0, calc(100% - 18px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) 18px, 100% 18px
+  );
+  pointer-events: none;
+}
+.card-epic {
+  --card-accent: #b48cff;
+  box-shadow:
+    inset 0 0 0 1px rgb(180 140 255 / 0.65),
+    inset 0 0 26px -12px rgb(180 140 255 / 0.65),
+    0 0 28px -10px rgb(180 140 255 / 0.5),
+    0 16px 32px -22px rgb(0 0 0 / 0.9);
+}
+.card-epic .rarity-chip {
+  border-color: rgb(180 140 255 / 0.55);
+  background: rgb(180 140 255 / 0.12);
+  color: #e2d4ff;
+}
+.card-mythic {
+  --card-accent: #ff8a5c;
+  box-shadow:
+    inset 0 0 0 1.5px rgb(255 138 92 / 0.75),
+    inset 0 0 30px -12px rgb(255 138 92 / 0.6),
+    0 0 32px -8px rgb(255 138 92 / 0.45),
+    0 16px 36px -22px rgb(0 0 0 / 0.95);
+  background-image: radial-gradient(110% 80% at 50% 0%, rgb(255 138 92 / 0.12), transparent 60%);
+}
+.card-mythic .rarity-chip {
+  border-color: rgb(255 138 92 / 0.6);
+  background: rgb(255 138 92 / 0.14);
+  color: #ffd2bf;
+}
+.card-legendary {
+  --card-accent: #f2b84b;
+  box-shadow:
+    inset 0 0 0 1.5px rgb(242 184 75 / 0.9),
+    inset 0 0 34px -12px rgb(255 233 176 / 0.55),
+    0 0 34px -6px rgb(242 184 75 / 0.45),
+    0 18px 40px -22px rgb(0 0 0 / 0.95);
+  background-image:
+    radial-gradient(120% 90% at 50% 0%, rgb(242 184 75 / 0.16), transparent 58%),
+    linear-gradient(160deg, rgb(242 184 75 / 0.08), transparent 42%);
+  animation: legendary-breathe 3.4s ease-in-out infinite;
+}
+.card-legendary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  background: linear-gradient(115deg, transparent 30%, rgb(255 244 214 / 0.12) 46%, rgb(255 244 214 / 0.04) 52%, transparent 66%);
+  background-size: 260% 260%;
+  animation: legendary-sheen 4.6s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+.card-legendary > * {
+  position: relative;
+  z-index: 1;
+}
+.card-legendary .rarity-chip {
+  background: rgb(242 184 75 / 0.18);
+  border-color: rgb(242 184 75 / 0.6);
+  color: #ffe9b0;
+}
+.rarity-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border-radius: 999px;
+  border: 1px solid rgb(201 210 228 / 0.28);
+  padding: 1px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+.rarity-chip::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: currentColor;
+}
+.card-rare .rarity-chip {
+  border-color: rgb(63 217 200 / 0.5);
+  background: rgb(63 217 200 / 0.1);
+  color: #b8fff2;
+}
+
+@keyframes legendary-breathe {
+  0%, 100% {
+    box-shadow:
+      inset 0 0 0 1.5px rgb(242 184 75 / 0.85),
+      inset 0 0 30px -14px rgb(255 233 176 / 0.5),
+      0 0 26px -8px rgb(242 184 75 / 0.38),
+      0 18px 40px -22px rgb(0 0 0 / 0.95);
+  }
+  50% {
+    box-shadow:
+      inset 0 0 0 1.5px rgb(255 233 176 / 1),
+      inset 0 0 40px -10px rgb(255 233 176 / 0.7),
+      0 0 46px -4px rgb(242 184 75 / 0.62),
+      0 18px 40px -22px rgb(0 0 0 / 0.95);
+  }
+}
+@keyframes legendary-sheen {
+  0%, 100% { background-position: 120% 0; }
+  50% { background-position: -20% 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-legendary,
+  .card-legendary::after {
+    animation: none !important;
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "gameVersion": "0.9941",
+  "kind": "combinations",
+  "source": "rea-magic/0.9941 extraction report (sample row only)",
+  "records": [
+    {
+      "refId": "combination.empyrean_wrath",
+      "name": "Empyrean Wrath",
+      "nameFa": "خشمِ آسمانی",
+      "gameVersion": "0.9941",
+      "evidence": "stored",
+      "source": "rea-magic/0.9941 extraction report",
+      "verification": "unverified",
+      "primaryMagicId": "unknown",
+      "storedModifiers": [
+        { "key": "damageMultiplier", "value": 5, "unit": "x" },
+        { "key": "countMultiplier", "value": 3, "unit": "x" }
+      ],
+      "modifiersApplied": "not_verified",
+      "unresolved": [
+        "primary and consumed magic ids not supplied",
+        "native application of these modifiers not verified"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+# Dependencies and build products
+node_modules/
+dist/
+coverage/
+.vite/
+*.tsbuildinfo
+
+# Generated releases and mirror restores (source mirrors are tracked)
+release/*.zip
+public/downloads/*.zip
+public/downloads/SHA256SUMS.txt
+public/icons/*.png
+docs/qa/*.png
+
+# Secrets, development TLS certificates, and local configuration
+.env
+.env.*
+!.env.example
+.certs/
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Local scratch, reports, and IDE files
+.browser-review/
+.checks/
+.tmp/
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+playwright-report/
+test-results/
+*.local
+*.tmp

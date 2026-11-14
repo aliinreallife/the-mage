@@ -1,0 +1,26 @@
+PASS 360x800 Persian RTL
+PASS 360x800 no horizontal page overflow (360/360)
+PASS 360x800 brand visible on first screen (y=48)
+PASS 360x800 offline-capable fonts render (true,true)
+PASS service worker installed and controlling the page (afsungar-v5)
+PASS core page, manifest, all launcher icons cached (/,/index.html,/manifest.webmanifest,/icons/icon-192.png,/icons/icon-512.png,/icons/icon-maskable-512.png)
+PASS 360x800 game starts on touch
+PASS 360x800 touch drag actually moves the player (105.0 world units)
+PASS 360x800 native touch pointer down/move/up ({"down":1,"move":1,"up":1})
+PASS pause title and resume action both visible on 360x800 (heading=44 resume=188)
+PASS background blur pauses and saves the player's world position (x=121.8)
+PASS offline reload renders the Persian game
+PASS offline reload offers recovery
+PASS touch resumes the saved run offline
+PASS resumed player is at the saved world position, near saved rewards (drift 0.03 units, x=121.8)
+PASS service worker updates, removes its old cache and preserves another app's cache (other-app-cache-v1,afsungar-v6)
+PASS updated service worker still reloads offline
+PASS 393x873 Persian RTL
+PASS 393x873 no horizontal page overflow (393/393)
+PASS 393x873 brand visible on first screen (y=48)
+PASS 393x873 offline-capable fonts render (true,true)
+PASS 393x873 game starts on touch
+PASS 393x873 touch drag actually moves the player (105.0 world units)
+PASS 393x873 native touch pointer down/move/up ({"down":1,"move":1,"up":1})
+PASS no browser page/console errors
+BROWSER SMOKE: 25 passed, screenshots: /tmp/the-mage-browser-screenshots

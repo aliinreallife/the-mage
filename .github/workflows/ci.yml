@@ -1,0 +1,47 @@
+name: Verify The Mage
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Type check
+        run: npx tsc --noEmit -p tsconfig.json
+      - name: Run tests
+        run: npm test
+      - name: Validate balance reports
+        run: npm run check:jsonl
+      - name: Build production PWA
+        run: npm run build
+      - name: Verify build output
+        run: node scripts/verify-build.mjs
+      - name: Package source and production archives
+        run: npm run package
+      - name: Publish downloadable artifacts from CI
+        uses: actions/upload-artifact@v4
+        with:
+          name: the-mage-build-${{ github.run_number }}
+          path: |
+            release/the-mage-source.zip
+            release/the-mage-production.zip
+            release/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 14

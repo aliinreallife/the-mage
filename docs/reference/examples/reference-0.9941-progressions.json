@@ -1,0 +1,41 @@
+{
+  "gameVersion": "0.9941",
+  "kind": "progression",
+  "source": "rea-magic/0.9941 extraction report (sample rows only — full table not yet supplied)",
+  "records": [
+    {
+      "refId": "progression.mana.level1",
+      "name": "Mana requirement for level 1",
+      "nameFa": "نیازمندی مانا برای سطح ۱",
+      "gameVersion": "0.9941",
+      "evidence": "stored",
+      "source": "rea-magic/0.9941 extraction report",
+      "verification": "unverified",
+      "unresolved": ["whether the level index means 'to reach' or 'advance from' is not confirmed"],
+      "level": 1,
+      "manaRequired": 100
+    },
+    {
+      "refId": "progression.mana.level2",
+      "name": "Mana requirement for level 2",
+      "nameFa": "نیازمندی مانا برای سطح ۲",
+      "gameVersion": "0.9941",
+      "evidence": "stored",
+      "source": "rea-magic/0.9941 extraction report",
+      "verification": "unverified",
+      "level": 2,
+      "manaRequired": 136
+    },
+    {
+      "refId": "progression.mana.level3",
+      "name": "Mana requirement for level 3",
+      "nameFa": "نیازمندی مانا برای سطح ۳",
+      "gameVersion": "0.9941",
+      "evidence": "stored",
+      "source": "rea-magic/0.9941 extraction report",
+      "verification": "unverified",
+      "level": 3,
+      "manaRequired": 173
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+verifying delivery from https://announce-scenes-floppy-somebody.trycloudflare.com/downloads
+
+PASS  SHA256SUMS.txt is published  — the-mage-source.zip, the-mage-production.zip
+PASS  the-mage-source.zip downloads  — 3296125 bytes
+PASS  the-mage-source.zip SHA-256 matches published sum  — 7ba386698b65aebceb11325f6944bababc6333a837517dfc4333fba2565fd8ab
+PASS  the-mage-production.zip downloads  — 405595 bytes
+PASS  the-mage-production.zip SHA-256 matches published sum  — 6c407ea44d4243d1726819aa8110f6551c8b2faacf69b093a54ae9f272cb50fc
+PASS  both archives extract cleanly
+PASS  source contains public/icons/icon-192.png
+PASS  source contains public/icons/icon-512.png
+PASS  source contains public/icons/icon-maskable-512.png
+PASS  source contains docs/qa/menu-360.png
+PASS  source contains docs/qa/play-360.png
+PASS  source contains docs/qa/pause-360.png
+PASS  source contains docs/qa/menu-393.png
+PASS  source contains docs/qa/play-393.png
+PASS  source contains docs/qa/boss-warning-360.png
+PASS  source contains tests
+PASS  source contains build logs
+PASS  source contains browser logs
+PASS  source contains balance JSONL files  — 34 files
+PASS  source contains no private keys
+PASS  source contains no nested archives
+PASS  production contains index.html
+PASS  production contains manifest.webmanifest
+PASS  production contains sw.js
+PASS  production contains icons/icon-192.png
+PASS  production contains icons/icon-512.png
+PASS  production contains icons/icon-maskable-512.png
+PASS  production contains no nested archives
+PASS  service worker scoped to afsungar-*
+PASS  manifest is installable
+
+building the delivered source in a clean directory…
+PASS  npm ci succeeds in the delivered source
+PASS  TypeScript passes in the delivered source
+PASS  tests pass in the delivered source  — 164 tests in 15 files
+PASS  production build succeeds in the delivered source
+PASS  release checks pass in the delivered source  — 17 checks
+
+all 35 delivery checks passed

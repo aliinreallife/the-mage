@@ -1,0 +1,41 @@
+
+> react-vite-tailwind@0.0.0 pretest
+> node scripts/make-icons.mjs
+
+public/icons/icon-192.png  13177 bytes  192x192
+public/icons/icon-512.png  42881 bytes  512x512
+public/icons/icon-maskable-512.png  39911 bytes  512x512 (maskable)
+
+> react-vite-tailwind@0.0.0 test
+> vitest run
+
+
+ RUN  v3.2.4 /tmp/the-mage-final-src
+
+ ✓ tests/phase1.test.ts (21 tests) 111ms
+ ✓ tests/pwa.test.ts (9 tests) 43ms
+ ✓ tests/magic.test.ts (18 tests) 195ms
+ ✓ tests/stage.test.ts (17 tests) 1536ms
+   ✓ the 20-minute stage «میدان آزمایش» > hold wave only progresses inside the ring  1232ms
+ ✓ tests/mobile.test.tsx (12 tests) 10ms
+ ✓ tests/progression.test.ts (9 tests) 16ms
+ ✓ tests/fireball.test.ts (10 tests) 460ms
+   ✓ cosmetic effects never change the simulation > reduced effects produce exactly the same run  346ms
+stdout | tests/balance.test.ts > performance proxy (Node, not a device) > a heavy frame stays inside the 60 fps budget on average
+[perf proxy] 260 enemies, 600 steps, average 0.328 ms/step
+
+ ✓ tests/balance.test.ts (9 tests) 344ms
+ ✓ tests/core.test.ts (10 tests) 956ms
+   ✓ seeded randomness and fixed-step simulation > same seed + same inputs → identical run  771ms
+ ✓ tests/fusion-guidance.test.tsx (7 tests) 36ms
+ ✓ tests/fullstage.test.ts (1 test) 6338ms
+   ✓ a complete stage playthrough > waves, upgrades, talents, fusions, boss, victory, gold and research  6337ms
+ ✓ tests/ui.test.tsx (7 tests) 143ms
+ ✓ tests/reports.test.ts (4 tests) 110ms
+ ✓ tests/heroes.test.ts (5 tests) 9ms
+
+ Test Files  14 passed (14)
+      Tests  139 passed (139)
+   Start at  11:10:26
+   Duration  14.34s (transform 659ms, setup 0ms, collect 1.48s, tests 10.31s, environment 3ms, prepare 953ms)
+

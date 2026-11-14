@@ -1,0 +1,41 @@
+
+> react-vite-tailwind@0.0.0 pretest
+> node scripts/make-icons.mjs
+
+public/icons/icon-192.png  13177 bytes  192x192
+public/icons/icon-512.png  42881 bytes  512x512
+public/icons/icon-maskable-512.png  39911 bytes  512x512 (maskable)
+
+> react-vite-tailwind@0.0.0 test
+> vitest run
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.12 [39m[90m/home/user/sandbox[39m
+
+ [32m✓[39m tests/fullstage.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 6809[2mms[22m[39m
+     [33m[2m✓[22m[39m waves, upgrades, talents, fusions, boss, victory, gold and research [33m 6806[2mms[22m[39m
+ [32m✓[39m tests/stage.test.ts [2m([22m[2m17 tests[22m[2m)[22m[33m 1470[2mms[22m[39m
+     [33m[2m✓[22m[39m hold wave only progresses inside the ring [33m 1168[2mms[22m[39m
+ [32m✓[39m tests/core.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 987[2mms[22m[39m
+     [33m[2m✓[22m[39m same seed + same inputs → identical run [33m 808[2mms[22m[39m
+ [32m✓[39m tests/fireball.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 461[2mms[22m[39m
+     [33m[2m✓[22m[39m reduced effects produce exactly the same run [33m 338[2mms[22m[39m
+[90mstdout[2m | tests/balance.test.ts[2m > [22m[2mperformance proxy (Node, not a device)[2m > [22m[2ma heavy frame stays inside the 60 fps budget on average
+[22m[39m[perf proxy] 260 enemies, 600 steps, average 0.309 ms/step
+
+ [32m✓[39m tests/balance.test.ts [2m([22m[2m9 tests[22m[2m)[22m[33m 352[2mms[22m[39m
+ [32m✓[39m tests/magic.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 186[2mms[22m[39m
+ [32m✓[39m tests/ui.test.tsx [2m([22m[2m7 tests[22m[2m)[22m[32m 147[2mms[22m[39m
+ [32m✓[39m tests/phase1.test.ts [2m([22m[2m21 tests[22m[2m)[22m[32m 121[2mms[22m[39m
+ [32m✓[39m tests/reports.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 111[2mms[22m[39m
+ [32m✓[39m tests/pwa.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 48[2mms[22m[39m
+ [32m✓[39m tests/fusion-guidance.test.tsx [2m([22m[2m7 tests[22m[2m)[22m[32m 33[2mms[22m[39m
+ [32m✓[39m tests/progression.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+ [32m✓[39m tests/mobile.test.tsx [2m([22m[2m12 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m tests/heroes.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 16[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m14 passed[39m[22m[90m (14)[39m
+[2m      Tests [22m [1m[32m139 passed[39m[22m[90m (139)[39m
+[2m   Start at [22m 11:40:38
+[2m   Duration [22m 14.54s[2m (transform 915ms, setup 0ms, import 1.73s, tests 10.77s, environment 2ms)[22m
+

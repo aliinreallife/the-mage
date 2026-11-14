@@ -1,0 +1,590 @@
+{
+  "seeds": [
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+  ],
+  "before": {
+    "runs": 240,
+    "wins": 78,
+    "earlyDeaths": 24,
+    "fusionRuns": 200,
+    "meanSurvival": 826,
+    "medianSurvival": 1170,
+    "meanLevel": 70.9,
+    "bossPhase2": 106,
+    "meanBossFight": 30.9,
+    "telegraphs": 2792
+  },
+  "after": {
+    "runs": 240,
+    "wins": 104,
+    "earlyDeaths": 17,
+    "fusionRuns": 216,
+    "meanSurvival": 920,
+    "medianSurvival": 1200,
+    "meanLevel": 81.2,
+    "bossPhase2": 124,
+    "meanBossFight": 27.4,
+    "telegraphs": 2925
+  },
+  "paired": {
+    "identicalKeys": 240,
+    "winsBefore": 78,
+    "winsAfter": 104,
+    "improved": 43,
+    "regressed": 17,
+    "meanSurvivalDelta": 95
+  },
+  "heroes": [
+    {
+      "hero": "farzan",
+      "before": {
+        "runs": 60,
+        "wins": 33,
+        "earlyDeaths": 3,
+        "fusionRuns": 57,
+        "meanSurvival": 989,
+        "medianSurvival": 1200,
+        "meanLevel": 89,
+        "bossPhase2": 36,
+        "meanBossFight": 30.7,
+        "telegraphs": 943
+      },
+      "after": {
+        "runs": 60,
+        "wins": 31,
+        "earlyDeaths": 2,
+        "fusionRuns": 56,
+        "meanSurvival": 999,
+        "medianSurvival": 1200,
+        "meanLevel": 89.9,
+        "bossPhase2": 33,
+        "meanBossFight": 28.3,
+        "telegraphs": 808
+      }
+    },
+    {
+      "hero": "azar",
+      "before": {
+        "runs": 60,
+        "wins": 10,
+        "earlyDeaths": 11,
+        "fusionRuns": 47,
+        "meanSurvival": 675,
+        "medianSurvival": 452,
+        "meanLevel": 56.9,
+        "bossPhase2": 17,
+        "meanBossFight": 27.4,
+        "telegraphs": 388
+      },
+      "after": {
+        "runs": 60,
+        "wins": 21,
+        "earlyDeaths": 4,
+        "fusionRuns": 54,
+        "meanSurvival": 881,
+        "medianSurvival": 1187,
+        "meanLevel": 77.2,
+        "bossPhase2": 27,
+        "meanBossFight": 33.4,
+        "telegraphs": 844
+      }
+    },
+    {
+      "hero": "bahman",
+      "before": {
+        "runs": 60,
+        "wins": 14,
+        "earlyDeaths": 6,
+        "fusionRuns": 48,
+        "meanSurvival": 691,
+        "medianSurvival": 464,
+        "meanLevel": 55.6,
+        "bossPhase2": 20,
+        "meanBossFight": 35.8,
+        "telegraphs": 630
+      },
+      "after": {
+        "runs": 60,
+        "wins": 31,
+        "earlyDeaths": 7,
+        "fusionRuns": 58,
+        "meanSurvival": 854,
+        "medianSurvival": 1200,
+        "meanLevel": 75.5,
+        "bossPhase2": 31,
+        "meanBossFight": 17.7,
+        "telegraphs": 442
+      }
+    },
+    {
+      "hero": "tishtar",
+      "before": {
+        "runs": 60,
+        "wins": 21,
+        "earlyDeaths": 4,
+        "fusionRuns": 48,
+        "meanSurvival": 947,
+        "medianSurvival": 1200,
+        "meanLevel": 82.2,
+        "bossPhase2": 33,
+        "meanBossFight": 29.9,
+        "telegraphs": 831
+      },
+      "after": {
+        "runs": 60,
+        "wins": 21,
+        "earlyDeaths": 4,
+        "fusionRuns": 48,
+        "meanSurvival": 947,
+        "medianSurvival": 1200,
+        "meanLevel": 82.2,
+        "bossPhase2": 33,
+        "meanBossFight": 29.9,
+        "telegraphs": 831
+      }
+    }
+  ],
+  "difficulties": [
+    {
+      "difficulty": "normal",
+      "before": {
+        "runs": 80,
+        "wins": 50,
+        "earlyDeaths": 0,
+        "fusionRuns": 74,
+        "meanSurvival": 1108,
+        "medianSurvival": 1200,
+        "meanLevel": 79.3,
+        "bossPhase2": 61,
+        "meanBossFight": 25.2,
+        "telegraphs": 1266
+      },
+      "after": {
+        "runs": 80,
+        "wins": 60,
+        "earlyDeaths": 0,
+        "fusionRuns": 79,
+        "meanSurvival": 1158,
+        "medianSurvival": 1200,
+        "meanLevel": 82.7,
+        "bossPhase2": 64,
+        "meanBossFight": 21.4,
+        "telegraphs": 1121
+      }
+    },
+    {
+      "difficulty": "adaptive",
+      "before": {
+        "runs": 80,
+        "wins": 20,
+        "earlyDeaths": 4,
+        "fusionRuns": 72,
+        "meanSurvival": 798,
+        "medianSurvival": 1039,
+        "meanLevel": 79.1,
+        "bossPhase2": 30,
+        "meanBossFight": 38,
+        "telegraphs": 1014
+      },
+      "after": {
+        "runs": 80,
+        "wins": 30,
+        "earlyDeaths": 5,
+        "fusionRuns": 71,
+        "meanSurvival": 887,
+        "medianSurvival": 1200,
+        "meanLevel": 89.6,
+        "bossPhase2": 39,
+        "meanBossFight": 32.8,
+        "telegraphs": 1144
+      }
+    },
+    {
+      "difficulty": "brutal",
+      "before": {
+        "runs": 80,
+        "wins": 8,
+        "earlyDeaths": 20,
+        "fusionRuns": 54,
+        "meanSurvival": 571,
+        "medianSurvival": 300,
+        "meanLevel": 54.4,
+        "bossPhase2": 15,
+        "meanBossFight": 38.1,
+        "telegraphs": 512
+      },
+      "after": {
+        "runs": 80,
+        "wins": 14,
+        "earlyDeaths": 12,
+        "fusionRuns": 66,
+        "meanSurvival": 716,
+        "medianSurvival": 495,
+        "meanLevel": 71.3,
+        "bossPhase2": 21,
+        "meanBossFight": 34.5,
+        "telegraphs": 660
+      }
+    }
+  ],
+  "strategies": [
+    {
+      "strategy": "naive",
+      "before": {
+        "runs": 120,
+        "wins": 38,
+        "earlyDeaths": 14,
+        "fusionRuns": 82,
+        "meanSurvival": 785,
+        "medianSurvival": 1062,
+        "meanLevel": 65.3,
+        "bossPhase2": 49,
+        "meanBossFight": 32.7,
+        "telegraphs": 1373
+      },
+      "after": {
+        "runs": 120,
+        "wins": 57,
+        "earlyDeaths": 10,
+        "fusionRuns": 96,
+        "meanSurvival": 908,
+        "medianSurvival": 1200,
+        "meanLevel": 78.5,
+        "bossPhase2": 65,
+        "meanBossFight": 27.2,
+        "telegraphs": 1536
+      }
+    },
+    {
+      "strategy": "focused",
+      "before": {
+        "runs": 120,
+        "wins": 40,
+        "earlyDeaths": 10,
+        "fusionRuns": 118,
+        "meanSurvival": 866,
+        "medianSurvival": 1200,
+        "meanLevel": 76.5,
+        "bossPhase2": 57,
+        "meanBossFight": 29.4,
+        "telegraphs": 1419
+      },
+      "after": {
+        "runs": 120,
+        "wins": 47,
+        "earlyDeaths": 7,
+        "fusionRuns": 120,
+        "meanSurvival": 932,
+        "medianSurvival": 1200,
+        "meanLevel": 83.9,
+        "bossPhase2": 59,
+        "meanBossFight": 27.6,
+        "telegraphs": 1389
+      }
+    }
+  ],
+  "fusions": {
+    "before": {
+      "polymorph": 57,
+      "maelstrom": 119,
+      "fireworks": 49,
+      "heavyshot": 58
+    },
+    "after": {
+      "maelstrom": 137,
+      "fireworks": 55,
+      "heavyshot": 68,
+      "polymorph": 57
+    }
+  },
+  "fiveMinute": {
+    "before": [
+      {
+        "hero": "farzan",
+        "aliveAt5m": "3/3",
+        "dps": 276.1,
+        "damageTaken": 10,
+        "gems": 1444,
+        "level": 28,
+        "distance": 41663,
+        "nearEnemies": 0.81
+      },
+      {
+        "hero": "azar",
+        "aliveAt5m": "2/3",
+        "dps": 186.4,
+        "damageTaken": 98,
+        "gems": 932,
+        "level": 21.3,
+        "distance": 34692,
+        "nearEnemies": 2.5
+      },
+      {
+        "hero": "bahman",
+        "aliveAt5m": "3/3",
+        "dps": 133.9,
+        "damageTaken": 64,
+        "gems": 980,
+        "level": 22,
+        "distance": 31651,
+        "nearEnemies": 1.77
+      },
+      {
+        "hero": "tishtar",
+        "aliveAt5m": "3/3",
+        "dps": 226.9,
+        "damageTaken": 121,
+        "gems": 1317,
+        "level": 30.3,
+        "distance": 40339,
+        "nearEnemies": 1.17
+      }
+    ],
+    "after": [
+      {
+        "hero": "farzan",
+        "aliveAt5m": "3/3",
+        "dps": 174.2,
+        "damageTaken": 40,
+        "gems": 1015,
+        "level": 21.3,
+        "distance": 37110,
+        "nearEnemies": 1.54
+      },
+      {
+        "hero": "azar",
+        "aliveAt5m": "3/3",
+        "dps": 237.7,
+        "damageTaken": 49,
+        "gems": 1326,
+        "level": 28.3,
+        "distance": 37559,
+        "nearEnemies": 1.15
+      },
+      {
+        "hero": "bahman",
+        "aliveAt5m": "3/3",
+        "dps": 331.7,
+        "damageTaken": 39,
+        "gems": 1710,
+        "level": 29,
+        "distance": 32210,
+        "nearEnemies": 0.97
+      },
+      {
+        "hero": "tishtar",
+        "aliveAt5m": "3/3",
+        "dps": 226.9,
+        "damageTaken": 121,
+        "gems": 1317,
+        "level": 30.3,
+        "distance": 40339,
+        "nearEnemies": 1.17
+      }
+    ]
+  },
+  "grouped": {
+    "hero": [
+      {
+        "hero": "azar",
+        "before": {
+          "runs": 60,
+          "wins": 10,
+          "earlyDeaths": 11,
+          "fusionRuns": 47,
+          "meanSurvival": 675,
+          "medianSurvival": 452,
+          "meanLevel": 56.9,
+          "bossPhase2": 17,
+          "meanBossFight": 27.4,
+          "telegraphs": 388
+        },
+        "after": {
+          "runs": 60,
+          "wins": 21,
+          "earlyDeaths": 4,
+          "fusionRuns": 54,
+          "meanSurvival": 881,
+          "medianSurvival": 1187,
+          "meanLevel": 77.2,
+          "bossPhase2": 27,
+          "meanBossFight": 33.4,
+          "telegraphs": 844
+        }
+      },
+      {
+        "hero": "bahman",
+        "before": {
+          "runs": 60,
+          "wins": 14,
+          "earlyDeaths": 6,
+          "fusionRuns": 48,
+          "meanSurvival": 691,
+          "medianSurvival": 464,
+          "meanLevel": 55.6,
+          "bossPhase2": 20,
+          "meanBossFight": 35.8,
+          "telegraphs": 630
+        },
+        "after": {
+          "runs": 60,
+          "wins": 31,
+          "earlyDeaths": 7,
+          "fusionRuns": 58,
+          "meanSurvival": 854,
+          "medianSurvival": 1200,
+          "meanLevel": 75.5,
+          "bossPhase2": 31,
+          "meanBossFight": 17.7,
+          "telegraphs": 442
+        }
+      },
+      {
+        "hero": "farzan",
+        "before": {
+          "runs": 60,
+          "wins": 33,
+          "earlyDeaths": 3,
+          "fusionRuns": 57,
+          "meanSurvival": 989,
+          "medianSurvival": 1200,
+          "meanLevel": 89,
+          "bossPhase2": 36,
+          "meanBossFight": 30.7,
+          "telegraphs": 943
+        },
+        "after": {
+          "runs": 60,
+          "wins": 31,
+          "earlyDeaths": 2,
+          "fusionRuns": 56,
+          "meanSurvival": 999,
+          "medianSurvival": 1200,
+          "meanLevel": 89.9,
+          "bossPhase2": 33,
+          "meanBossFight": 28.3,
+          "telegraphs": 808
+        }
+      },
+      {
+        "hero": "tishtar",
+        "before": {
+          "runs": 60,
+          "wins": 21,
+          "earlyDeaths": 4,
+          "fusionRuns": 48,
+          "meanSurvival": 947,
+          "medianSurvival": 1200,
+          "meanLevel": 82.2,
+          "bossPhase2": 33,
+          "meanBossFight": 29.9,
+          "telegraphs": 831
+        },
+        "after": {
+          "runs": 60,
+          "wins": 21,
+          "earlyDeaths": 4,
+          "fusionRuns": 48,
+          "meanSurvival": 947,
+          "medianSurvival": 1200,
+          "meanLevel": 82.2,
+          "bossPhase2": 33,
+          "meanBossFight": 29.9,
+          "telegraphs": 831
+        }
+      }
+    ],
+    "difficulty": [
+      {
+        "difficulty": "adaptive",
+        "before": {
+          "runs": 80,
+          "wins": 20,
+          "earlyDeaths": 4,
+          "fusionRuns": 72,
+          "meanSurvival": 798,
+          "medianSurvival": 1039,
+          "meanLevel": 79.1,
+          "bossPhase2": 30,
+          "meanBossFight": 38,
+          "telegraphs": 1014
+        },
+        "after": {
+          "runs": 80,
+          "wins": 30,
+          "earlyDeaths": 5,
+          "fusionRuns": 71,
+          "meanSurvival": 887,
+          "medianSurvival": 1200,
+          "meanLevel": 89.6,
+          "bossPhase2": 39,
+          "meanBossFight": 32.8,
+          "telegraphs": 1144
+        }
+      },
+      {
+        "difficulty": "brutal",
+        "before": {
+          "runs": 80,
+          "wins": 8,
+          "earlyDeaths": 20,
+          "fusionRuns": 54,
+          "meanSurvival": 571,
+          "medianSurvival": 300,
+          "meanLevel": 54.4,
+          "bossPhase2": 15,
+          "meanBossFight": 38.1,
+          "telegraphs": 512
+        },
+        "after": {
+          "runs": 80,
+          "wins": 14,
+          "earlyDeaths": 12,
+          "fusionRuns": 66,
+          "meanSurvival": 716,
+          "medianSurvival": 495,
+          "meanLevel": 71.3,
+          "bossPhase2": 21,
+          "meanBossFight": 34.5,
+          "telegraphs": 660
+        }
+      },
+      {
+        "difficulty": "normal",
+        "before": {
+          "runs": 80,
+          "wins": 50,
+          "earlyDeaths": 0,
+          "fusionRuns": 74,
+          "meanSurvival": 1108,
+          "medianSurvival": 1200,
+          "meanLevel": 79.3,
+          "bossPhase2": 61,
+          "meanBossFight": 25.2,
+          "telegraphs": 1266
+        },
+        "after": {
+          "runs": 80,
+          "wins": 60,
+          "earlyDeaths": 0,
+          "fusionRuns": 79,
+          "meanSurvival": 1158,
+          "medianSurvival": 1200,
+          "meanLevel": 82.7,
+          "bossPhase2": 64,
+          "meanBossFight": 21.4,
+          "telegraphs": 1121
+        }
+      }
+    ]
+  }
+}

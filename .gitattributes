@@ -1,0 +1,10 @@
+* text=auto
+*.png binary
+*.webp binary
+*.zip binary
+*.jsonl text eol=lf
+*.b64 -diff
+assets/embedded/** linguist-generated=true
+# Historical balance evidence and engine snapshots are not primary application source
+docs/balance/** linguist-generated=true
+docs/evidence/** linguist-generated=true

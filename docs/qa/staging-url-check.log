@@ -1,0 +1,12 @@
+PASS HTTPS staging serves the Persian game
+PASS RTL document
+PASS manifest is installable metadata
+PASS service worker controls the public URL (afsungar-v6)
+PASS launcher icons cached
+PASS all launcher icons load over HTTPS (icon-192.png:13177 icon-512.png:42881 icon-maskable-512.png:39911)
+PASS source ZIP downloadable with expected hash (1862683 bytes b8d8c1c26f61758d…)
+PASS production ZIP downloadable with expected hash (b1091b3e21a3fbd6…)
+PASS game starts on touch from public URL
+PASS offline reload works from installed public URL
+PASS no page/console errors
+PUBLIC STAGING URL: 11 checks passed
