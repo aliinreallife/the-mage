@@ -18,7 +18,7 @@ Updated: November 14, 2026. Based on the imported `the-mage (11).zip` source; hi
 - Integration instructions: `docs/reference/HANDOFF.md`.
 - Research summary inventories in `src/game/reference/manifest.json` are **not actual imported datasets**.
 - Only a few example fixtures are present; do not confuse inventory counts with data parity.
-- **Next data task:** import complete progression levels 0–128, verify level/index and mana semantics, run parity tests without altering normal game mode.
+- **Progression data integrated:** all 129 source rows are staged in a reference-only dataset (PR #5). Native statically verified current-level lookup, float32 one-event gain, carryover and choice-later increment are modeled in a separate pure test kernel (this change). **Production engine migration is not yet done** because live scheduling/start/resume remain unresolved.
 - After that: 38 named enemy rows (36 active), spell parameters, **458 native effect-to-stat bindings covering 272 IDs**, 65 stored magic-combination definitions, 100 synergy definitions (63 active), damage formula/stacking, wave schedules and RNG. These are **reported inventories**, not yet imported datasets.
 
 ### New external RE checkpoint — November 14, 2026
@@ -26,6 +26,12 @@ Updated: November 14, 2026. Based on the imported `the-mage (11).zip` source; hi
 The separate WSL research reports **2,607 passing checks**, native dispatch at `V_Ability_Manager.AbilityStatApply` (`0x1103210`), 458 effect-to-stat bindings, and 272/371 shipped effect IDs backed by native-code analysis. The source-workspace suite passed 2,607 checks; the binary-free portable handoff passed 2,580 with 27 binary-dependent checks skipped. The latest audited namespace is **479 variables (458 ally + 21 enemy)**, correcting the earlier unsubstantiated 492. This is static evidence, not verified end-to-end gameplay or imported data. Details: [`docs/reference/RESEARCH-CHECKPOINT-2026-11-14.md`](reference/RESEARCH-CHECKPOINT-2026-11-14.md).
 
 **Next integration gate:** obtain actual versioned 129-row progression data, confirm level index semantics, validate fixture outputs. Extend schemas for effect binding and active/inactive record flags **before** importing later data, without changing current mode or saves.
+
+### Leveling and mana native trace — November 14, 2026
+
+An independently verified 41,739-byte ZIP supplies 48 static-derived finite-input fixtures (48/48 reproduced by an independent TypeScript kernel). The native reader is `V_Ability_Manager.ManaGain` at `0x10fc64c`. It selects current-level requirements, subtracts one old threshold per eligible call, carries over stock and defers level increment until choice acceptance; applied maxima, float32 arithmetic and nearest-even additional-level indexing have verified static evidence. **No live-native behavior has yet been observed.** See [LEVELING-MANA-NATIVE-2026-11-14.md](reference/LEVELING-MANA-NATIVE-2026-11-14.md).
+
+The engine's current eager `while (xp >= xpNeed)` leveling and static quadratic formula remain temporary approximations. Replace them only as a coherent, tested choice/checkpoint state machine after scheduling evidence. Native resume also clamps saved stock under its saved cost; do not remove current checkpoint truncation without full flow comparison.
 
 ## Workflow for continued ChatGPT development
 
