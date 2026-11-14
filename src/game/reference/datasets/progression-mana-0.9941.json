@@ -1,0 +1,528 @@
+{
+  "gameVersion": "0.9941",
+  "kind": "progression-mana-stored",
+  "evidence": "stored",
+  "source": "Dictionary_AllStat CSV: columns 0 (stored level), 1 (mana requirement)",
+  "sourceCsvSha256": "769df81d56d6210862b842a39aae7bacbcbb8620ad53a922a5ac242c0c078eb5",
+  "handoffArchiveSha256": "c5eb6039953d5a5a1393a2aee7ee72e8dd0dc12a2e1084e92420d103eb4ee10d",
+  "valuesSha256": "cc74851569309ab6a4b9201ed1d2c4312240de869eb5423b9341ad42a4541b35",
+  "runtimeLookupSemantics": "unknown: current-level vs destination-level lookup, reset and carry-over not established",
+  "rows": [
+    {
+      "storedLevel": 0,
+      "manaRequired": 0
+    },
+    {
+      "storedLevel": 1,
+      "manaRequired": 100
+    },
+    {
+      "storedLevel": 2,
+      "manaRequired": 136
+    },
+    {
+      "storedLevel": 3,
+      "manaRequired": 173
+    },
+    {
+      "storedLevel": 4,
+      "manaRequired": 212
+    },
+    {
+      "storedLevel": 5,
+      "manaRequired": 252
+    },
+    {
+      "storedLevel": 6,
+      "manaRequired": 294
+    },
+    {
+      "storedLevel": 7,
+      "manaRequired": 337
+    },
+    {
+      "storedLevel": 8,
+      "manaRequired": 383
+    },
+    {
+      "storedLevel": 9,
+      "manaRequired": 430
+    },
+    {
+      "storedLevel": 10,
+      "manaRequired": 481
+    },
+    {
+      "storedLevel": 11,
+      "manaRequired": 534
+    },
+    {
+      "storedLevel": 12,
+      "manaRequired": 590
+    },
+    {
+      "storedLevel": 13,
+      "manaRequired": 650
+    },
+    {
+      "storedLevel": 14,
+      "manaRequired": 713
+    },
+    {
+      "storedLevel": 15,
+      "manaRequired": 781
+    },
+    {
+      "storedLevel": 16,
+      "manaRequired": 853
+    },
+    {
+      "storedLevel": 17,
+      "manaRequired": 931
+    },
+    {
+      "storedLevel": 18,
+      "manaRequired": 1015
+    },
+    {
+      "storedLevel": 19,
+      "manaRequired": 1104
+    },
+    {
+      "storedLevel": 20,
+      "manaRequired": 1201
+    },
+    {
+      "storedLevel": 21,
+      "manaRequired": 1306
+    },
+    {
+      "storedLevel": 22,
+      "manaRequired": 1420
+    },
+    {
+      "storedLevel": 23,
+      "manaRequired": 1543
+    },
+    {
+      "storedLevel": 24,
+      "manaRequired": 1678
+    },
+    {
+      "storedLevel": 25,
+      "manaRequired": 1824
+    },
+    {
+      "storedLevel": 26,
+      "manaRequired": 1984
+    },
+    {
+      "storedLevel": 27,
+      "manaRequired": 2158
+    },
+    {
+      "storedLevel": 28,
+      "manaRequired": 2349
+    },
+    {
+      "storedLevel": 29,
+      "manaRequired": 2558
+    },
+    {
+      "storedLevel": 30,
+      "manaRequired": 2994
+    },
+    {
+      "storedLevel": 31,
+      "manaRequired": 3268
+    },
+    {
+      "storedLevel": 32,
+      "manaRequired": 3570
+    },
+    {
+      "storedLevel": 33,
+      "manaRequired": 3903
+    },
+    {
+      "storedLevel": 34,
+      "manaRequired": 4269
+    },
+    {
+      "storedLevel": 35,
+      "manaRequired": 4673
+    },
+    {
+      "storedLevel": 36,
+      "manaRequired": 5118
+    },
+    {
+      "storedLevel": 37,
+      "manaRequired": 5610
+    },
+    {
+      "storedLevel": 38,
+      "manaRequired": 6153
+    },
+    {
+      "storedLevel": 39,
+      "manaRequired": 6753
+    },
+    {
+      "storedLevel": 40,
+      "manaRequired": 7417
+    },
+    {
+      "storedLevel": 41,
+      "manaRequired": 8150
+    },
+    {
+      "storedLevel": 42,
+      "manaRequired": 8962
+    },
+    {
+      "storedLevel": 43,
+      "manaRequired": 9860
+    },
+    {
+      "storedLevel": 44,
+      "manaRequired": 10854
+    },
+    {
+      "storedLevel": 45,
+      "manaRequired": 11954
+    },
+    {
+      "storedLevel": 46,
+      "manaRequired": 13173
+    },
+    {
+      "storedLevel": 47,
+      "manaRequired": 14524
+    },
+    {
+      "storedLevel": 48,
+      "manaRequired": 16020
+    },
+    {
+      "storedLevel": 49,
+      "manaRequired": 17678
+    },
+    {
+      "storedLevel": 50,
+      "manaRequired": 21178
+    },
+    {
+      "storedLevel": 51,
+      "manaRequired": 23398
+    },
+    {
+      "storedLevel": 52,
+      "manaRequired": 25859
+    },
+    {
+      "storedLevel": 53,
+      "manaRequired": 28588
+    },
+    {
+      "storedLevel": 54,
+      "manaRequired": 31615
+    },
+    {
+      "storedLevel": 55,
+      "manaRequired": 34972
+    },
+    {
+      "storedLevel": 56,
+      "manaRequired": 38695
+    },
+    {
+      "storedLevel": 57,
+      "manaRequired": 42826
+    },
+    {
+      "storedLevel": 58,
+      "manaRequired": 47407
+    },
+    {
+      "storedLevel": 59,
+      "manaRequired": 52490
+    },
+    {
+      "storedLevel": 60,
+      "manaRequired": 58130
+    },
+    {
+      "storedLevel": 61,
+      "manaRequired": 64387
+    },
+    {
+      "storedLevel": 62,
+      "manaRequired": 71329
+    },
+    {
+      "storedLevel": 63,
+      "manaRequired": 79033
+    },
+    {
+      "storedLevel": 64,
+      "manaRequired": 87581
+    },
+    {
+      "storedLevel": 65,
+      "manaRequired": 97067
+    },
+    {
+      "storedLevel": 66,
+      "manaRequired": 107593
+    },
+    {
+      "storedLevel": 67,
+      "manaRequired": 119275
+    },
+    {
+      "storedLevel": 68,
+      "manaRequired": 132238
+    },
+    {
+      "storedLevel": 69,
+      "manaRequired": 146625
+    },
+    {
+      "storedLevel": 70,
+      "manaRequired": 202809
+    },
+    {
+      "storedLevel": 71,
+      "manaRequired": 224953
+    },
+    {
+      "storedLevel": 72,
+      "manaRequired": 249530
+    },
+    {
+      "storedLevel": 73,
+      "manaRequired": 276808
+    },
+    {
+      "storedLevel": 74,
+      "manaRequired": 307084
+    },
+    {
+      "storedLevel": 75,
+      "manaRequired": 340688
+    },
+    {
+      "storedLevel": 76,
+      "manaRequired": 377985
+    },
+    {
+      "storedLevel": 77,
+      "manaRequired": 419382
+    },
+    {
+      "storedLevel": 78,
+      "manaRequired": 465330
+    },
+    {
+      "storedLevel": 79,
+      "manaRequired": 516329
+    },
+    {
+      "storedLevel": 80,
+      "manaRequired": 572936
+    },
+    {
+      "storedLevel": 81,
+      "manaRequired": 847023
+    },
+    {
+      "storedLevel": 82,
+      "manaRequired": 940000
+    },
+    {
+      "storedLevel": 83,
+      "manaRequired": 1043202
+    },
+    {
+      "storedLevel": 84,
+      "manaRequired": 1157754
+    },
+    {
+      "storedLevel": 85,
+      "manaRequired": 1284904
+    },
+    {
+      "storedLevel": 86,
+      "manaRequired": 1426037
+    },
+    {
+      "storedLevel": 87,
+      "manaRequired": 1582692
+    },
+    {
+      "storedLevel": 88,
+      "manaRequired": 1756577
+    },
+    {
+      "storedLevel": 89,
+      "manaRequired": 1949586
+    },
+    {
+      "storedLevel": 90,
+      "manaRequired": 3244623
+    },
+    {
+      "storedLevel": 91,
+      "manaRequired": 3601312
+    },
+    {
+      "storedLevel": 92,
+      "manaRequired": 3997234
+    },
+    {
+      "storedLevel": 93,
+      "manaRequired": 4436704
+    },
+    {
+      "storedLevel": 94,
+      "manaRequired": 4924514
+    },
+    {
+      "storedLevel": 95,
+      "manaRequired": 9108400
+    },
+    {
+      "storedLevel": 96,
+      "manaRequired": 10110090
+    },
+    {
+      "storedLevel": 97,
+      "manaRequired": 11221964
+    },
+    {
+      "storedLevel": 98,
+      "manaRequired": 12456141
+    },
+    {
+      "storedLevel": 99,
+      "manaRequired": 13826074
+    },
+    {
+      "storedLevel": 100,
+      "manaRequired": 24553232
+    },
+    {
+      "storedLevel": 101,
+      "manaRequired": 27253840
+    },
+    {
+      "storedLevel": 102,
+      "manaRequired": 30251513
+    },
+    {
+      "storedLevel": 103,
+      "manaRequired": 33578926
+    },
+    {
+      "storedLevel": 104,
+      "manaRequired": 37272353
+    },
+    {
+      "storedLevel": 105,
+      "manaRequired": 41372053
+    },
+    {
+      "storedLevel": 106,
+      "manaRequired": 45922718
+    },
+    {
+      "storedLevel": 107,
+      "manaRequired": 50973953
+    },
+    {
+      "storedLevel": 108,
+      "manaRequired": 56580822
+    },
+    {
+      "storedLevel": 109,
+      "manaRequired": 62804443
+    },
+    {
+      "storedLevel": 110,
+      "manaRequired": 69712660
+    },
+    {
+      "storedLevel": 111,
+      "manaRequired": 77380777
+    },
+    {
+      "storedLevel": 112,
+      "manaRequired": 85892385
+    },
+    {
+      "storedLevel": 113,
+      "manaRequired": 95340267
+    },
+    {
+      "storedLevel": 114,
+      "manaRequired": 105827414
+    },
+    {
+      "storedLevel": 115,
+      "manaRequired": 117468144
+    },
+    {
+      "storedLevel": 116,
+      "manaRequired": 130389351
+    },
+    {
+      "storedLevel": 117,
+      "manaRequired": 144731888
+    },
+    {
+      "storedLevel": 118,
+      "manaRequired": 160652102
+    },
+    {
+      "storedLevel": 119,
+      "manaRequired": 178323536
+    },
+    {
+      "storedLevel": 120,
+      "manaRequired": 197938826
+    },
+    {
+      "storedLevel": 121,
+      "manaRequired": 219711795
+    },
+    {
+      "storedLevel": 122,
+      "manaRequired": 243879787
+    },
+    {
+      "storedLevel": 123,
+      "manaRequired": 270706256
+    },
+    {
+      "storedLevel": 124,
+      "manaRequired": 300483633
+    },
+    {
+      "storedLevel": 125,
+      "manaRequired": 333536520
+    },
+    {
+      "storedLevel": 126,
+      "manaRequired": 370225221
+    },
+    {
+      "storedLevel": 127,
+      "manaRequired": 410949677
+    },
+    {
+      "storedLevel": 128,
+      "manaRequired": 456153820
+    }
+  ]
+}
