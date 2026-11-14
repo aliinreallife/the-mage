@@ -1,9 +1,10 @@
 /**
  * Evidence-preserving stored mana rows from Magic Survival 0.9941.
  *
- * These are source-indexed Dictionary_AllStat values; they do NOT say whether
- * the runtime reads current level L or next level L+1. Nothing here patches
- * the shipping Game engine or chooses level-up/carry-over semantics.
+ * These are source-indexed Dictionary_AllStat values. The newer 2026-11-14
+ * native static trace confirms ManaGain reads CURRENT level L, not L+1,
+ * while runtime scheduling and resume state remain unverified. Nothing
+ * here patches the shipping Game engine or schedules level-up events.
  */
 import raw from "./datasets/progression-mana-0.9941.json";
 import type { ProgressionRow, ReferenceDataset } from "./types";
@@ -61,7 +62,7 @@ export function getStoredManaRequirement(storedLevel: number): number | null {
 /**
  * Convert stored rows to the existing dev-only reference importer contract.
  * An accepted dataset is not permission to apply the table to a live Game:
- * the native runtime level-index semantics remain unknown.
+ * current-level lookup is statically supported, but the live choice and resume lifecycles remain unverified.
  */
 export function getStoredManaReferenceDataset(): ReferenceDataset<ProgressionRow> {
   return {
@@ -75,7 +76,7 @@ export function getStoredManaReferenceDataset(): ReferenceDataset<ProgressionRow
       evidence: "stored" as const,
       source: raw.source,
       verification: "partial" as const,
-      unresolved: ["runtime current/destination-level lookup and XP carry-over unverified"],
+      unresolved: ["live UI/coroutine scheduling, initial mode, resumed cost/stock, and choice effect interleavings unverified"],
       level: storedLevel,
       manaRequired,
     })),
