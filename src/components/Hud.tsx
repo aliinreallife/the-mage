@@ -23,7 +23,7 @@ export function Hud({ s, muted, onPause, onMute, onUlt }: Props) {
   const wave = s.wave;
 
   return (
-    <div className="pointer-events-none absolute inset-0 flex flex-col" style={{ paddingTop: "env(safe-area-inset-top)" }}>
+    <div className="pointer-events-none absolute inset-0 flex flex-col" style={{ paddingTop: "var(--ui-safe-top)" }}>
       {/* A fine progress line provides feedback without another number or card. */}
       <div className="h-[3px] w-full bg-night-950/70" role="progressbar" aria-label="پیشرفت تجربه" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(xpPct)}>
         <div className="h-full bg-firoozeh/75 transition-[width] duration-200" style={{ width: `${xpPct}%` }} />
@@ -84,7 +84,7 @@ export function Hud({ s, muted, onPause, onMute, onUlt }: Props) {
       )}
 
       {/* The only persistent bottom action is the actual gameplay ability. */}
-      <div className="mt-auto flex items-end justify-between gap-3 px-3 sm:px-5" style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}>
+      <div className="mt-auto flex items-end justify-between gap-3 px-3 sm:px-5" style={{ paddingBottom: "max(0.75rem, var(--ui-safe-bottom))" }}>
         <div aria-live="off" className="mb-2 min-w-0 text-[11px] text-kaghaz/55">
           {s.combo > 1 && <span className="rounded-full border border-zar/35 bg-night-950/75 px-2.5 py-1 font-display text-lg text-zar-soft">کمبو ×{fa(s.combo)}</span>}
         </div>
