@@ -1,0 +1,77 @@
+name: Android Debug APK (Capacitor trial)
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/android-debug.yml'
+      - 'capacitor.config.json'
+      - 'src/**'
+      - 'public/**'
+      - 'index.html'
+      - 'vite.config.ts'
+      - 'package*.json'
+
+permissions:
+  contents: read
+
+jobs:
+  debug-apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Set up Java for Android
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android build platform
+        run: sdkmanager --install "platforms;android-36" "build-tools;36.0.0"
+
+      - name: Build current game as offline web assets
+        run: |
+          npm ci
+          npm run build
+          test -s dist/index.html
+          test -f dist/manifest.webmanifest
+
+      - name: Install temporary Capacitor tooling
+        run: npm install --no-save --package-lock=false @capacitor/core@8 @capacitor/android@8 @capacitor/cli@8
+
+      - name: Create Android shell and bundle assets
+        run: |
+          npx cap add android
+          npx cap sync android
+          test -s android/app/src/main/assets/public/index.html
+
+      - name: Assemble Android debug APK
+        run: |
+          chmod +x android/gradlew
+          cd android
+          ./gradlew :app:assembleDebug --no-daemon
+
+      - name: Verify output
+        run: |
+          test -s android/app/build/outputs/apk/debug/app-debug.apk
+          ls -lh android/app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Upload installable debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: the-mage-android-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 14
