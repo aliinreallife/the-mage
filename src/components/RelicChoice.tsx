@@ -24,7 +24,7 @@ export function RelicChoice({ offers, held, onChoose }: Props) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="relic-title"
-      className="absolute inset-0 flex animate-fade flex-col items-center overflow-y-auto bg-night-950/78 px-4 py-6 backdrop-blur-[2px]"
+      className="app-safe-dialog absolute inset-0 flex animate-fade flex-col items-center overflow-y-auto bg-night-950/78 px-4 py-6 backdrop-blur-[2px]"
     >
       <div className="my-auto w-full max-w-4xl">
         <div className="mb-5 text-center sm:mb-8">
@@ -53,6 +53,8 @@ export function RelicChoice({ offers, held, onChoose }: Props) {
                 data-rarity={cardRarity}
                 className={`choice-card card card-${cardRarity} group relative flex animate-rise cursor-pointer items-center gap-4 rounded-[18px] bg-night-900/90 p-4 text-right transition-transform duration-150 hover:-translate-y-1 focus-visible:-translate-y-1 active:translate-y-0 md:min-h-64 md:flex-col md:justify-start md:gap-3 md:px-5 md:pb-6 md:pt-8 md:text-center`}
               >
+                <span aria-hidden="true" className="card-rarity-rail" />
+                <span aria-hidden="true" className="card-tier-glyph">✦</span>
                 <span className={`card-artwork transition-transform duration-200 group-hover:scale-105 ${isLegend ? "drop-shadow-[0_0_14px_rgba(255,242,194,0.3)]" : ""}`}>
                   <StarBadge color={a.color} size={isLegend ? 78 : 68}>
                     <ArtifactIcon id={a.id} size={isLegend ? 34 : 30} />
@@ -86,6 +88,7 @@ export function RelicChoice({ offers, held, onChoose }: Props) {
                   <span className={`mt-1 text-sm leading-6 text-kaghaz/75 ${isLegend ? "font-medium" : ""}`}>{a.text}</span>
                   <span className="mt-3 text-[10px] tracking-wide text-kaghaz/35 md:mt-auto md:pt-4">{a.source}</span>
                 </span>
+                <span aria-hidden="true" className="card-choice-hint card-select-foot">برداشتن یادگار <span>←</span></span>
                 <kbd className={`absolute bottom-3 left-3 h-6 w-6 place-items-center rounded-lg border font-sans text-xs md:grid ${isLegend ? "border-zar/35 bg-night-800/95 text-zar" : "border-kaghaz/20 bg-night-950/70 text-kaghaz/60"}`}>
                   {fa(i + 1)}
                 </kbd>

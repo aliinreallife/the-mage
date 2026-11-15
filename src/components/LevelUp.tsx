@@ -27,7 +27,7 @@ export function LevelUp({ level, choices, dealKey, onChoose }: Props) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="levelup-title"
-      className="absolute inset-0 flex animate-fade flex-col items-center overflow-y-auto bg-night-950/75 px-4 py-6 backdrop-blur-[2px]"
+      className="app-safe-dialog absolute inset-0 flex animate-fade flex-col items-center overflow-y-auto bg-night-950/75 px-4 py-6 backdrop-blur-[2px]"
     >
       <div className="my-auto w-full max-w-4xl">
         <div className="mb-5 text-center sm:mb-8">
@@ -56,6 +56,8 @@ export function LevelUp({ level, choices, dealKey, onChoose }: Props) {
                 data-rarity={rarity}
                 className={`choice-card card card-${rarity} group relative flex animate-rise cursor-pointer items-center gap-4 rounded-[18px] bg-night-900/90 p-4 text-right transition-transform duration-150 hover:-translate-y-1 focus-visible:-translate-y-1 active:translate-y-0 md:min-h-72 md:flex-col md:justify-start md:gap-3 md:px-5 md:pb-6 md:pt-8 md:text-center`}
               >
+                <span aria-hidden="true" className="card-rarity-rail" />
+                <span aria-hidden="true" className="card-tier-glyph">✦</span>
                 <span className="card-artwork transition-transform duration-200 group-hover:scale-105">
                   <StarBadge color={def.color} size={rarity === "legendary" ? 78 : maxed ? 72 : 64}>
                     <UpgradeIcon id={c.id} size={rarity === "legendary" ? 34 : maxed ? 31 : 28} />
@@ -102,7 +104,7 @@ export function LevelUp({ level, choices, dealKey, onChoose }: Props) {
                     </span>
                   )}
                 </span>
-                <span aria-hidden="true" className="card-choice-hint hidden md:block">لمس برای انتخاب</span>
+                <span aria-hidden="true" className="card-choice-hint card-select-foot">انتخاب این افسون <span>←</span></span>
                 <kbd className="absolute left-3 top-3 hidden h-6 w-6 place-items-center rounded-lg border border-kaghaz/20 font-sans text-xs text-kaghaz/60 md:grid">
                   {fa(i + 1)}
                 </kbd>

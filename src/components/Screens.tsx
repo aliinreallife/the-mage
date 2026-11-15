@@ -108,17 +108,17 @@ export function Menu({
   const index = HEROES.findIndex((x) => x.id === hero);
 
   return (
-    <div className="menu-shell absolute inset-0 flex flex-col items-center overflow-y-auto px-3 py-5 sm:px-6 sm:py-8">
-      <main className="my-auto w-full max-w-5xl animate-rise">
+    <div className="menu-shell absolute inset-0 flex flex-col items-center overflow-y-auto px-3 py-5 sm:px-6 sm:py-8" style={{ paddingTop: "calc(var(--ui-safe-top) + 18px)", paddingBottom: "calc(var(--ui-safe-bottom) + 22px)" }}>
+      <main className="my-auto w-full max-w-5xl animate-rise menu-content">
         {/* title */}
-        <header className="text-center">
+        <header className="menu-masthead text-center">
           <p className="inline-flex items-center gap-2 rounded-full border border-firoozeh/20 bg-firoozeh/5 px-4 py-1.5 text-[11px] font-medium tracking-wide text-firoozeh">✦ یک شب، هزار افسون ✦</p>
           <h1 className="title-glow mt-1 font-display text-[length:clamp(2.5rem,9vw,5.3rem)] leading-[1.15] text-zar">آخرین افسونگر</h1>
-          <p className="mt-0.5 text-xs text-kaghaz/50">افسونت را برگزین، تا طلوع دوام بیاور</p>
+          <p className="mt-1 text-xs text-kaghaz/75 sm:text-sm">قهرمانت را برگزین. افسون‌ها را بساز. از شب جان سالم ببر.</p>
           <Ornament width="w-48" />
         </header>
 
-        <div className="mt-2 grid items-start gap-3 lg:grid-cols-[minmax(0,1.06fr)_minmax(0,1fr)] lg:gap-5">
+        <div className="mt-3 grid items-start gap-3 lg:grid-cols-[minmax(0,1.06fr)_minmax(0,1fr)] lg:gap-5">
           {/* ------------------------------------------------ hero showcase */}
           <section aria-labelledby="hero-title" className="menu-hero-frame relative overflow-hidden p-3.5 sm:p-5">
             {/* coloured wash that follows the selected hero */}
@@ -127,40 +127,40 @@ export function Menu({
               className="pointer-events-none absolute inset-0 transition-[background] duration-500"
               style={{ background: `radial-gradient(60% 70% at 78% 40%, rgba(${h.palette.glow},0.16), transparent 70%)` }}
             />
-            <div className="relative grid items-center gap-2 sm:grid-cols-[auto_minmax(0,1fr)] sm:gap-5">
+            <div className="relative grid grid-cols-[112px_minmax(0,1fr)] items-center gap-3 sm:grid-cols-[auto_minmax(0,1fr)] sm:gap-5">
               {/* pedestal */}
-              <div className="relative mx-auto grid h-40 w-44 place-items-center sm:h-52 sm:w-48">
+              <div className="menu-hero-pedestal relative mx-auto grid h-32 w-28 place-items-center sm:h-52 sm:w-48">
                 <svg viewBox="0 0 200 200" className="absolute inset-x-0 bottom-2 mx-auto h-auto w-full animate-spin-slow opacity-70" aria-hidden="true">
                   <ellipse cx="100" cy="100" rx="92" ry="92" fill="none" stroke={glow} strokeOpacity="0.25" strokeWidth="1" strokeDasharray="3 9" />
                   <ellipse cx="100" cy="100" rx="74" ry="74" fill="none" stroke={glow} strokeOpacity="0.15" strokeWidth="1" />
                 </svg>
                 <div
                   aria-hidden="true"
-                  className="absolute bottom-3 h-8 w-40 rounded-[50%] blur-md transition-colors duration-500"
+                  className="absolute bottom-3 h-8 w-28 rounded-[50%] blur-md transition-colors duration-500 sm:w-40"
                   style={{ background: `rgba(${h.palette.glow},0.28)` }}
                 />
-                <HeroPortrait key={hero} hero={hero} size={145} animate className="relative animate-fade drop-shadow-[0_18px_18px_rgba(0,0,0,0.3)]" />
+                <HeroPortrait key={hero} hero={hero} size={145} animate className="menu-hero-portrait relative max-w-full animate-fade drop-shadow-[0_18px_18px_rgba(0,0,0,0.3)]" />
               </div>
 
               {/* info */}
-              <div className="text-center sm:text-right">
+              <div className="min-w-0 text-right">
                 <p className="text-xs text-kaghaz/50">
                   قهرمان {fa(index + 1)} از {fa(HEROES.length)}
                 </p>
                 <h2 id="hero-title" className="font-display text-3xl leading-tight sm:text-5xl" style={{ color: glow }}>
                   {h.name}
                 </h2>
-                <p className="font-display text-lg text-kaghaz/80">{h.title}</p>
-                <p className="mt-1 text-xs leading-6 text-kaghaz/65">{h.lore}</p>
+                <p className="font-display text-base leading-tight text-kaghaz/85 sm:text-lg">{h.title}</p>
+                <p className="mt-1 text-[11px] leading-[1.6] text-kaghaz/70 sm:text-xs">{h.lore}</p>
 
-                <dl className="mt-2.5 grid gap-2 text-right">
-                  <div className="rounded-xl border px-3 py-2" style={{ borderColor: `rgba(${h.palette.glow},0.35)`, background: `rgba(${h.palette.glow},0.07)` }}>
+                <dl className="mt-2 grid gap-1.5 text-right sm:mt-2.5 sm:gap-2">
+                  <div className="rounded-xl border px-2.5 py-1.5 sm:px-3 sm:py-2" style={{ borderColor: `rgba(${h.palette.glow},0.35)`, background: `rgba(${h.palette.glow},0.07)` }}>
                     <dt className="text-[11px] font-bold" style={{ color: glow }}>
                       توان ویژه
                     </dt>
-                    <dd className="text-sm leading-6 text-kaghaz/85">{h.passive}</dd>
+                    <dd className="text-xs leading-5 text-kaghaz/85 sm:text-sm sm:leading-6">{h.passive}</dd>
                   </div>
-                  <div className="flex items-center gap-2.5 rounded-xl border border-kaghaz/12 bg-night-950/55 px-3 py-2">
+                  <div className="flex items-center gap-2 rounded-xl border border-kaghaz/12 bg-night-950/55 px-2.5 py-1.5 sm:gap-2.5 sm:px-3 sm:py-2">
                     <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-night-800" style={{ color: startSpell.color }}>
                       <UpgradeIcon id={h.start} size={18} />
                     </span>
@@ -174,7 +174,7 @@ export function Menu({
             </div>
 
             {/* picker */}
-            <div role="radiogroup" aria-label="انتخاب قهرمان" className="relative mt-3.5 grid grid-cols-4 gap-2">
+            <div role="radiogroup" aria-label="انتخاب قهرمان" className="relative mt-3 grid grid-cols-4 gap-2">
               {HEROES.map((x) => {
                 const active = x.id === hero;
                 const c = `rgb(${x.palette.glow})`;
@@ -186,19 +186,20 @@ export function Menu({
                     aria-checked={active}
                     aria-label={`${x.name} — ${x.title}`}
                     onClick={() => onHero(x.id)}
-                    className={`menu-hero-choice choice-card group flex min-h-20 cursor-pointer flex-col items-center justify-center border px-1 pb-1.5 pt-1 transition-all ${
+                    className={`menu-hero-choice choice-card group relative flex min-h-18 cursor-pointer flex-col items-center justify-center border px-1 pb-1.5 pt-1 transition-all sm:min-h-20 ${
                       active ? "bg-night-800/90" : "border-kaghaz/10 bg-night-950/55 hover:border-kaghaz/25 hover:bg-night-900/70"
                     }`}
                     style={active ? { borderColor: c, boxShadow: `inset 0 0 22px -12px ${c}, 0 0 20px -10px ${c}` } : undefined}
                   >
                     <HeroPortrait
                       hero={x.id}
-                      size={48}
+                      size={44}
                       className={`transition-transform duration-200 ${active ? "scale-105" : "opacity-75 grayscale-[35%] group-hover:opacity-100 group-hover:grayscale-0"}`}
                     />
                     <span className="mt-0.5 font-display text-sm leading-none" style={{ color: active ? c : "#f4ecd8" }}>
                       {x.name}
                     </span>
+                    {active && <span aria-hidden="true" className="menu-hero-selected absolute left-2 top-2 h-1.5 w-1.5 rounded-full" style={{ backgroundColor: c }} />}
                   </button>
                 );
               })}
@@ -216,8 +217,10 @@ export function Menu({
                 </span>
               </button>
             )}
-            <button type="button" onClick={onStart} className={`${primaryBtn} relative ${resumable ? "mt-2" : "mt-4"} w-full`}>
-              {resumable ? "دستِ تازه" : "آغاز بازی"} با {h.name}
+            <button type="button" onClick={onStart} className={`${primaryBtn} menu-start relative ${resumable ? "mt-2" : "mt-4"} flex min-h-14 w-full items-center justify-center gap-3 font-display text-xl`}>
+              <UiIcon name="play" size={20} />
+              <span>{resumable ? "دستِ تازه" : "آغاز بازی"} با {h.name}</span>
+              <span aria-hidden="true" className="mr-auto text-xl">↖</span>
             </button>
           </section>
 
@@ -451,7 +454,7 @@ export function Pause({
       role="dialog"
       aria-modal="true"
       aria-labelledby="pause-title"
-      className="absolute inset-0 flex animate-fade flex-col items-center overflow-y-auto bg-night-950/78 px-3 py-5 backdrop-blur-[3px] sm:px-4 sm:py-6"
+      className="app-safe-dialog absolute inset-0 flex animate-fade flex-col items-center overflow-y-auto bg-night-950/78 px-3 py-5 backdrop-blur-[3px] sm:px-4 sm:py-6"
     >
       <div className="pause-shell my-auto w-full max-w-3xl animate-rise px-4 py-5 text-center sm:px-7 sm:py-7">
         <div className="flex flex-wrap items-end justify-between gap-3">
@@ -564,7 +567,7 @@ export function GameOver({
       role="dialog"
       aria-modal="true"
       aria-labelledby="over-title"
-      className="absolute inset-0 flex animate-fade flex-col items-center overflow-y-auto bg-night-950/80 px-4 py-6 backdrop-blur-[2px]"
+      className="app-safe-dialog absolute inset-0 flex animate-fade flex-col items-center overflow-y-auto bg-night-950/80 px-4 py-6 backdrop-blur-[2px]"
     >
       <div className="frame my-auto w-full max-w-lg animate-rise rounded-sm px-6 py-8 text-center sm:px-10">
         <div className={`mx-auto -mt-2 mb-1 w-fit ${victory ? "animate-float" : "opacity-80 grayscale-[55%]"}`}>
