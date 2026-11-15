@@ -1,0 +1,8 @@
+{
+  "appId": "ir.themage.debug",
+  "appName": "آخرین افسونگر",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
+}
