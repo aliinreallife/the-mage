@@ -72,7 +72,7 @@ npm run verify:delivery   # download the archives from a public URL and verify t
 - No physical Android device was available in this environment; nothing below has been
   executed on hardware.
 
-## 2026-11-15: Crash investigation, mobile graphics guard, and stable APK updates
+**Important preview safety (November 2026):** Unless all three signing secrets are configured, the workflow now uses package ID `ir.themage.preview` and label «آخرین افسونگر آزمایشی». This temporary test app **installs alongside** an existing `ir.themage.debug` installation instead of requiring the user to erase existing saves to try a crash fix. This is *not* an upgrade of the original app, and repeated preview APKs can still have incompatible ephemeral debug keys. Once stable signing is set up, the workflow switches back to the intended `ir.themage.debug` ID with a reusable signing certificate. An old differently signed installation of that ID still needs a one-time migration; no workaround can preserve the same Android identity without the original private key.\n\n## 2026-11-15: Crash investigation, mobile graphics guard, and stable APK updates
 
 **Crash reports:** A force-close during play is not yet diagnosed. The updated build
 reduces Android Canvas backing pixels, throttles visual rendering if measured frames
