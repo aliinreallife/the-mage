@@ -20,11 +20,21 @@ createRoot(document.getElementById("root")!).render(
   </StrictMode>
 );
 
-// Offline support: cache the single-file build once it has loaded (production only).
-if (import.meta.env.PROD && "serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js").catch(() => {
-      /* offline caching unavailable (e.g. file:// or private mode) */
+// Capacitor already bundles the full offline game. A browser service worker in
+// the Android WebView can retain obsolete JS between APK updates. Remove older
+// registrations in the native shell, but keep PWA caching on hosted web builds.
+const isAndroidNativeShell = window.location.protocol === "https:"
+  && window.location.hostname === "localhost" && /Android/i.test(navigator.userAgent);
+if ("serviceWorker" in navigator) {
+  if (isAndroidNativeShell) {
+    void navigator.serviceWorker.getRegistrations()
+      .then((registrations) => Promise.all(registrations.map((registration) => registration.unregister())))
+      .catch(() => { /* native assets remain available without service workers */ });
+  } else if (import.meta.env.PROD) {
+    window.addEventListener("load", () => {
+      void navigator.serviceWorker.register("./sw.js").catch(() => {
+        /* offline caching unavailable (e.g. file:// or private mode) */
+      });
     });
-  });
+  }
 }
