@@ -79,6 +79,22 @@
   }
 }
 
+/* Android API 35/36 is edge-to-edge: do not rely on overlaysWebView=false.
+   WebView implementations can report env(safe-area-inset-top) as 0, hence
+   the native-only fallback. Gameplay remains visible beneath the bars. */
+:root {
+  --ui-safe-top: env(safe-area-inset-top, 0px);
+  --ui-safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+:root.native-android-shell {
+  --ui-safe-top: max(env(safe-area-inset-top, 0px), 34px);
+  --ui-safe-bottom: max(env(safe-area-inset-bottom, 0px), 14px);
+}
+.app-safe-dialog {
+  padding-top: calc(var(--ui-safe-top) + 14px);
+  padding-bottom: calc(var(--ui-safe-bottom) + 14px);
+}
+
 html,
 body,
 #root {
@@ -263,4 +279,128 @@ body {
 }
 @media (prefers-reduced-motion: reduce) {
   .resume-countdown-digit { animation: none !important; }
+}
+/* 2026 reward redesign — source rarity is unchanged; only presentation changes. */
+.card {
+  --card-gleam: color-mix(in srgb, var(--card-accent) 70%, white);
+  min-height: 154px;
+  border-width: 1.5px;
+  border-radius: 20px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+  background:
+    radial-gradient(ellipse at 17% -18%, color-mix(in srgb, var(--card-accent) 25%, transparent), transparent 62%),
+    linear-gradient(145deg, color-mix(in srgb, var(--card-accent) 9%, #121a32) 0%, #10162b 42%, #070e21 100%);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--card-accent) 10%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--card-accent) 35%, white 5%),
+    0 18px 35px -17px #02030a;
+}
+.card::before { inset: 6px; border-radius: 14px; border-color: color-mix(in srgb, var(--card-accent) 35%, transparent); }
+.card::after {
+  inset: 0;
+  z-index: -1;
+  opacity: .22;
+  background: repeating-linear-gradient(126deg, transparent 0px, transparent 26px, color-mix(in srgb, var(--card-accent) 11%, transparent) 27px, transparent 28px);
+  background-size: 100% 100%;
+}
+.card-rarity-rail {
+  position: absolute !important;
+  inset: 0 0 auto;
+  z-index: 2 !important;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--card-accent) 23%, var(--card-gleam) 48%, var(--card-accent) 76%, transparent);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--card-accent) 40%, transparent);
+}
+.card-tier-glyph {
+  position: absolute !important;
+  top: 12px;
+  right: 14px;
+  z-index: 2 !important;
+  font-size: 15px;
+  color: var(--card-accent);
+  opacity: .8;
+  text-shadow: 0 0 14px var(--card-accent);
+}
+.card-legendary .card-tier-glyph { font-size: 20px; opacity: 1; }
+.card-epic .card-tier-glyph, .card-mythic .card-tier-glyph { font-size: 18px; }
+.card .card-artwork {
+  position: relative;
+  width: 5.1rem;
+  height: 5.1rem;
+  flex-shrink: 0;
+  border: 1px solid color-mix(in srgb, var(--card-accent) 32%, transparent);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--card-accent) 30%, transparent), transparent 72%),
+    linear-gradient(135deg, rgb(255 255 255 / .055), rgb(0 0 0 / .18));
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .14),
+    inset 0 -12px 25px -17px var(--card-accent),
+    0 10px 26px -20px var(--card-accent);
+}
+.card .card-artwork::after {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px dashed color-mix(in srgb, var(--card-accent) 16%, transparent);
+  border-radius: 13px;
+  pointer-events: none;
+}
+.card .rarity-chip {
+  color: var(--card-gleam) !important;
+  border: 1px solid color-mix(in srgb, var(--card-accent) 56%, transparent);
+  background: color-mix(in srgb, var(--card-accent) 14%, #0b1326);
+  padding: 3px 11px;
+  font-weight: 800;
+  letter-spacing: .012em;
+}
+.card .card-name { font-size: clamp(1.32rem, 2.8vw, 1.8rem); line-height: 1.4; }
+.card .card-select-foot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .65rem;
+  min-width: 100px;
+  padding: 5px 12px;
+  margin: auto 0 0;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--card-accent) 10%, #11192f);
+  border: 1px solid color-mix(in srgb, var(--card-accent) 26%, transparent);
+  color: var(--card-gleam);
+  font-size: 11px;
+  font-weight: 700;
+}
+.card-select-foot > span { font-size: 17px; line-height: 1; }
+.card-common .card-rarity-rail { opacity: .55; }
+.card-rare { border-color: #36c9d2; }
+.card-epic { border-color: #ad80fa; box-shadow: inset 0 1px rgb(230 215 255 / .25), 0 0 28px -20px #b48cff, 0 18px 35px -17px #02030a; }
+.card-mythic { border-color: #ff9372; box-shadow: inset 0 1px rgb(255 218 180 / .3), 0 0 32px -19px #ff9a70, 0 18px 35px -17px #02030a; }
+.card-legendary {
+  border: 1.5px solid #ebbd64;
+  background:
+    radial-gradient(ellipse at 25% -10%, rgb(255 215 118 / .28), transparent 70%),
+    linear-gradient(148deg, #3a2a24 0%, #1c1e2f 45%, #0b1226 100%);
+  box-shadow: 0 0 0 1px rgb(255 225 155 / .14), inset 0 1px rgb(255 244 206 / .5),
+    inset 0 0 40px -29px #ffc76c, 0 0 32px -21px rgb(242 184 75 / .58), 0 22px 36px -22px #000;
+}
+.card-legendary .card-artwork { border-color: rgb(255 216 133 / .55); }
+@media (max-width: 640px) {
+  .card { gap: 12px; padding: 17px 14px; border-radius: 18px; }
+  .card .card-artwork { width: 4.5rem; height: 4.5rem; border-radius: 15px; }
+  .card .card-name { font-size: 1.38rem; }
+  .card-select-foot { display: none !important; }
+  .menu-hero-portrait { max-height: 126px; }
+}
+/* Starting screen focuses the playable hero and keeps the start action clear. */
+.menu-masthead { position: relative; margin: 0 auto; }
+.menu-masthead::before { content: ""; position: absolute; top: -26px; left: 50%; width: min(80vw, 440px); height: 95px; transform: translateX(-50%); background: radial-gradient(ellipse, rgb(242 184 75 / .11), transparent 70%); pointer-events: none; }
+.menu-hero-frame { box-shadow: inset 0 1px rgb(255 238 191 / .17), 0 22px 65px -31px #000, 0 0 42px -33px rgb(242 184 75 / .5); }
+.menu-hero-choice { overflow: hidden; }
+.menu-hero-choice[aria-checked="true"] { transform: translateY(-2px); }
+.menu-hero-selected { box-shadow: 0 0 14px currentColor; }
+.menu-start { font-size: 1.25rem; letter-spacing: .005em; }
+@media (max-width: 400px) {
+ .menu-shell { padding-inline: 11px; }
+ .menu-hero-frame { padding: 12px; }
+ .menu-hero-pedestal { width: 104px; }
+ .menu-hero-portrait { max-height: 116px; }
 }

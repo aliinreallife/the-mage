@@ -21,7 +21,7 @@ export function Research({ gold, ranks, onBuy, onBack }: Props) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="research-title"
-      className="absolute inset-0 flex animate-fade flex-col items-center overflow-y-auto bg-night-950/85 px-3 py-5 backdrop-blur-[2px]"
+      className="app-safe-dialog absolute inset-0 flex animate-fade flex-col items-center overflow-y-auto bg-night-950/85 px-3 py-5 backdrop-blur-[2px]"
       style={{ paddingTop: "max(1.25rem, env(safe-area-inset-top))", paddingBottom: "max(1.25rem, env(safe-area-inset-bottom))" }}
     >
       <div className="frame my-auto w-full max-w-xl animate-rise rounded-sm px-4 py-6 sm:px-7">

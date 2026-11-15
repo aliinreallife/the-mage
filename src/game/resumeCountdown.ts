@@ -9,3 +9,8 @@ export function resumeCountdownFrame(deadline: number, now: number): { done: boo
   if (left <= 160) return { done: false, label: "شروع" };
   return { done: false, label: String(Math.ceil(left / 1000)).replace(/[0-9]/g, (n) => "۰۱۲۳۴۵۶۷۸۹"[Number(n)]) };
 }
+/** Aim is allowed during countdown; simulation is still not advanced.
+ * Holding joystick or keyboard input is preserved at the exact resume boundary. */
+export function canArmMovement(phase: string): boolean {
+  return phase === "playing" || phase === "countdown";
+}
