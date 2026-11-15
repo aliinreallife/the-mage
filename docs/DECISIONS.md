@@ -12,6 +12,14 @@ Keep durable architecture and gameplay decisions here. Add a dated entry for eac
 - Persian/Iranian text, cultural presentation, art, sound and branding remain independently authored and do not license third-party copyrighted creative material. Cultural adaptation must preserve functional mechanics.
 - Keep a research evidence trail and record uncertainty (`stored`, `inferred`, `static_verified`, `runtime_verified`); source data alone may not establish effective runtime values.
 
+## 2026-11-14 — Android wrapper as a benchmark, not an engine migration
+
+- Add a **separate debug-APK build path** using Capacitor 8 and the current Vite `dist/` output. Keep the production PWA and all existing native-derived reference kernels unchanged.
+- This is an **offline-packaged WebView evaluation** using temporary package ID `ir.themage.debug`. No store signing, release-ID commitment, hosted origin, or native-renderer claim.
+- Benchmark an actual device before committing to either a web renderer or a Godot/native port. Track heavy-combat sustained frame time, 1% slow frames, touch latency, heap/GC spikes, heat, pause/resume, and airplane-mode restart.
+- Maintain game-mechanics/data parity independently of the renderer so a future engine change can reuse validated equations, inputs and fixtures.
+- TWA could wrap a hosted PWA, but it uses the browser to render game content and is not inherently faster than the same browser game.
+
 ## 2026-11-14 — Initial repository migration
 - Source of truth: the user-provided `the-mage (11).zip`.
 - Android-first product, Persian RTL UI, engine-agnostic future. Existing React/TypeScript/Vite/Canvas 2D implementation is retained.

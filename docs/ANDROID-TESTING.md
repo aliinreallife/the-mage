@@ -1,5 +1,16 @@
 # Android / phone testing — staging and install
 
+## Installable Android debug APK (Capacitor evaluation)
+
+A GitHub Actions workflow at `.github/workflows/android-debug.yml` packages the **current playable web game** into an Android **debug-signed APK**. It includes the built game assets locally, so it does not require a hosted TWA origin. This is a **WebView wrapper**, NOT a port of the game engine to native Android code.
+
+To download: open [Android Debug APK workflow](https://github.com/aliinreallife/the-mage/actions/workflows/android-debug.yml), choose the latest **successful** run, download its `the-mage-android-debug-apk` artifact ZIP, unzip, and install `app-debug.apk` on Android. Enable installation from that source if prompted. Debug build package ID: `ir.themage.debug` (temporary; do not treat as release ID).
+
+The APK is meant for device testing, not marketplace release: it is debug signed, unoptimized for store distribution, and has not been physically performance-tested. A final release requires an owned package ID, signing credentials, device QA, and proper Android lifecycle/storage testing.
+
+For gameplay benchmarking, record a 15–20-minute run at normal and heavy enemy density on real Android hardware. Measure sustained FPS, slow frames, memory, battery/heat, touch responsiveness, and resume/offline behavior. **60 FPS must be measured, not assumed.**
+
+
 ## Temporary public HTTPS staging URL
 
 A Cloudflare quick tunnel was started from this sandbox and verified externally:
