@@ -61,7 +61,7 @@ jobs:
           MAGE_ANDROID_KEY_PASSWORD: ${{ secrets.MAGE_ANDROID_KEY_PASSWORD }}
         run: |
           if [[ -z "$MAGE_ANDROID_KEYSTORE_BASE64" || -z "$MAGE_ANDROID_KEYSTORE_PASSWORD" || -z "$MAGE_ANDROID_KEY_PASSWORD" ]]; then
-            node -e 'const fs=require("fs"); const f="capacitor.config.json"; const c=JSON.parse(fs.readFileSync(f,"utf8")); c.appId="ir.themage.preview"; c.appName="آخرین افسونگر آزمایشی"; fs.writeFileSync(f,JSON.stringify(c,null,2)+"\\n");'
+            node -e 'const fs=require("fs"); const f="capacitor.config.json"; const c=JSON.parse(fs.readFileSync(f,"utf8")); c.appId="ir.themage.preview"; c.appName="آخرین افسونگر آزمایشی"; fs.writeFileSync(f,JSON.stringify(c,null,2));'
             echo 'No stable signer configured: building ir.themage.preview so the existing ir.themage.debug app and its save data remain untouched.'
           else
             echo 'Stable signer configured: building upgradable ir.themage.debug package.'
