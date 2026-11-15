@@ -46,3 +46,16 @@ describe("minimal game UI and detailed pause", () => {
     expect(relic).toContain("card-artwork");
   });
 });
+describe("touch-specific help", () => {
+  it("hides desktop keyboard cues on touch devices and supplies touch instructions", () => {
+    const css = readFileSync("src/index.css", "utf8");
+    expect(css).toMatch(/@media \(hover: none\), \(pointer: coarse\)/);
+    expect(css).toContain(".desktop-keyboard-help { display: none !important; }");
+    expect(css).toContain(".touch-game-help { display: flex !important; }");
+    const menu = renderToString(<Menu best={0} discovered={0} total={10} difficulty="adaptive" hero="farzan" onHero={noop} onDifficulty={noop} onStart={noop} onCodex={noop} mode="stage" onMode={noop} gold={0} bestStage={0} reducedFx={false} onReducedFx={noop} onResearch={noop} />);
+    expect(menu).toContain("touch-game-help");
+    expect(menu).toContain("desktop-keyboard-help");
+    const upgrade = renderToString(<LevelUp level={2} dealKey={2} choices={[{ id: "bolt", next: 1 }]} onChoose={noop} />);
+    expect(upgrade).toContain("desktop-keyboard-help");
+  });
+});
