@@ -4,7 +4,19 @@
 
 A GitHub Actions workflow at `.github/workflows/android-debug.yml` packages the **current playable web game** into an Android **debug-signed APK**. It includes the built game assets locally, so it does not require a hosted TWA origin. This is a **WebView wrapper**, NOT a port of the game engine to native Android code.
 
-To download: open [Android Debug APK workflow](https://github.com/aliinreallife/the-mage/actions/workflows/android-debug.yml), choose the latest **successful** run, download its `the-mage-android-debug-apk` artifact ZIP, unzip, and install `app-debug.apk` on Android. Enable installation from that source if prompted. Debug build package ID: `ir.themage.debug` (temporary; do not treat as release ID).
+### Download the current APK from GitHub
+
+Once the Android workflow completes on `main`, it automatically publishes an **Android prerelease with `the-mage.apk` attached directly**:
+
+1. Open [GitHub Releases](https://github.com/aliinreallife/the-mage/releases).
+2. Choose the newest **The Mage Android** prerelease.
+3. Under **Assets**, download `the-mage.apk` directly (no ZIP extraction needed).
+4. Transfer to your Android phone and open the APK to install.
+
+Each successful main-branch Android build creates a unique `android-test-<run-number>` prerelease. A failed build will not publish an APK. The build itself is also available under [Android workflow runs](https://github.com/aliinreallife/the-mage/actions/workflows/android-debug.yml) as the `the-mage-android-apk` artifact, but Actions artifacts are ZIP files and may require GitHub sign-in.
+
+**Package/signing warning:** Without all three permanent signing secrets, the APK is a temporary-debug-signed `ir.themage.preview` app, installable beside the older `ir.themage.debug` app. It **cannot be relied on to update another preview**. With permanent signing configured, builds use `ir.themage.debug` and are intended for subsequent in-place upgrades (once migrated from any old, differently signed installation). Avoid uninstalling the old app if you need its locally stored saves.
+
 
 The APK is meant for device testing, not marketplace release: it is debug signed, unoptimized for store distribution, and has not been physically performance-tested. A final release requires an owned package ID, signing credentials, device QA, and proper Android lifecycle/storage testing.
 
