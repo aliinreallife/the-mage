@@ -34,3 +34,11 @@ playwright-report/
 test-results/
 *.local
 *.tmp
+
+# Optional generated branding preview (mirrored in base64 sources)
+assets/branding/mage-app-icon-preview.png
+
+# Never commit signing keys
+*.jks
+*.keystore
+android-apk/

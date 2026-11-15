@@ -60,21 +60,53 @@ jobs:
           npx cap sync android
           test -s android/app/src/main/assets/public/index.html
 
-      - name: Assemble Android debug APK
+      - name: Replace stock Capacitor icon and version the app
+        env:
+          GITHUB_BUILD_NUMBER: ${{ github.run_number }}
+        run: |
+          node scripts/android-assets.mjs
+          VERSION_CODE=$((10000 + GITHUB_BUILD_NUMBER))
+          sed -i -E "s/versionCode [0-9]+/versionCode ${VERSION_CODE}/" android/app/build.gradle
+          echo "APK versionCode=${VERSION_CODE}"
+
+      - name: Assemble Android APK
+        env:
+          MAGE_ANDROID_KEYSTORE_BASE64: ${{ secrets.MAGE_ANDROID_KEYSTORE_BASE64 }}
+          MAGE_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.MAGE_ANDROID_KEYSTORE_PASSWORD }}
+          MAGE_ANDROID_KEY_PASSWORD: ${{ secrets.MAGE_ANDROID_KEY_PASSWORD }}
         run: |
           chmod +x android/gradlew
-          cd android
-          ./gradlew :app:assembleDebug --no-daemon
+          mkdir -p android-apk
+          if [[ -n "$MAGE_ANDROID_KEYSTORE_BASE64" && -n "$MAGE_ANDROID_KEYSTORE_PASSWORD" && -n "$MAGE_ANDROID_KEY_PASSWORD" ]]; then
+            # Stable secure signing: this same keystore must be retained for every future update.
+            printf '%s' "$MAGE_ANDROID_KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/mage-signing.jks"
+            (cd android && ./gradlew :app:assembleRelease --no-daemon)
+            "$ANDROID_HOME/build-tools/36.0.0/zipalign" -f -p 4 \
+              android/app/build/outputs/apk/release/app-release-unsigned.apk \
+              "$RUNNER_TEMP/mage-aligned.apk"
+            "$ANDROID_HOME/build-tools/36.0.0/apksigner" sign \
+              --ks "$RUNNER_TEMP/mage-signing.jks" --ks-key-alias mage \
+              --ks-pass env:MAGE_ANDROID_KEYSTORE_PASSWORD \
+              --key-pass env:MAGE_ANDROID_KEY_PASSWORD \
+              --out android-apk/the-mage.apk "$RUNNER_TEMP/mage-aligned.apk"
+            "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose android-apk/the-mage.apk
+            rm -f "$RUNNER_TEMP/mage-signing.jks" "$RUNNER_TEMP/mage-aligned.apk"
+            echo 'Signed with persistent repository-secret keystore: future builds can upgrade in place.'
+          else
+            echo '::warning::No persistent signing secrets configured. This temporary DEBUG-signed APK cannot upgrade a differently signed prior build. See docs/ANDROID-TESTING.md.'
+            (cd android && ./gradlew :app:assembleDebug --no-daemon)
+            cp android/app/build/outputs/apk/debug/app-debug.apk android-apk/the-mage.apk
+          fi
 
       - name: Verify output
         run: |
-          test -s android/app/build/outputs/apk/debug/app-debug.apk
-          ls -lh android/app/build/outputs/apk/debug/app-debug.apk
+          test -s android-apk/the-mage.apk
+          ls -lh android-apk/the-mage.apk
 
-      - name: Upload installable debug APK
+      - name: Upload installable Android APK
         uses: actions/upload-artifact@v4
         with:
-          name: the-mage-android-debug-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: the-mage-android-apk
+          path: android-apk/the-mage.apk
           if-no-files-found: error
           retention-days: 14
