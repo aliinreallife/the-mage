@@ -30,8 +30,8 @@ export function Codex({ s, discovered, initialTab = "build", buildTab = true, on
   return (
     <div className="flex w-full flex-col">
       {buildTab && (
-        <div role="tablist" aria-label="بخش‌های کتابچه" className="mx-auto mb-4 flex gap-1 rounded-sm border border-kaghaz/15 bg-night-950/70 p-1">
-          <TabButton active={tab === "build"} onClick={() => setTab("build")} label="ساختار افسونگر" icon="book" />
+        <div role="tablist" aria-label="بخش‌های کتابچه" className="mx-auto mb-4 flex w-full gap-1 rounded-xl border border-kaghaz/15 bg-night-950/70 p-1 sm:w-fit">
+          <TabButton active={tab === "build"} onClick={() => setTab("build")} label="افسون‌ها و ساختار" icon="book" />
           <TabButton active={tab === "arts"} onClick={() => setTab("arts")} label="یادگارها" icon="chest" />
         </div>
       )}
@@ -153,7 +153,7 @@ function TabButton({ active, onClick, label, icon }: { active: boolean; onClick:
       role="tab"
       aria-selected={active}
       onClick={onClick}
-      className={`flex cursor-pointer items-center gap-2 rounded-sm px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zar ${
+      className={`flex min-h-11 flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zar ${
         active ? "bg-zar text-night-950" : "text-kaghaz/70 hover:bg-night-800 hover:text-kaghaz"
       }`}
     >
@@ -185,8 +185,35 @@ function BuildPanel({ s, onFusionFocus }: { s: Snapshot; onFusionFocus?: (id: Fu
         </ul>
       </section>
 
+      {s.artifacts.length > 0 && (
+        <section>
+          <h3 className="mb-2 font-display text-xl leading-none text-zar">یادگارهای این دست</h3>
+          <ul className="grid gap-2 sm:grid-cols-2">
+            {s.artifacts.map((id) => {
+              const a = BY_ID[id];
+              return (
+                <li key={id} className="flex items-start gap-2.5 rounded-sm border border-zar/35 bg-zar/5 p-2.5">
+                  <span style={{ color: a.color }}>
+                    <ArtifactIcon id={a.id} size={20} />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block font-display text-base leading-tight text-kaghaz">{a.name}</span>
+                    <span className="block text-xs leading-5 text-kaghaz/65">{a.text}</span>
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )}
+
+      <details className="menu-panel group p-3" aria-label="راهنمای ترکیب">
+        <summary className="flex min-h-11 cursor-pointer items-center justify-between font-display text-lg text-firoozeh focus-visible:outline-2 focus-visible:outline-firoozeh">
+          مسیرهای ترکیب و راهنمای ساخت
+          <span aria-hidden="true" className="text-xs text-kaghaz/55 group-open:rotate-180">⌄</span>
+        </summary>
       <section aria-label="راهنمای ترکیب">
-        <h3 className="mb-1 font-display text-xl leading-none text-firoozeh">مسیر ترکیب</h3>
+
         <p className="mb-2 text-xs leading-5 text-kaghaz/55">
           برای ترکیب، هر دو افسون باید به سطح {fa(5)} برسند و استعدادِ درست را داشته باشند؛ افسونِ دوم مصرف می‌شود.
         </p>
@@ -232,6 +259,7 @@ function BuildPanel({ s, onFusionFocus }: { s: Snapshot; onFusionFocus?: (id: Fu
           })}
         </ul>
       </section>
+      </details>
 
       <section>
         <h3 className="mb-2 font-display text-xl leading-none text-zar-soft">توانایی‌ها</h3>
@@ -302,27 +330,7 @@ function BuildPanel({ s, onFusionFocus }: { s: Snapshot; onFusionFocus?: (id: Fu
         </section>
       )}
 
-      {s.artifacts.length > 0 && (
-        <section>
-          <h3 className="mb-2 font-display text-xl leading-none text-zar">یادگارهای این دست</h3>
-          <ul className="grid gap-2 sm:grid-cols-2">
-            {s.artifacts.map((id) => {
-              const a = BY_ID[id];
-              return (
-                <li key={id} className="flex items-start gap-2.5 rounded-sm border border-zar/35 bg-zar/5 p-2.5">
-                  <span style={{ color: a.color }}>
-                    <ArtifactIcon id={a.id} size={20} />
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block font-display text-base leading-tight text-kaghaz">{a.name}</span>
-                    <span className="block text-xs leading-5 text-kaghaz/65">{a.text}</span>
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
-        </section>
-      )}
+
     </div>
   );
 }

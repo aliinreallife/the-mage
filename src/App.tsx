@@ -7,6 +7,8 @@ import { clearCheckpoint, loadCheckpoint, saveCheckpoint, type Checkpoint } from
 import { recordTelemetry } from "./game/telemetry";
 import { Codex } from "./components/Codex";
 import { Hud } from "./components/Hud";
+import { ResumeCountdown } from "./components/ResumeCountdown";
+import { RESUME_COUNTDOWN_MS, resumeCountdownFrame } from "./game/resumeCountdown";
 import { LevelUp } from "./components/LevelUp";
 import { BoonChoice } from "./components/BoonChoice";
 import { RelicChoice } from "./components/RelicChoice";
@@ -21,7 +23,7 @@ import { Game, type Choice, type GameEvent, type Joystick, type Snapshot } from 
 import { applyReferenceData, resolveConfigMode } from "./game/reference/config";
 import { importJson, type ImportedDataset } from "./game/reference/importer";
 
-type Phase = "menu" | "research" | "playing" | "paused" | "levelup" | "relic" | "boon" | "over";
+type Phase = "menu" | "research" | "playing" | "paused" | "countdown" | "levelup" | "relic" | "boon" | "over";
 type Tone = "info" | "danger" | "good";
 
 /** Loaded once at start-up; migrates the original per-key storage on first launch. */
@@ -95,6 +97,9 @@ export default function App() {
   const bannerId = useRef(0);
 
   const [phase, setPhaseState] = useState<Phase>("menu");
+  const [countdownLabel, setCountdownLabel] = useState("۳");
+  const countdownDeadline = useRef(0);
+  const countdownShown = useRef("۳");
   const [hud, setHud] = useState<Snapshot | null>(null);
   const [choices, setChoicesState] = useState<Choice[]>([]);
   const [dealKey, setDealKey] = useState(0);
@@ -316,7 +321,7 @@ export default function App() {
   }, [newGame, setPhase]);
 
   const pause = useCallback(() => {
-    if (phaseRef.current !== "playing") return;
+    if (phaseRef.current !== "playing" && phaseRef.current !== "countdown") return;
     const g = gameRef.current;
     if (g) setHud(g.snapshot());
     if (g?.canCheckpoint()) writeCheckpoint();
@@ -324,10 +329,17 @@ export default function App() {
     setPhase("paused");
   }, [setPhase, writeCheckpoint]);
 
+  /** Resume freezes the entire simulation until three real seconds elapse. */
   const resume = useCallback(() => {
     if (phaseRef.current !== "paused") return;
     sfx.unlock();
-    setPhase("playing");
+    keys.current.clear();
+    joyRef.current = null;
+    if (gameRef.current) gameRef.current.input = { x: 0, y: 0 };
+    countdownDeadline.current = performance.now() + RESUME_COUNTDOWN_MS;
+    countdownShown.current = "۳";
+    setCountdownLabel("۳");
+    setPhase("countdown");
   }, [setPhase]);
 
   const choose = useCallback(
@@ -450,7 +462,20 @@ export default function App() {
       if (!g) return;
       const ph = phaseRef.current;
 
-      if (ph === "playing") {
+      if (ph === "countdown") {
+        const countdown = resumeCountdownFrame(countdownDeadline.current, now);
+        if (countdown.done) {
+          keys.current.clear();
+          joyRef.current = null;
+          g.input.x = 0;
+          g.input.y = 0;
+          setPhase("playing");
+        } else if (countdown.label !== countdownShown.current) {
+          countdownShown.current = countdown.label;
+          setCountdownLabel(countdown.label);
+        }
+        // No g.advance(), no frame timers, and no damage/collision during countdown.
+      } else if (ph === "playing") {
         checkpointT.current -= dt;
         if (checkpointT.current <= 0) {
           checkpointT.current = 3;
@@ -496,7 +521,7 @@ export default function App() {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
     };
-  }, [newGame]);
+  }, [newGame, setPhase]);
 
   /* keyboard + focus loss */
   useEffect(() => {
@@ -504,12 +529,12 @@ export default function App() {
       const ph = phaseRef.current;
       // physical key codes, so movement works on a Persian keyboard layout too
       if (ph === "playing" && (e.code.startsWith("Arrow") || e.code === "Space")) e.preventDefault();
-      keys.current.add(e.code);
+      if (ph === "playing") keys.current.add(e.code);
       if (e.repeat) return;
       if (e.code === "Space" && ph === "playing") {
         castUlt();
       } else if (e.code === "Escape" || e.code === "KeyP") {
-        if (ph === "playing") pause();
+        if (ph === "playing" || ph === "countdown") pause();
         else if (ph === "paused") resume();
       } else if (ph === "levelup") {
         const m = /^(?:Digit|Numpad)([1-3])$/.exec(e.code);
@@ -577,7 +602,7 @@ export default function App() {
     if (joyRef.current?.id === e.pointerId) joyRef.current = null;
   };
 
-  const inRun = phase === "playing" || phase === "paused" || phase === "levelup" || phase === "relic" || phase === "boon";
+  const inRun = phase === "playing" || phase === "countdown" || phase === "paused" || phase === "levelup" || phase === "relic" || phase === "boon";
 
   return (
     <div className="relative h-dvh w-full overflow-hidden bg-night-950">
@@ -593,7 +618,8 @@ export default function App() {
         onContextMenu={(e) => e.preventDefault()}
       />
 
-      {inRun && hud && <Hud s={hud} muted={muted} onPause={pause} onMute={toggleMute} onUlt={castUlt} />}
+      {(phase === "playing" || phase === "countdown") && hud && <Hud s={hud} muted={muted} onPause={pause} onMute={toggleMute} onUlt={castUlt} />}
+      {phase === "countdown" && <ResumeCountdown label={countdownLabel} />}
 
       {banner && phase === "playing" && (
         <div

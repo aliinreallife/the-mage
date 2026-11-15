@@ -130,155 +130,137 @@ body {
 }
 
 /* ------------------------------------------------------------------
-   Card rarity — the same language for level-ups and relics.
-   common: quiet parchment · rare: turquoise trim · legendary: living gold
+   Rarity frames: the same five tiers on magic, artifacts and level boons.
+   Static gradients and borders are cheap on midrange Android hardware.
    ------------------------------------------------------------------ */
 .card {
   position: relative;
   isolation: isolate;
+  overflow: hidden;
   --card-accent: #c9d2e4;
+  --card-strength: 20%;
+  border: 1px solid color-mix(in srgb, var(--card-accent) 46%, #26314c);
+  background:
+    radial-gradient(ellipse at 53% -18%, color-mix(in srgb, var(--card-accent) 17%, transparent), transparent 66%),
+    linear-gradient(145deg, #111c3b 0%, #0b1230 50%, #090e23 100%);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--card-accent) 25%, transparent),
+    inset 0 0 32px -22px var(--card-accent), 0 16px 32px -20px rgb(0 0 0 / 0.8);
+  transform: translateZ(0);
 }
-/* Focus follows rarity too; autofocus is intentionally not used on cards. */
-.choice-card:focus {
-  outline: none;
-}
-.choice-card:focus-visible {
-  outline: 2px solid var(--card-accent);
-  outline-offset: 3px;
-}
-.card-common {
-  --card-accent: #c9d2e4;
-  box-shadow:
-    inset 0 0 0 1px rgb(201 210 228 / 0.16),
-    0 16px 32px -22px rgb(0 0 0 / 0.9);
-}
-.card-rare {
-  --card-accent: #3fd9c8;
-  box-shadow:
-    inset 0 0 0 1px rgb(63 217 200 / 0.55),
-    inset 0 0 24px -12px rgb(63 217 200 / 0.6),
-    0 0 26px -10px rgb(63 217 200 / 0.45),
-    0 16px 32px -22px rgb(0 0 0 / 0.9);
-}
-.card-rare::before {
+.card::before {
   content: "";
   position: absolute;
   inset: 5px;
-  border: 1px solid rgb(63 217 200 / 0.22);
-  clip-path: polygon(
-    0 0, 18px 0, 18px 1px, 1px 1px, 1px 18px, 0 18px,
-    0 100%, 18px 100%, 18px calc(100% - 1px), 1px calc(100% - 1px), 1px calc(100% - 18px), 0 calc(100% - 18px),
-    100% 100%, 100% calc(100% - 18px), calc(100% - 1px) calc(100% - 18px), calc(100% - 1px) calc(100% - 1px), calc(100% - 18px) calc(100% - 1px), calc(100% - 18px) 100%,
-    100% 0, calc(100% - 18px) 0, calc(100% - 18px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) 18px, 100% 18px
-  );
   pointer-events: none;
+  border: 1px solid color-mix(in srgb, var(--card-accent) 23%, transparent);
+  border-radius: 13px;
+  mask-image: linear-gradient(135deg, black 0%, transparent 23%, transparent 78%, black 100%);
 }
-.card-epic {
-  --card-accent: #b48cff;
-  box-shadow:
-    inset 0 0 0 1px rgb(180 140 255 / 0.65),
-    inset 0 0 26px -12px rgb(180 140 255 / 0.65),
-    0 0 28px -10px rgb(180 140 255 / 0.5),
-    0 16px 32px -22px rgb(0 0 0 / 0.9);
-}
-.card-epic .rarity-chip {
-  border-color: rgb(180 140 255 / 0.55);
-  background: rgb(180 140 255 / 0.12);
-  color: #e2d4ff;
-}
-.card-mythic {
-  --card-accent: #ff8a5c;
-  box-shadow:
-    inset 0 0 0 1.5px rgb(255 138 92 / 0.75),
-    inset 0 0 30px -12px rgb(255 138 92 / 0.6),
-    0 0 32px -8px rgb(255 138 92 / 0.45),
-    0 16px 36px -22px rgb(0 0 0 / 0.95);
-  background-image: radial-gradient(110% 80% at 50% 0%, rgb(255 138 92 / 0.12), transparent 60%);
-}
-.card-mythic .rarity-chip {
-  border-color: rgb(255 138 92 / 0.6);
-  background: rgb(255 138 92 / 0.14);
-  color: #ffd2bf;
-}
-.card-legendary {
-  --card-accent: #f2b84b;
-  box-shadow:
-    inset 0 0 0 1.5px rgb(242 184 75 / 0.9),
-    inset 0 0 34px -12px rgb(255 233 176 / 0.55),
-    0 0 34px -6px rgb(242 184 75 / 0.45),
-    0 18px 40px -22px rgb(0 0 0 / 0.95);
-  background-image:
-    radial-gradient(120% 90% at 50% 0%, rgb(242 184 75 / 0.16), transparent 58%),
-    linear-gradient(160deg, rgb(242 184 75 / 0.08), transparent 42%);
-  animation: legendary-breathe 3.4s ease-in-out infinite;
-}
-.card-legendary::after {
+.card::after {
   content: "";
   position: absolute;
-  inset: 0;
-  border-radius: 2px;
-  background: linear-gradient(115deg, transparent 30%, rgb(255 244 214 / 0.12) 46%, rgb(255 244 214 / 0.04) 52%, transparent 66%);
-  background-size: 260% 260%;
-  animation: legendary-sheen 4.6s ease-in-out infinite;
   pointer-events: none;
-  z-index: 0;
+  inset: -15% 0 0;
+  z-index: -1;
+  opacity: 0.18;
+  background: radial-gradient(circle at 15% 35%, var(--card-accent) 0 1px, transparent 2px),
+    radial-gradient(circle at 77% 18%, var(--card-accent) 0 1px, transparent 2px),
+    radial-gradient(circle at 87% 62%, var(--card-accent) 0 1px, transparent 2px);
+  background-size: 120px 120px, 90px 130px, 155px 165px;
 }
-.card-legendary > * {
-  position: relative;
-  z-index: 1;
+.card > * { position: relative; z-index: 1; }
+.card-common { --card-accent: #a8b6d0; }
+.card-rare { --card-accent: #3fd9c8; }
+.card-epic { --card-accent: #b48cff; }
+.card-mythic { --card-accent: #ff9a70; }
+.card-legendary { --card-accent: #f2b84b; }
+.card-rare, .card-epic, .card-mythic, .card-legendary {
+  border-color: color-mix(in srgb, var(--card-accent) 73%, #1b2140);
 }
-.card-legendary .rarity-chip {
-  background: rgb(242 184 75 / 0.18);
-  border-color: rgb(242 184 75 / 0.6);
-  color: #ffe9b0;
+.card-epic {
+  background: radial-gradient(ellipse at 50% -12%, rgb(180 140 255 / .22), transparent 62%),
+    linear-gradient(155deg, #221b42, #0d1432 66%, #0a1029);
+}
+.card-mythic {
+  background: radial-gradient(ellipse at 50% -12%, rgb(255 154 112 / .23), transparent 64%),
+    linear-gradient(155deg, #362034, #11162f 68%, #0a1029);
+}
+.card-legendary {
+  background: radial-gradient(ellipse at 50% -12%, rgb(242 184 75 / .25), transparent 63%),
+    linear-gradient(155deg, #322b29, #111629 68%, #0a1029);
+  box-shadow: inset 0 1px 0 rgb(255 234 183 / .6),
+    inset 0 0 34px -16px rgb(242 184 75 / .65),
+    0 0 26px -15px rgb(242 184 75 / .6), 0 17px 34px -20px rgb(0 0 0 / .9);
+}
+.card .card-artwork {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 4.6rem;
+  height: 4.6rem;
+  border-radius: 1.2rem;
+  background: radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--card-accent) 18%, transparent), transparent 74%);
+  box-shadow: 0 0 35px -22px var(--card-accent);
+}
+.card .card-name { text-shadow: 0 1px 12px rgb(0 0 0 / .35); }
+.card .rarity-chip {
+  border-color: color-mix(in srgb, var(--card-accent) 48%, transparent);
+  background: color-mix(in srgb, var(--card-accent) 11%, transparent);
+  color: var(--card-accent) !important;
 }
 .rarity-chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: .38rem;
   border-radius: 999px;
-  border: 1px solid rgb(201 210 228 / 0.28);
-  padding: 1px 8px;
+  border: 1px solid rgb(201 210 228 / .25);
+  padding: 2px 10px;
   font-size: 11px;
   font-weight: 700;
   line-height: 1.5;
 }
 .rarity-chip::before {
-  content: "";
-  width: 5px;
-  height: 5px;
-  border-radius: 999px;
-  background: currentColor;
+  content: "◆";
+  font-size: 7px;
+  line-height: 1;
+  color: currentColor;
 }
-.card-rare .rarity-chip {
-  border-color: rgb(63 217 200 / 0.5);
-  background: rgb(63 217 200 / 0.1);
-  color: #b8fff2;
+.card .card-choice-hint { color: color-mix(in srgb, var(--card-accent) 68%, #b9c1d7); font-size: 11px; }
+.choice-card { touch-action: manipulation; }
+.choice-card:focus { outline: none; }
+.choice-card:focus-visible { outline: 2px solid var(--card-accent, #f2b84b); outline-offset: 3px; }
+.choice-card:active { filter: brightness(1.13); }
+@media (hover: hover) {
+  .card:hover { border-color: var(--card-accent); box-shadow: 0 12px 36px -17px var(--card-accent), inset 0 0 26px -17px var(--card-accent); }
 }
 
-@keyframes legendary-breathe {
-  0%, 100% {
-    box-shadow:
-      inset 0 0 0 1.5px rgb(242 184 75 / 0.85),
-      inset 0 0 30px -14px rgb(255 233 176 / 0.5),
-      0 0 26px -8px rgb(242 184 75 / 0.38),
-      0 18px 40px -22px rgb(0 0 0 / 0.95);
-  }
-  50% {
-    box-shadow:
-      inset 0 0 0 1.5px rgb(255 233 176 / 1),
-      inset 0 0 40px -10px rgb(255 233 176 / 0.7),
-      0 0 46px -4px rgb(242 184 75 / 0.62),
-      0 18px 40px -22px rgb(0 0 0 / 0.95);
-  }
+/* Premium, compact hero menu and pause surfaces share one material language. */
+.menu-shell { background: radial-gradient(ellipse at 50% 8%, #1d2d57 0%, #101937 34%, #070b1d 76%); }
+.menu-hero-frame {
+  border: 1px solid rgb(242 184 75 / .28);
+  border-radius: 24px;
+  background: radial-gradient(ellipse at 50% 28%, rgb(63 217 200 / .09), transparent 63%),
+    linear-gradient(160deg, rgb(19 30 65 / .94), rgb(7 11 29 / .94));
+  box-shadow: inset 0 1px 0 rgb(255 230 169 / .12), 0 22px 60px -28px rgb(0 0 0 / .85);
 }
-@keyframes legendary-sheen {
-  0%, 100% { background-position: 120% 0; }
-  50% { background-position: -20% 100%; }
+.menu-panel {
+  border: 1px solid rgb(244 236 216 / .1);
+  border-radius: 18px;
+  background: linear-gradient(160deg, rgb(19 29 61 / .84), rgb(7 11 29 / .85));
+  box-shadow: inset 0 1px rgb(244 236 216 / .04);
+}
+.menu-hero-choice { border-radius: 14px; }
+.menu-start {
+  border-radius: 14px;
+  background: linear-gradient(135deg, #ffe0a2, #f2b84b 65%, #e4a22e);
+  box-shadow: 0 12px 34px -15px rgb(242 184 75 / .6), inset 0 1px 0 rgb(255 255 255 / .4);
+}
+.pause-shell { border: 1px solid rgb(242 184 75 / .26); border-radius: 22px; background: linear-gradient(165deg, #142142, #080d22); }
+.resume-countdown-digit { animation: countdown-pulse .26s ease-out both; }
+@keyframes countdown-pulse {
+  from { opacity: .5; transform: scale(.84); }
+  to { opacity: 1; transform: scale(1); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .card-legendary,
-  .card-legendary::after {
-    animation: none !important;
-  }
+  .resume-countdown-digit { animation: none !important; }
 }

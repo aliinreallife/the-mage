@@ -49,6 +49,8 @@ export interface Snapshot {
   xpNeed: number;
   hp: number;
   maxHp: number;
+  /** Real current-mode multipliers computed in Game.recalc(), shown only in Pause. */
+  combatStats: { damage: number; cooldown: number; moveSpeed: number; mana: number };
   spells: { id: SpellId; lvl: number }[];
   passives: { id: PassiveId; lvl: number }[];
   boss: number | null;
@@ -1192,6 +1194,7 @@ export class Game {
       xpNeed: this.xpNeed,
       hp: Math.max(0, Math.ceil(this.player.hp)),
       maxHp: this.player.maxHp,
+      combatStats: { damage: this.dmgMul, cooldown: this.cdMul, moveSpeed: this.speed, mana: this.xpMul },
       spells,
       passives,
       boss: b ? clamp(b.hp / b.maxHp, 0, 1) : null,
