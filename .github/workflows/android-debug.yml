@@ -54,6 +54,19 @@ jobs:
       - name: Install temporary Capacitor tooling
         run: npm install --no-save --no-audit --no-fund @capacitor/core@8 @capacitor/android@8 @capacitor/cli@8
 
+      - name: Use a side-by-side preview ID without stable signing secrets
+        env:
+          MAGE_ANDROID_KEYSTORE_BASE64: ${{ secrets.MAGE_ANDROID_KEYSTORE_BASE64 }}
+          MAGE_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.MAGE_ANDROID_KEYSTORE_PASSWORD }}
+          MAGE_ANDROID_KEY_PASSWORD: ${{ secrets.MAGE_ANDROID_KEY_PASSWORD }}
+        run: |
+          if [[ -z "$MAGE_ANDROID_KEYSTORE_BASE64" || -z "$MAGE_ANDROID_KEYSTORE_PASSWORD" || -z "$MAGE_ANDROID_KEY_PASSWORD" ]]; then
+            node -e 'const fs=require("fs"); const f="capacitor.config.json"; const c=JSON.parse(fs.readFileSync(f,"utf8")); c.appId="ir.themage.preview"; c.appName="آخرین افسونگر آزمایشی"; fs.writeFileSync(f,JSON.stringify(c,null,2));'
+            echo 'No stable signer configured: building ir.themage.preview so the existing ir.themage.debug app and its save data remain untouched.'
+          else
+            echo 'Stable signer configured: building upgradable ir.themage.debug package.'
+          fi
+
       - name: Create Android shell and bundle assets
         run: |
           npx cap add android
