@@ -8,7 +8,7 @@ import { recordTelemetry } from "./game/telemetry";
 import { Codex } from "./components/Codex";
 import { Hud } from "./components/Hud";
 import { ResumeCountdown } from "./components/ResumeCountdown";
-import { RESUME_COUNTDOWN_MS, resumeCountdownFrame } from "./game/resumeCountdown";
+import { RESUME_COUNTDOWN_MS, resumeCountdownFrame, canArmMovement } from "./game/resumeCountdown";
 import { LevelUp } from "./components/LevelUp";
 import { BoonChoice } from "./components/BoonChoice";
 import { RelicChoice } from "./components/RelicChoice";
@@ -465,10 +465,8 @@ export default function App() {
       if (ph === "countdown") {
         const countdown = resumeCountdownFrame(countdownDeadline.current, now);
         if (countdown.done) {
-          keys.current.clear();
-          joyRef.current = null;
-          g.input.x = 0;
-          g.input.y = 0;
+          // Keep whichever direction is being held; the next playing frame
+          // applies it before advancing enemies/projectiles/collisions.
           setPhase("playing");
         } else if (countdown.label !== countdownShown.current) {
           countdownShown.current = countdown.label;
@@ -513,7 +511,7 @@ export default function App() {
       } else if (ph === "menu" || ph === "research") {
         g.idle(Math.min(dt, 0.05));
       }
-      g.render(ctx, w, h, dpr, ph === "playing" ? joyRef.current : null);
+      g.render(ctx, w, h, dpr, canArmMovement(ph) ? joyRef.current : null);
     };
     raf = requestAnimationFrame(frame);
 
@@ -528,8 +526,8 @@ export default function App() {
     const down = (e: KeyboardEvent) => {
       const ph = phaseRef.current;
       // physical key codes, so movement works on a Persian keyboard layout too
-      if (ph === "playing" && (e.code.startsWith("Arrow") || e.code === "Space")) e.preventDefault();
-      if (ph === "playing") keys.current.add(e.code);
+      if (canArmMovement(ph) && (e.code.startsWith("Arrow") || e.code === "Space")) e.preventDefault();
+      if (canArmMovement(ph)) keys.current.add(e.code);
       if (e.repeat) return;
       if (e.code === "Space" && ph === "playing") {
         castUlt();
@@ -575,7 +573,7 @@ export default function App() {
 
   /* touch / mouse joystick */
   const onPointerDown = (e: ReactPointerEvent<HTMLCanvasElement>) => {
-    if (phaseRef.current !== "playing" || joyRef.current) return;
+    if (!canArmMovement(phaseRef.current) || joyRef.current) return;
     try {
       e.currentTarget.setPointerCapture(e.pointerId);
     } catch {
@@ -727,7 +725,7 @@ export default function App() {
           role="dialog"
           aria-modal="true"
           aria-labelledby="codex-title"
-          className="absolute inset-0 flex animate-fade flex-col items-center overflow-y-auto bg-night-950/85 px-4 py-6 backdrop-blur-[2px]"
+          className="app-safe-dialog absolute inset-0 flex animate-fade flex-col items-center overflow-y-auto bg-night-950/85 px-4 py-6 backdrop-blur-[2px]"
         >
           <div className="frame my-auto w-full max-w-3xl animate-rise rounded-sm px-5 py-7 sm:px-8">
             <div className="mb-5 flex items-start justify-between gap-4">
