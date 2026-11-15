@@ -26,7 +26,7 @@ export function BoonChoice({ level, offers, onChoose }: Props) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="boon-title"
-      className="absolute inset-0 flex animate-fade flex-col items-center overflow-y-auto bg-night-950/80 px-4 py-6 backdrop-blur-[2px]"
+      className="app-safe-dialog absolute inset-0 flex animate-fade flex-col items-center overflow-y-auto bg-night-950/80 px-4 py-6 backdrop-blur-[2px]"
     >
       <div className="my-auto w-full max-w-4xl">
         <div className="mb-5 text-center sm:mb-8">
@@ -48,6 +48,8 @@ export function BoonChoice({ level, offers, onChoose }: Props) {
                 style={{ animationDelay: `${i * 70}ms` }}
                 className="choice-card card card-legendary group relative flex animate-rise cursor-pointer items-center gap-4 rounded-[18px] bg-night-900/90 p-4 text-right transition-transform duration-150 hover:-translate-y-1 focus-visible:-translate-y-1 active:translate-y-0 md:min-h-64 md:flex-col md:justify-start md:gap-3 md:px-5 md:pb-6 md:pt-8 md:text-center"
               >
+                <span aria-hidden="true" className="card-rarity-rail" />
+                <span aria-hidden="true" className="card-tier-glyph">✦</span>
                 <span className="card-artwork transition-transform duration-200 group-hover:scale-105">
                   <StarBadge color={b.color} size={74}>
                     <UpgradeIcon id={ICONS[id]} size={32} />
@@ -59,14 +61,15 @@ export function BoonChoice({ level, offers, onChoose }: Props) {
                   <span className="mt-1 text-sm leading-6 text-kaghaz/80">{b.text}</span>
                   <span className="mt-3 text-[11px] text-zar/70 md:mt-auto md:pt-4">تا پایانِ این دست</span>
                 </span>
-                <kbd className="absolute left-3 top-3 hidden h-6 w-6 place-items-center rounded-lg border border-zar/35 bg-night-800/95 font-sans text-xs text-zar md:grid">
+                <span aria-hidden="true" className="card-choice-hint card-select-foot">دریافت نیرو <span>←</span></span>
+                <kbd className="desktop-keyboard-help absolute left-3 top-3 hidden h-6 w-6 place-items-center rounded-lg border border-zar/35 bg-night-800/95 font-sans text-xs text-zar md:grid">
                   {fa(i + 1)}
                 </kbd>
               </button>
             );
           })}
         </div>
-        <p className="mt-4 text-center text-xs text-kaghaz/45">با کلیدهای ۱ تا ۳ هم می‌توانی برگزینی</p>
+        <p className="desktop-keyboard-help mt-4 text-center text-xs text-kaghaz/45">با کلیدهای ۱ تا ۳ هم می‌توانی برگزینی</p>
       </div>
     </div>
   );
