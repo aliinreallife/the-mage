@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { RESUME_COUNTDOWN_MS, resumeCountdownFrame } from "../src/game/resumeCountdown";
+import { RESUME_COUNTDOWN_MS, resumeCountdownFrame, canArmMovement } from "../src/game/resumeCountdown";
 import { renderToString } from "react-dom/server";
 import { ResumeCountdown } from "../src/components/ResumeCountdown";
 
@@ -14,10 +14,17 @@ describe("frozen unpause countdown", () => {
     expect(resumeCountdownFrame(end, 8999).done).toBe(false);
     expect(resumeCountdownFrame(end, 9000)).toEqual({ done: true, label: "" });
   });
-  it("keeps the battlefield unobstructed while pointer input is intercepted", () => {
+  it("arms input only in playing or the frozen countdown, not menus or pause", () => {
+    expect(canArmMovement("countdown")).toBe(true);
+    expect(canArmMovement("playing")).toBe(true);
+    for (const phase of ["paused", "menu", "levelup", "relic", "boon", "over"]) expect(canArmMovement(phase)).toBe(false);
+  });
+  it("lets the player preselect a direction without blocking the frozen battlefield", () => {
     const html = renderToString(<ResumeCountdown label="۳" />);
-    expect(html).toContain("pointer-events-auto");
+    expect(html).toContain("pointer-events-none");
+    expect(html).not.toContain("rounded-full border border-firoozeh");
+    expect(html).toContain("انگشتت را بکش و نگه دار");
     expect(html).toContain("۳");
-    expect(html).toContain("آمادهٔ بازگشت");
+    expect(html).toContain("بازگشت به میدان");
   });
 });

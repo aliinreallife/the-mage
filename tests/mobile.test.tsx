@@ -57,8 +57,12 @@ describe("small portrait screens (structural audit)", () => {
   });
 
   it("the HUD keeps clear of notches and the gesture bar (safe-area insets)", () => {
-    expect(all.hud).toMatch(/safe-area-inset-top/);
-    expect(all.hud).toMatch(/safe-area-inset-bottom/);
+    expect(all.hud).toContain("var(--ui-safe-top)");
+    expect(all.hud).toContain("var(--ui-safe-bottom)");
+    const css = readFileSync("src/index.css", "utf8");
+    expect(css).toMatch(/safe-area-inset-top/);
+    expect(css).toMatch(/safe-area-inset-bottom/);
+    expect(css).toContain(".native-android-shell");
   });
 
   it("the resume button appears when a checkpoint exists", () => {
@@ -142,7 +146,10 @@ describe("Android readiness (static checks)", () => {
 
   it("small-phone layout keeps its safe-area padding", () => {
     const hud = readFileSync("src/components/Hud.tsx", "utf8");
-    expect(hud).toMatch(/safe-area-inset-top/);
-    expect(hud).toMatch(/safe-area-inset-bottom/);
+    const css = readFileSync("src/index.css", "utf8");
+    expect(hud).toContain("--ui-safe-top");
+    expect(hud).toContain("--ui-safe-bottom");
+    expect(css).toMatch(/env\(safe-area-inset-top/);
+    expect(css).toMatch(/env\(safe-area-inset-bottom/);
   });
 });
