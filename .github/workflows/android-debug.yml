@@ -52,7 +52,7 @@ jobs:
           test -f dist/manifest.webmanifest
 
       - name: Install temporary Capacitor tooling
-        run: npm install --no-save --package-lock=false @capacitor/core@8 @capacitor/android@8 @capacitor/cli@8
+        run: npm install --no-save --no-audit --no-fund @capacitor/core@8 @capacitor/android@8 @capacitor/cli@8
 
       - name: Create Android shell and bundle assets
         run: |
