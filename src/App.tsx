@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { DevPanel } from "./components/DevPanel";
+import { canvasPixelRatio, MobileRenderGovernor } from "./game/mobileRuntime";
+import { recordRuntimeError, readRuntimeError } from "./game/diagnostics";
 import { Research } from "./components/Research";
 import { buyResearch, goldForRun } from "./game/progression";
 import { loadSave, safeStorage, settle, writeSave, type SaveData } from "./game/save";
@@ -105,6 +107,7 @@ export default function App() {
   const [dealKey, setDealKey] = useState(0);
   const [banner, setBanner] = useState<{ id: number; text: string; tone: Tone } | null>(null);
   const [muted, setMuted] = useState(sfx.muted);
+  const [lastRuntimeIssue, setLastRuntimeIssue] = useState(readRuntimeError);
   const [best, setBest] = useState(loadBest);
   const [record, setRecord] = useState(false);
   const [discovered, setDiscovered] = useState<ArtifactId[]>(loadFound);
@@ -318,7 +321,7 @@ export default function App() {
     newGame();
     setBanner(null);
     setPhase("menu");
-  }, [newGame, setPhase]);
+  }, [newGame, setPhase, writeCheckpoint]);
 
   const pause = useCallback(() => {
     if (phaseRef.current !== "playing" && phaseRef.current !== "countdown") return;
@@ -433,17 +436,20 @@ export default function App() {
   /* main loop */
   useEffect(() => {
     const canvas = canvasRef.current;
-    const ctx = canvas?.getContext("2d");
+    const ctx = canvas?.getContext("2d", { alpha: false, desynchronized: true });
     if (!canvas || !ctx) return;
     if (!gameRef.current) newGame();
 
     let w = 0;
     let h = 0;
     let dpr = 1;
+    const android = /Android/i.test(navigator.userAgent);
+    const governor = new MobileRenderGovernor(android);
+    let lastPaint = 0;
     const resize = () => {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
       w = window.innerWidth;
       h = window.innerHeight;
+      dpr = canvasPixelRatio(window.devicePixelRatio || 1, w, h, android);
       canvas.width = Math.round(w * dpr);
       canvas.height = Math.round(h * dpr);
       gameRef.current?.setView(w, h);
@@ -462,6 +468,7 @@ export default function App() {
       if (!g) return;
       const ph = phaseRef.current;
 
+      try {
       if (ph === "countdown") {
         const countdown = resumeCountdownFrame(countdownDeadline.current, now);
         if (countdown.done) {
@@ -504,14 +511,28 @@ export default function App() {
         canvas.dataset.px = g.player.x.toFixed(1);
         canvas.dataset.py = g.player.y.toFixed(1);
         hudAcc += dt;
-        if (hudAcc >= 0.1) {
+        if (hudAcc >= (android ? 0.24 : 0.1)) {
           hudAcc = 0;
           setHud(g.snapshot());
         }
       } else if (ph === "menu" || ph === "research") {
         g.idle(Math.min(dt, 0.05));
       }
-      g.render(ctx, w, h, dpr, canArmMovement(ph) ? joyRef.current : null);
+      if (now - lastPaint >= governor.minPaintIntervalMs) {
+        lastPaint = now;
+        const paintStart = performance.now();
+        g.render(ctx, w, h, dpr, canArmMovement(ph) ? joyRef.current : null);
+        governor.observeRenderMs(performance.now() - paintStart);
+        // Reduce cosmetic FX only; the game state, damage and spell math stay intact.
+        if (governor.reduced && !g.reducedFx) g.reducedFx = true;
+      }
+      } catch (error) {
+        recordRuntimeError('game.frame', error);
+        setLastRuntimeIssue(readRuntimeError());
+        // Preserve the run instead of throwing on every frame indefinitely.
+        if (g.canCheckpoint()) writeCheckpoint();
+        setPhase('paused');
+      }
     };
     raf = requestAnimationFrame(frame);
 
@@ -630,6 +651,13 @@ export default function App() {
         </div>
       )}
 
+      {phase === "menu" && lastRuntimeIssue && (
+        <button type="button" className="absolute bottom-2 left-2 z-30 rounded-lg border border-kaghaz/20 bg-night-950/90 px-2 py-1 text-[11px] text-kaghaz/75"
+          onClick={() => { void navigator.clipboard?.writeText(lastRuntimeIssue).catch(() => {}); }}
+          title="گزارش خطای ثبت‌شده در همین گوشی — هیچ اطلاعاتی ارسال نمی‌شود">
+          کپی گزارش خطای قبلی
+        </button>
+      )}
       {phase === "menu" && (
         <Menu
           best={best}

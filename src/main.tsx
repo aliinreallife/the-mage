@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./fonts.css";
 import "./index.css";
 import App from "./App";
+import { installRuntimeErrorListeners } from "./game/diagnostics";
 
 // Capacitor Android serves the bundled app at https://localhost. Reserve a
 // real top inset even on WebView versions that report CSS safe-area as zero.
@@ -10,6 +11,8 @@ import App from "./App";
 if (window.location.protocol === "https:" && window.location.hostname === "localhost") {
   document.documentElement.classList.add("native-android-shell");
 }
+
+installRuntimeErrorListeners();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

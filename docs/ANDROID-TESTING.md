@@ -71,3 +71,59 @@ npm run verify:delivery   # download the archives from a public URL and verify t
   (`cloudflared tunnel --url http://localhost:4173` after `npm run preview`).
 - No physical Android device was available in this environment; nothing below has been
   executed on hardware.
+
+## 2026-11-15: Crash investigation, mobile graphics guard, and stable APK updates
+
+**Crash reports:** A force-close during play is not yet diagnosed. The updated build
+reduces Android Canvas backing pixels, throttles visual rendering if measured frames
+are consistently expensive, and enables locally stored JavaScript error reports. It
+never uploads data. A native WebView renderer being killed by Android may bypass
+JavaScript handlers entirely, so **an Android crash log is still necessary** to
+identify the root cause. To capture the native crash on a Windows PC with Android
+platform-tools installed (with USB debugging enabled):
+
+```powershell
+adb devices
+adb logcat -c
+# launch the game and reproduce the force-close, then:
+adb logcat -d -b crash -v time > mage-crash.txt
+adb logcat -d -v time -s AndroidRuntime:E chromium:E cr_AwContents:E ActivityManager:W > mage-webview.txt
+```
+
+Send both logs after checking them for anything sensitive; they may include device
+metadata. For a caught JavaScript exception, relaunch and use the small
+**«کپی گزارش خطای قبلی»** control on the main menu. A blank log or missing control
+does not rule out an Android native renderer crash.
+
+**Why previous APKs wouldn't upgrade:** Each GitHub debug build used a runner-created
+signing certificate. Android requires **the same package ID and the same certificate
+for every update**, and the first debug cert has not been retained. Merely increasing
+`versionCode` cannot fix that; there is no safe way to recover the private signing
+key from the installed APK. A one-time migration to a *persistently signed* build is
+necessary. **Uninstalling the prior app can erase local game saves**; back up data
+before doing so.
+
+**Stable signing, without committing secrets:** Generate one Java keystore **on your
+own computer**, retain a private backup permanently, and add these three encrypted
+GitHub Actions repository secrets (Settings → Secrets and variables → Actions):
+
+- `MAGE_ANDROID_KEYSTORE_BASE64`: Base64 of the complete keystore binary
+- `MAGE_ANDROID_KEYSTORE_PASSWORD`: keystore password
+- `MAGE_ANDROID_KEY_PASSWORD`: private-key password
+
+Create the keystore with the JDK `keytool -genkeypair -keystore mage-signing.jks
+-alias mage -keyalg RSA -keysize 3072 -validity 10000` (enter passwords locally,
+never send them in a chat or commit them). For PowerShell, the Base64 value can be
+produced with `[Convert]::ToBase64String([IO.File]::ReadAllBytes((Resolve-Path
+'mage-signing.jks')))`. Never post that value publicly.
+
+Once all three secrets exist, the same GitHub Android workflow builds a release APK
+signed with your **stable key**, verifies its signature, and increments its version
+code. After installing the first persistently signed APK, later builds can update it
+in place without removing the app. If secrets are absent, the workflow deliberately
+falls back to temporary debug signing and prints a prominent warning—**those APKs
+still cannot upgrade each other**.
+
+The launcher now uses the same gold/turquoise Mage artwork for the web manifest,
+legacy Android launcher icons, and Android 8+ adaptive foreground resources. Native
+appearance, stability and actual gameplay FPS still require testing on hardware.
