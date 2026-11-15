@@ -33,6 +33,12 @@ An independently verified 41,739-byte ZIP supplies 48 static-derived finite-inpu
 
 The engine's current eager `while (xp >= xpNeed)` leveling and static quadratic formula remain temporary approximations. Replace them only as a coherent, tested choice/checkpoint state machine after scheduling evidence. Native resume also clamps saved stock under its saved cost; do not remove current checkpoint truncation without full flow comparison.
 
+### Leveling lifecycle static reconstruction — November 14, 2026
+
+Received and verified 60,135-byte `magic-survival-0.9941-leveling-lifecycle.zip` (SHA-256 `df08990efe3c715f0f98f60f6c700e5f9231843b12800f7f52ad625bee3cc661`), including 39/39 file hashes, 13 source-derived multi-event sequences and 58 transitions. The independent TypeScript lifecycle adapter matches **58/58 expected states** in explicit-call tests. It covers fresh/resume mode1, stock clamping, primary/additional choice acceptance, delayed queue dequeue, queue priority, ability exit/repayment and full-cap sentinel. **Live game scheduling and automatic mana reentry are not verified.** No default engine/progression/save changes. See [LEVELING-LIFECYCLE-2026-11-14.md](reference/LEVELING-LIFECYCLE-2026-11-14.md).
+
+**Next mechanics gate:** runtime or stronger call-chain evidence about gain/regen after choice completion, complete startup/save states and choice restrictions before migrating the playable engine's eager leveling loop. Combat reset-before-reapplication is recorded as a partial lead; UnitApply_* ordering and the six projectile attack lanes remain unresolved.
+
 ## Workflow for continued ChatGPT development
 
 1. Link to the repo and specify an issue or feature to address.
