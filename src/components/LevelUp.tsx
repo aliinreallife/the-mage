@@ -54,9 +54,9 @@ export function LevelUp({ level, choices, dealKey, onChoose }: Props) {
                 onClick={() => onChoose(c)}
                 style={{ animationDelay: `${i * 70}ms` }}
                 data-rarity={rarity}
-                className={`choice-card card card-${rarity} group relative flex animate-rise cursor-pointer items-center gap-4 rounded-sm bg-night-900/90 p-4 text-right transition-transform duration-150 hover:-translate-y-1 focus-visible:-translate-y-1 active:translate-y-0 md:min-h-72 md:flex-col md:justify-start md:gap-3 md:px-5 md:pb-6 md:pt-8 md:text-center`}
+                className={`choice-card card card-${rarity} group relative flex animate-rise cursor-pointer items-center gap-4 rounded-[18px] bg-night-900/90 p-4 text-right transition-transform duration-150 hover:-translate-y-1 focus-visible:-translate-y-1 active:translate-y-0 md:min-h-72 md:flex-col md:justify-start md:gap-3 md:px-5 md:pb-6 md:pt-8 md:text-center`}
               >
-                <span className="transition-transform duration-200 group-hover:scale-110">
+                <span className="card-artwork transition-transform duration-200 group-hover:scale-105">
                   <StarBadge color={def.color} size={rarity === "legendary" ? 78 : maxed ? 72 : 64}>
                     <UpgradeIcon id={c.id} size={rarity === "legendary" ? 34 : maxed ? 31 : 28} />
                   </StarBadge>
@@ -74,7 +74,7 @@ export function LevelUp({ level, choices, dealKey, onChoose }: Props) {
                           : tagFor(c)}
                     </span>
                   </span>
-                  <span className="font-display text-2xl leading-snug text-kaghaz">{fusion?.name ?? talent?.name ?? def.name}</span>
+                  <span className="card-name font-display text-2xl leading-snug text-kaghaz">{fusion?.name ?? talent?.name ?? def.name}</span>
                   <span className="mt-1 text-sm leading-6 text-kaghaz/75">{fusion?.text ?? talent?.text ?? def.levels[Math.min(c.next, def.levels.length) - 1]}</span>
                   {c.guidance && (
                     <span className="mt-2 inline-flex items-center rounded-sm border border-firoozeh/45 bg-firoozeh/10 px-2 py-0.5 text-[11px] text-firoozeh">
@@ -102,7 +102,8 @@ export function LevelUp({ level, choices, dealKey, onChoose }: Props) {
                     </span>
                   )}
                 </span>
-                <kbd className="absolute left-3 top-3 hidden h-6 w-6 place-items-center rounded border border-kaghaz/20 font-sans text-xs text-kaghaz/60 md:grid">
+                <span aria-hidden="true" className="card-choice-hint hidden md:block">لمس برای انتخاب</span>
+                <kbd className="absolute left-3 top-3 hidden h-6 w-6 place-items-center rounded-lg border border-kaghaz/20 font-sans text-xs text-kaghaz/60 md:grid">
                   {fa(i + 1)}
                 </kbd>
               </button>
