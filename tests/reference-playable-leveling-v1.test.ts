@@ -65,6 +65,26 @@ describe("reference-accurate leveling V1: playable opt-in boundary", () => {
     expect(g.telemetry.levels).toHaveLength(beforeChoices + 1);
   });
 
+  it("routes the real collected-gem path through one source gain per frame", () => {
+    const g = new Game(() => {}, 140);
+    g.enableReferenceLevelingV1(SEED);
+    const raw = g as unknown as {
+      gems: Array<{ x: number; y: number; value: number; seed: number; pull: boolean; sp: number; dead: boolean; glow: number }>;
+      updateGems: (dt: number) => void;
+    };
+    raw.gems = [
+      { x: g.player.x, y: g.player.y, value: 120, seed: 1, pull: true, sp: 0, dead: false, glow: 0 },
+      { x: g.player.x, y: g.player.y, value: 200, seed: 2, pull: true, sp: 0, dead: false, glow: 0 },
+    ];
+    raw.updateGems(1 / 60);
+    expect(g.snapshot()).toMatchObject({ level: 1, xp: 20, xpNeed: 100 });
+    expect(g.pending).toBe(1);
+    // The second orb stays on the field until after the current choice;
+    // we never silently turn two item pickup calls into a single huge gain.
+    expect(raw.gems).toHaveLength(1);
+    expect(raw.gems[0].value).toBe(200);
+  });
+
   it("rejects guessed defaults, duplicate enabling and missing choice events", () => {
     expect(() => new ReferenceLevelingV1Session({ limitRatio: Number.NaN })).toThrow(/limitRatio/);
     expect(() => new ReferenceLevelingV1Session({ limitRatio: -1 })).toThrow(/limitRatio/);
