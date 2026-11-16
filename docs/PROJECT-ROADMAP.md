@@ -1,5 +1,12 @@
 # Project roadmap — The Mage
 
+### Experimental playable source leveling v1 — 2026-11-16
+
+A separate developer-only `ReferenceLevelingV1Session` now connects the stored 129 source progression values and native-derived `ManaGain` / choice-acceptance kernels to **actual Game** gem and card events. This enables one-threshold-per-gain, deferred level increments, explicit surplus handling and mode2 requirement refresh **without changing current production gameplay or v2 saves**. Integration tests exercise the real Game acceptance path, not merely the standalone kernel.
+
+**Still blocked for production:** runtime scheduling after choice, exact source gain computation for gem/enemy/item, source choice pool and special level restrictions, full native save/coroutine state, bonus-level UI and live device parity. Reference mode is opt-in at `?ref-leveling&limitRatio=0.0035` on a development build; the ratio here is a fixture input rather than a native default. See [PLAYABLE-LEVELING-V1.md](reference/PLAYABLE-LEVELING-V1.md). Do not replace normal XP progression until these gaps are evidenced and tested.
+
+
 Updated: November 14, 2026. Based on the imported `the-mage (11).zip` source; historical test/QA reports came from Arena and have not all been independently rerun in the new GitHub environment.
 
 ## Phase 1: playable Persian Android-first web game
