@@ -57,11 +57,12 @@ describe("reference-accurate leveling V1: playable opt-in boundary", () => {
     expect(g.referenceLevelingV1Enabled).toBe(true);
     expect(g.canCheckpoint()).toBe(false);
     expect(g.toCheckpoint()).toBeNull();
-    expect(g.telemetry.levels).toHaveLength(0);
+    // The existing telemetry constructor records the initial [0, 1].
+    const beforeChoices = g.telemetry.levels.length;
     g.devReferenceManaGainV1(100);
-    expect(g.telemetry.levels).toHaveLength(0);
+    expect(g.telemetry.levels).toHaveLength(beforeChoices);
     g.applyChoice({ id: "heal", next: 1 });
-    expect(g.telemetry.levels).toHaveLength(1);
+    expect(g.telemetry.levels).toHaveLength(beforeChoices + 1);
   });
 
   it("rejects guessed defaults, duplicate enabling and missing choice events", () => {
