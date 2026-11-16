@@ -8,6 +8,8 @@ import { PROVING_GROUNDS, type StageDef, type WaveKind, waveGoal } from "./stage
 import { FUSIONS, TALENTS, FUSION_IDS, recipesForTalent, recipePath, MASTERIES, canFuse, canTakeMastery, canTakeTalent, fusionSlots, masteriesFor, talentsFor, type FusionId, type MagicView, type MasteryId, type TalentId } from "./talents";
 import { fa } from "./fa";
 import { CHECKPOINT_VERSION, newRunId, type Checkpoint } from "./checkpoint";
+import { ReferenceLevelingV1Session, type ReferenceLevelingV1Seed } from "./reference/playable-leveling-v1";
+import type { LevelingLifecycleState } from "./reference/lifecycle-state";
 import { newTelemetry, type RunTelemetry } from "./telemetry";
 import { makeRng as reseed } from "./rng";
 import type { SfxName } from "./audio";
@@ -477,6 +479,62 @@ export class Game {
   xpNeed = needFor(1);
   pending = 0;
   over = false;
+
+  /** Opt-in, unverified-scheduling reference adapter; never persisted in a production save. */
+  private referenceLevelingV1: ReferenceLevelingV1Session | null = null;
+
+  get referenceLevelingV1Enabled(): boolean {
+    return this.referenceLevelingV1 !== null;
+  }
+
+  /** Dev-only: explicitly opt into one-source-call-per-gem reference leveling. */
+  enableReferenceLevelingV1(seed: ReferenceLevelingV1Seed): void {
+    if (import.meta.env.MODE === "production") throw new Error("reference leveling unavailable in production");
+    if (this.time !== 0 || this.level !== 1 || this.pending || this.pendingBoon || this.referenceLevelingV1) {
+      throw new Error("enable reference leveling on a fresh game before playing");
+    }
+    this.referenceLevelingV1 = new ReferenceLevelingV1Session(seed);
+    this.syncReferenceLevelingV1();
+  }
+
+  referenceLevelingV1State(): Readonly<LevelingLifecycleState> | null {
+    return this.referenceLevelingV1?.snapshot() ?? null;
+  }
+
+  private syncReferenceLevelingV1() {
+    const state = this.referenceLevelingV1?.snapshot();
+    if (!state) return;
+    this.level = state.level;
+    this.xp = state.stock;
+    this.xpNeed = state.cost;
+  }
+
+  private collectReferenceManaV1(amount: number): boolean {
+    if (!this.referenceLevelingV1) throw new Error("reference session is not active");
+    const result = this.referenceLevelingV1.gain(amount);
+    this.syncReferenceLevelingV1();
+    if (result.queuedChoice) {
+      this.pending++;
+      this.pillar = 1;
+    }
+    return result.queuedChoice;
+  }
+
+  /** Explicit dev event, notably gain(0): never scheduled after acceptance automatically. */
+  devReferenceManaGainV1(amount: number): boolean {
+    if (!this.referenceLevelingV1) throw new Error("reference session is not active");
+    return this.collectReferenceManaV1(amount);
+  }
+
+  private commitReferenceLevelingV1Choice() {
+    if (!this.referenceLevelingV1) return;
+    const result = this.referenceLevelingV1.acceptOrdinaryChoice();
+    this.syncReferenceLevelingV1();
+    if (result.levelChanged) {
+      this.telemetry.levels.push([+this.time.toFixed(1), this.level]);
+      if (isSpecialLevel(this.level) && this.level <= 30) this.pendingBoon++;
+    }
+  }
 
   player = { x: 0, y: 0, hp: 100, maxHp: 100, r: 12, face: 1, dirX: 1, dirY: 0, moving: false, hurt: 0, iframe: 0, walk: 0 };
   input = { x: 0, y: 0 };
@@ -991,6 +1049,7 @@ export class Game {
   canCheckpoint(): boolean {
     return (
       this.mode === "stage" &&
+      !this.referenceLevelingV1 &&
       !this.over &&
       this.waveIdx < 0 &&
       this.pending === 0 &&
@@ -1056,6 +1115,9 @@ export class Game {
    * retain their shared world coordinates; the run's reward history is preserved.
    */
   restoreCheckpoint(cp: Checkpoint) {
+    // The v2 checkpoint has no additional-level, requirement, pending or queue
+    // fields. Silently loading one would fabricate reference state.
+    if (this.referenceLevelingV1) throw new Error("legacy checkpoints cannot restore an experimental reference run");
     this.runId = cp.runId;
     this.time = cp.time;
     this.stageTime = cp.stageTime;
@@ -1164,6 +1226,7 @@ export class Game {
 
   /** Recompute the XP requirement from the active progression table (reference mode). */
   refreshProgression() {
+    if (this.referenceLevelingV1) return; // reference stock/cost are owned by the native-derived session
     this.xpNeed = needFor(this.level);
     this.xp = Math.min(this.xp, Math.max(0, this.xpNeed - 1e-6));
   }
@@ -1470,6 +1533,7 @@ export class Game {
       if (route) this.fusionFocus = route.id;
     }
     this.pending = Math.max(0, this.pending - 1);
+    this.commitReferenceLevelingV1Choice();
     const p = this.player;
     this.rings.push({ x: p.x, y: p.y, r: 10, maxR: 150, life: 0.6, max: 0.6, color: "#b48cff", width: 4 });
     this.burst(p.x, p.y, "#b48cff", 18, 220);
@@ -1487,6 +1551,7 @@ export class Game {
     this.masteries.set(def.spell, id);
     this.recalc();
     this.pending = Math.max(0, this.pending - 1);
+    this.commitReferenceLevelingV1Choice();
     const p = this.player;
     this.rings.push({ x: p.x, y: p.y, r: 10, maxR: 170, life: 0.65, max: 0.65, color: "#ffd98a", width: 4 });
     this.burst(p.x, p.y, "#ffd98a", 20, 230);
@@ -1505,6 +1570,7 @@ export class Game {
     const prim = this.spells.get(f.primary.spell);
     if (prim) prim.timer = 0.3;
     this.pending = Math.max(0, this.pending - 1);
+    this.commitReferenceLevelingV1Choice();
     const p = this.player;
     this.flash = Math.max(this.flash, 0.8);
     this.slowmo = Math.max(this.slowmo, 0.7);
@@ -1550,6 +1616,7 @@ export class Game {
       if (pid === "shield" && this.passives.get("shield") === 1) this.shieldReady = true;
     }
     this.pending = Math.max(0, this.pending - 1);
+    this.commitReferenceLevelingV1Choice();
   }
 
   idle(dt: number) {
@@ -3189,6 +3256,10 @@ export class Game {
         const d = Math.sqrt(d2) || 1;
         const step = g.sp * dt;
         if (d <= step + 14) {
+          // Reference V1 maps each collected orb to ONE explicit native gain
+          // event. Defer further orbs to later frames rather than batch them
+          // into an invented multi-threshold gain before a choice screen.
+          if (this.referenceLevelingV1 && got > 0) continue;
           g.dead = true;
           dead = true;
           got += g.value;
@@ -3201,18 +3272,29 @@ export class Game {
     }
     if (dead) this.gems = this.gems.filter((g) => !g.dead);
     if (got > 0) {
-      this.xp += got * this.xpMul * (this.phase === 2 ? 1.35 : 1);
+      const gain = got * this.xpMul * (this.phase === 2 ? 1.35 : 1);
       this.sfx("gem");
-      while (this.xp >= this.xpNeed) {
-        this.xp -= this.xpNeed;
-        this.level++;
-        this.telemetry.levels.push([+this.time.toFixed(1), this.level]);
-        this.xpNeed = needFor(this.level);
-        this.pending++;
-        if (isSpecialLevel(this.level) && this.level <= 30) this.pendingBoon++;
-        this.pillar = 1;
-        this.rings.push({ x: p.x, y: p.y, r: 10, maxR: 160, life: 0.7, max: 0.7, color: "#3fd9c8", width: 4 });
-        this.burst(p.x, p.y, "#3fd9c8", 16, 200);
+      if (this.referenceLevelingV1) {
+        // The existing game's gem value and multipliers are still placeholders
+        // for source-specific ManaGain input; ONLY the threshold/choice path
+        // is source-derived. No automatic post-choice ManaGain(0) occurs.
+        if (this.collectReferenceManaV1(gain)) {
+          this.rings.push({ x: p.x, y: p.y, r: 10, maxR: 160, life: 0.7, max: 0.7, color: "#3fd9c8", width: 4 });
+          this.burst(p.x, p.y, "#3fd9c8", 16, 200);
+        }
+      } else {
+        this.xp += gain;
+        while (this.xp >= this.xpNeed) {
+          this.xp -= this.xpNeed;
+          this.level++;
+          this.telemetry.levels.push([+this.time.toFixed(1), this.level]);
+          this.xpNeed = needFor(this.level);
+          this.pending++;
+          if (isSpecialLevel(this.level) && this.level <= 30) this.pendingBoon++;
+          this.pillar = 1;
+          this.rings.push({ x: p.x, y: p.y, r: 10, maxR: 160, life: 0.7, max: 0.7, color: "#3fd9c8", width: 4 });
+          this.burst(p.x, p.y, "#3fd9c8", 16, 200);
+        }
       }
     }
 
