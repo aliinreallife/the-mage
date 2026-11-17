@@ -11,6 +11,10 @@ const __dirname = path.dirname(__filename);
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss(), viteSingleFile()],
+  build: {
+    // Keep the reference menu WEBP artwork embedded in offline APK/standalone HTML.
+    assetsInlineLimit: 16 * 1024,
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
