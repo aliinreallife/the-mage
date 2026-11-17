@@ -58,3 +58,9 @@ Source ability tables distinguish 21 ordinary **magic** rows (active spells), 10
 The existing The Mage level-up cards now display **افسون فعال / افسون غیرفعال / ویژگی افسون / ترکیب افسون**, and a clearly local **بازیابی** fallback for heal. This is a role-based UI categorization, not a verified source-ID or offer-probability mapping. Original special-passive choices are not yet implemented; do not relabel The Mage's custom fixed-level boons as source special passives. Artifact rarity styling and metadata remain independent.
 
 When reference mode accepts level 5/10/etc., it no longer synthesizes The Mage's fixed-level boons. Source random/special queue insertion and actual choice-offer weighting have not been verified end-to-end, so that functionality remains blocked in source mode. Regular gameplay's boons are unchanged.
+
+## Source-only offer restriction milestone (2026-11-17)
+
+See [SOURCE-CHOICE-GUARDS.md](SOURCE-CHOICE-GUARDS.md) for exact source locations, original source IDs, tests and limitations. The experimental `Game.devReferenceOfferGuardsV1(input)` now composes verified static branch fragments for early-passive exclusions (31..39 at L≤3), additional IDs (9031..9039 from nine additional-magic level slots), count bounding, combination-control suppression flags, and the level-99 ultimate alternative. Inputs **must** be supplied as source IDs and native flags; no inferred identity translation, hidden default, source RNG, or playable offering is added.
+
+Run `npx vitest run tests/reference-source-offer-guards.test.ts tests/reference-playable-leveling-v1.test.ts`. Native option draw probabilities, ordinary pool construction, runtime timing, mappings to The Mage upgrades, special/random selection, and eligibility remain blocked by missing evidence.
