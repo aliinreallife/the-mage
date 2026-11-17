@@ -878,3 +878,6 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .cinematic-menu * { transition: none !important; animation: none !important; }
 }
+
+/* Keep the settings screen fully inert and out of tab order until opened. */
+.cinematic-menu-settings-overlay[hidden] { display: none; }
