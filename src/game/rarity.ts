@@ -1,6 +1,4 @@
-import { UPGRADES, type UpgradeId } from "./data";
-
-/** Same five tiers as artifacts: معمولی، نادر، نفیس، ممتاز، افسانه‌ای */
+/** Artifact chest tiers only; normal level-up abilities have types, not rarity. */
 export type CardRarity = "common" | "rare" | "epic" | "mythic" | "legendary";
 
 export const CARD_RARITY: Record<CardRarity, { name: string; color: string; rank: number }> = {
@@ -10,17 +8,3 @@ export const CARD_RARITY: Record<CardRarity, { name: string; color: string; rank
   mythic: { name: "ممتاز", color: "#ff8a5c", rank: 3 },
   legendary: { name: "افسانه‌ای", color: "#f2b84b", rank: 4 },
 };
-
-/**
- * How special a level-up card is.
- * Talents are نفیس, fusions are افسانه‌ای (assigned by the caller),
- * a spell's final rank is ممتاز, new spells and odd ranks are نادر.
- */
-export function upgradeRarity(id: UpgradeId, next: number): CardRarity {
-  const def = UPGRADES[id];
-  if (def.kind === "boon") return "common";
-  if (def.kind === "passive") return next >= def.max ? "epic" : next >= 4 ? "rare" : "common";
-  if (next >= def.max) return "mythic";
-  if (next === 1 || next === 3 || next === 5) return "rare";
-  return "common";
-}
