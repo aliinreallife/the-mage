@@ -1080,6 +1080,9 @@ body {
 .cinematic-menu-hero-options {
   max-width: 390px;
   gap: clamp(9px, 2.6vw, 16px);
+  /* Portrait slots follow the chosen concept: Farzan left, Tishtar right.
+     Each button keeps its own Persian accessible label. */
+  direction: ltr;
 }
 .cinematic-menu-hero-choice {
   flex-basis: 80px;
