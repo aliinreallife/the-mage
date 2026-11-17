@@ -46,17 +46,17 @@ export function BoonChoice({ level, offers, onChoose }: Props) {
                 type="button"
                 onClick={() => onChoose(id)}
                 style={{ animationDelay: `${i * 70}ms` }}
-                className="choice-card card card-legendary group relative flex animate-rise cursor-pointer items-center gap-4 rounded-[18px] bg-night-900/90 p-4 text-right transition-transform duration-150 hover:-translate-y-1 focus-visible:-translate-y-1 active:translate-y-0 md:min-h-64 md:flex-col md:justify-start md:gap-3 md:px-5 md:pb-6 md:pt-8 md:text-center"
+                data-choice-type="boon"
+                className="choice-card card level-boon-card group relative flex animate-rise cursor-pointer items-center gap-4 rounded-[18px] bg-night-900/90 p-4 text-right transition-transform duration-150 hover:-translate-y-1 focus-visible:-translate-y-1 active:translate-y-0 md:min-h-64 md:flex-col md:justify-start md:gap-3 md:px-5 md:pb-6 md:pt-8 md:text-center"
               >
-                <span aria-hidden="true" className="card-rarity-rail" />
-                <span aria-hidden="true" className="card-tier-glyph">✦</span>
+                <span aria-hidden="true" className="card-type-rail" />
                 <span className="card-artwork transition-transform duration-200 group-hover:scale-105">
                   <StarBadge color={b.color} size={74}>
                     <UpgradeIcon id={ICONS[id]} size={32} />
                   </StarBadge>
                 </span>
                 <span className="flex min-w-0 flex-1 flex-col md:items-center">
-                  <span className="rarity-chip">جایزهٔ سطح</span>
+                  <span className="type-chip">پاداش ویژه</span>
                   <span className="card-name mt-1 font-display text-2xl leading-snug text-kaghaz">{b.name}</span>
                   <span className="mt-1 text-sm leading-6 text-kaghaz/80">{b.text}</span>
                   <span className="mt-3 text-[11px] text-zar/70 md:mt-auto md:pt-4">تا پایانِ این دست</span>
