@@ -540,7 +540,8 @@ export class Game {
     this.syncReferenceLevelingV1();
     if (result.levelChanged) {
       this.telemetry.levels.push([+this.time.toFixed(1), this.level]);
-      if (isSpecialLevel(this.level) && this.level <= 30) this.pendingBoon++;
+      // Fixed-level boons are local The Mage rules, not the source random/special queue.
+      // Do not synthesize them when a reference choice is accepted.
     }
   }
 
