@@ -11,6 +11,7 @@ import { CHECKPOINT_VERSION, newRunId, type Checkpoint } from "./checkpoint";
 import { ReferenceLevelingV1Session, type ReferenceLevelingV1Seed } from "./reference/playable-leveling-v1";
 import type { LevelingLifecycleState } from "./reference/lifecycle-state";
 import { evaluateSourceGain, type SourceGainInput } from "./reference/leveling-kernel";
+import { inspectSourceOfferGuards, type SourceOfferGuardProbeInput, type SourceOfferGuardProbeResult } from "./reference/source-offer-guards";
 import { newTelemetry, type RunTelemetry } from "./telemetry";
 import { makeRng as reseed } from "./rng";
 import type { SfxName } from "./audio";
@@ -532,6 +533,16 @@ export class Game {
     if (!this.referenceLevelingV1) throw new Error("reference session is not active");
     // The live game has NOT mapped its pickups/enemies to these source parameters.
     return this.collectReferenceManaV1(evaluateSourceGain(input).gain);
+  }
+
+  /**
+   * Dev-only inspection of recovered native choice restrictions against
+   * explicitly supplied SOURCE candidate IDs and flags. Does not deal cards,
+   * alter RNG/queues, or map IDs onto The Mage's own upgrade list.
+   */
+  devReferenceOfferGuardsV1(input: SourceOfferGuardProbeInput): SourceOfferGuardProbeResult {
+    if (!this.referenceLevelingV1) throw new Error("reference session is not active");
+    return inspectSourceOfferGuards(this.referenceLevelingV1.snapshot().level, input);
   }
 
   private commitReferenceLevelingV1Choice() {
