@@ -881,3 +881,45 @@ body {
 
 /* Keep the settings screen fully inert and out of tab order until opened. */
 .cinematic-menu-settings-overlay[hidden] { display: none; }
+
+
+/* HD per-hero art replaces the 280×158 fixed backdrop (which pixelated on
+   high-density Android screens). Each 900×432 scene is locally bundled. */
+.cinematic-menu-art img.cinematic-menu-hero-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 36%;
+  image-rendering: auto;
+  filter: saturate(1.06) contrast(1.035);
+  animation: cinematic-hero-enter 280ms ease-out both;
+}
+@keyframes cinematic-hero-enter {
+  from { opacity: .62; transform: scale(1.018); }
+  to { opacity: 1; transform: scale(1); }
+}
+.cinematic-menu-hero-choice img.cinematic-menu-hero-face {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 38%;
+  background: none;
+  filter: saturate(1.04) contrast(1.025);
+}
+.cinematic-menu-hero-choice.is-active img.cinematic-menu-hero-face {
+  filter: saturate(1.12) contrast(1.04);
+}
+/* Keep the arcane title halo behind the title instead of outlining the
+   character's face on narrow phones. */
+.cinematic-menu-top::before {
+  top: 12px;
+  width: min(152px, 33vw);
+  opacity: .48;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-menu-art img.cinematic-menu-hero-image {
+    animation: none;
+  }
+}
