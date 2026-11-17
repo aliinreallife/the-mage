@@ -50,29 +50,39 @@ describe("cinematic Persian game menu", () => {
       const art = HERO_MENU_ART[item.id];
       expect(art?.scene).toBeTruthy();
       expect(art?.portrait).toBeTruthy();
+      expect(art?.ground).toBeTruthy();
       expect(art.scene).not.toBe(art.portrait);
+      expect(art.scene).not.toBe(art.ground);
       sceneSources.add(art.scene);
       portraitSources.add(art.portrait);
       const html = renderToStaticMarkup(<Menu {...props} hero={item.id} />);
       expect(html).toContain(`<strong>${item.name}</strong>`);
       expect(html).toContain(`src="${art.scene}"`);
       expect(html).toContain(`src="${art.portrait}"`);
+      expect(html).toContain(`src="${art.ground}"`);
+      expect(html).toContain(`data-hero="${item.id}"`);
       expect(html).toContain(`aria-label="${item.name}، ${item.title}"`);
+      expect(html).toContain("cinematic-menu-scenery");
       expect(html).toContain("cinematic-menu-hero-image");
     }
     expect(sceneSources.size).toBe(HEROES.length);
     expect(portraitSources.size).toBe(HEROES.length);
   });
 
-  it("ships higher-resolution offline AVIF illustrations rather than enlarged miniature sprites", () => {
+  it("ships independently optimized WebP hero artwork for every theme", () => {
+    const unique = new Set<string>();
     for (const item of HEROES) {
-      for (const kind of ["scene", "portrait"] as const) {
-        const filename = `src/assets/menu/${item.id}-${kind}.avif`;
-        const bytes = readFileSync(filename);
-        expect(bytes.subarray(4, 12).toString("ascii"), filename).toBe("ftypavif");
-        expect(bytes.length, filename).toBeGreaterThan(kind === "scene" ? 35_000 : 10_000);
+      for (const kind of ["scene", "portrait", "ground"] as const) {
+        const file = `src/assets/cinematic/${item.id}-${kind}.webp`;
+        const bytes = readFileSync(file);
+        expect(bytes.subarray(0, 4).toString("ascii"), file).toBe("RIFF");
+        expect(bytes.subarray(8, 12).toString("ascii"), file).toBe("WEBP");
+        expect(bytes.length, file).toBeGreaterThan(kind === "scene" ? 80_000 : 18_000);
+        expect(bytes.length, file).toBeLessThan(128 * 1024); // offline HTML assetsInlineLimit
+        unique.add(file);
       }
     }
+    expect(unique.size).toBe(HEROES.length * 3);
   });
 
   it("shows Continue and a separate New Game action only for a valid checkpoint", () => {
@@ -92,6 +102,11 @@ describe("cinematic Persian game menu", () => {
     const component = require("node:fs").readFileSync("src/components/CinematicMenu.tsx", "utf8");
     expect(css).toContain(".cinematic-menu-gold");
     expect(css).toContain(".cinematic-menu-settings-overlay");
+    for (const name of ["farzan", "azar", "bahman", "tishtar"]) {
+      expect(css).toContain(`.cinematic-menu-shell[data-hero="${name}"]`.replace("farzan", name));
+    }
+    expect(css).toContain(".cinematic-menu-bottom-link + .cinematic-menu-bottom-link::before");
+    expect(css).toContain(".cinematic-menu-scenery");
     expect(css).toContain("var(--ui-safe-top)");
     expect(css).toContain("prefers-reduced-motion: reduce");
     expect(component).toContain("HERO_MENU_ART[hero]");
