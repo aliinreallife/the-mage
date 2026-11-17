@@ -10,6 +10,7 @@ import { fa } from "./fa";
 import { CHECKPOINT_VERSION, newRunId, type Checkpoint } from "./checkpoint";
 import { ReferenceLevelingV1Session, type ReferenceLevelingV1Seed } from "./reference/playable-leveling-v1";
 import type { LevelingLifecycleState } from "./reference/lifecycle-state";
+import { evaluateSourceGain, type SourceGainInput } from "./reference/leveling-kernel";
 import { newTelemetry, type RunTelemetry } from "./telemetry";
 import { makeRng as reseed } from "./rng";
 import type { SfxName } from "./audio";
@@ -524,6 +525,13 @@ export class Game {
   devReferenceManaGainV1(amount: number): boolean {
     if (!this.referenceLevelingV1) throw new Error("reference session is not active");
     return this.collectReferenceManaV1(amount);
+  }
+
+  /** Dev-only: pass explicit, source-derived item/enemy parameters to the audited gain kernel. */
+  devReferenceSourceGainV1(input: SourceGainInput): boolean {
+    if (!this.referenceLevelingV1) throw new Error("reference session is not active");
+    // The live game has NOT mapped its pickups/enemies to these source parameters.
+    return this.collectReferenceManaV1(evaluateSourceGain(input).gain);
   }
 
   private commitReferenceLevelingV1Choice() {
@@ -1517,6 +1525,9 @@ export class Game {
 
   /** Apply any level-up card: an upgrade, a talent or a fusion. */
   applyChoice(c: Choice): boolean {
+    // Do not mutate spells/HP after a reference card is no longer pending.
+    // In particular, a second click must never become a second accepted level.
+    if (this.referenceLevelingV1 && (this.pending <= 0 || this.referenceLevelingV1.snapshot().pending === null)) return false;
     if (c.fusion) return this.fuse(c.fusion);
     if (c.talent) return this.takeTalent(c.talent);
     if (c.mastery) return this.takeMastery(c.mastery);
