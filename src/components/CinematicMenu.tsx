@@ -1,6 +1,5 @@
 import { useEffect, useState, type CSSProperties } from "react";
-import heroArt from "../assets/menu-hero-reference.webp";
-import heroPortraits from "../assets/menu-heroes-reference.webp";
+import { HERO_MENU_ART } from "./menu-art";
 import type { Difficulty } from "../game/engine";
 import type { GameMode } from "../game/save";
 import { fa, faTime } from "../game/fa";
@@ -50,8 +49,20 @@ export function Menu({
 }: CinematicMenuProps) {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const selectedHero = BY_HERO[hero];
+  const selectedArt = HERO_MENU_ART[hero];
   const canResume = Boolean(resumable && onResumeRun);
   const formattedGold = new Intl.NumberFormat("fa-IR").format(gold);
+
+  // Warm the other three illustrations once so switching characters is instant.
+  // All images ship in the local offline web bundle, never fetched at runtime.
+  useEffect(() => {
+    const warmed = HEROES.map((item) => {
+      const image = new Image();
+      image.src = HERO_MENU_ART[item.id].scene;
+      return image;
+    });
+    return () => warmed.forEach((image) => { image.onload = null; image.onerror = null; });
+  }, []);
 
   useEffect(() => {
     if (!settingsOpen) return;
@@ -79,7 +90,16 @@ export function Menu({
           <h1 className="cinematic-menu-title">آخرین افسونگر</h1>
 
           <div className="cinematic-menu-art" aria-hidden="true">
-            <img src={heroArt} alt="" draggable={false} />
+            <img
+              key={hero}
+              className="cinematic-menu-hero-image"
+              src={selectedArt.scene}
+              alt=""
+              draggable={false}
+              decoding="async"
+              loading="eager"
+              fetchPriority="high"
+            />
           </div>
           <div className="cinematic-menu-selected-name">
             <span aria-hidden="true">✦</span>
@@ -91,7 +111,7 @@ export function Menu({
         <section className="cinematic-menu-heroes" aria-labelledby="cinematic-heroes-label">
           <h2 id="cinematic-heroes-label" className="cinematic-menu-section-title">انتخاب قهرمان</h2>
           <div className="cinematic-menu-hero-options" role="radiogroup" aria-label="انتخاب قهرمان">
-            {HEROES.map((item, index) => {
+            {HEROES.map((item) => {
               const active = hero === item.id;
               return (
                 <button
@@ -104,13 +124,14 @@ export function Menu({
                   title={`${item.name} — ${item.passive}`}
                   onClick={() => onHero(item.id)}
                 >
-                  <span
+<img
                     className="cinematic-menu-hero-face"
+                    src={HERO_MENU_ART[item.id].portrait}
+                    alt=""
                     aria-hidden="true"
-                    style={{
-                      backgroundImage: `url("${heroPortraits}")`,
-                      backgroundPosition: `${(index / (HEROES.length - 1)) * 100}% center`,
-                    }}
+                    decoding="async"
+                    loading="eager"
+                    draggable={false}
                   />
                   <span className="sr-only">{item.name}</span>
                 </button>

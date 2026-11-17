@@ -2,6 +2,8 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import { Menu } from "../src/components/Screens";
+import { HERO_MENU_ART } from "../src/components/menu-art";
+import { HEROES } from "../src/game/heroes";
 const noop = () => {};
 
 const props = {
@@ -41,6 +43,38 @@ describe("cinematic Persian game menu", () => {
     expect(html).not.toContain("شروع دست تازه");
   });
 
+  it("changes the upper scene AND matching portrait for every playable hero", () => {
+    const sceneSources = new Set<string>();
+    const portraitSources = new Set<string>();
+    for (const item of HEROES) {
+      const art = HERO_MENU_ART[item.id];
+      expect(art?.scene).toBeTruthy();
+      expect(art?.portrait).toBeTruthy();
+      expect(art.scene).not.toBe(art.portrait);
+      sceneSources.add(art.scene);
+      portraitSources.add(art.portrait);
+      const html = renderToStaticMarkup(<Menu {...props} hero={item.id} />);
+      expect(html).toContain(`<strong>${item.name}</strong>`);
+      expect(html).toContain(`src="${art.scene}"`);
+      expect(html).toContain(`src="${art.portrait}"`);
+      expect(html).toContain(`aria-label="${item.name}، ${item.title}"`);
+      expect(html).toContain("cinematic-menu-hero-image");
+    }
+    expect(sceneSources.size).toBe(HEROES.length);
+    expect(portraitSources.size).toBe(HEROES.length);
+  });
+
+  it("ships higher-resolution offline AVIF illustrations rather than enlarged miniature sprites", () => {
+    for (const item of HEROES) {
+      for (const kind of ["scene", "portrait"] as const) {
+        const filename = `src/assets/menu/${item.id}-${kind}.avif`;
+        const bytes = readFileSync(filename);
+        expect(bytes.subarray(4, 12).toString("ascii"), filename).toBe("ftypavif");
+        expect(bytes.length, filename).toBeGreaterThan(kind === "scene" ? 35_000 : 10_000);
+      }
+    }
+  });
+
   it("shows Continue and a separate New Game action only for a valid checkpoint", () => {
     const cp = { level: 12, wavesCleared: 2, clock: 143 };
     const resumed = renderToStaticMarkup(<Menu {...props} resumable={cp} />);
@@ -60,8 +94,10 @@ describe("cinematic Persian game menu", () => {
     expect(css).toContain(".cinematic-menu-settings-overlay");
     expect(css).toContain("var(--ui-safe-top)");
     expect(css).toContain("prefers-reduced-motion: reduce");
-    expect(component).toContain("menu-hero-reference.webp");
-    expect(component).toContain("menu-heroes-reference.webp");
+    expect(component).toContain("HERO_MENU_ART[hero]");
+    expect(component).toContain("HERO_MENU_ART[item.id].portrait");
+    expect(component).not.toContain("menu-hero-reference.webp");
+    expect(component).not.toContain("menu-heroes-reference.webp");
     expect(component).toContain("role=\"dialog\"");
     expect(component).toContain("onDifficulty(item.id)");
     expect(component).toContain("onReducedFx(!reducedFx)");
