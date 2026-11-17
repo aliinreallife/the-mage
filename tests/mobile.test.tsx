@@ -51,9 +51,14 @@ describe("small portrait screens (structural audit)", () => {
   });
 
   it("full-screen dialogs scroll instead of clipping on short screens", () => {
-    for (const name of ["menu", "levelup", "research", "over"] as const) {
+    for (const name of ["levelup", "research", "over"] as const) {
       expect(classes(all[name]).includes("overflow-y-auto"), name).toBe(true);
     }
+    // The cinematic menu uses a dedicated CSS scroll container, rather than
+    // Tailwind's former overflow utility class.
+    const css = readFileSync("src/index.css", "utf8");
+    expect(all.menu).toContain("cinematic-menu-shell");
+    expect(css).toMatch(/\.cinematic-menu-shell\s*\{[^}]*overflow-y:\s*auto/s);
   });
 
   it("the HUD keeps clear of notches and the gesture bar (safe-area insets)", () => {
@@ -66,7 +71,8 @@ describe("small portrait screens (structural audit)", () => {
   });
 
   it("the resume button appears when a checkpoint exists", () => {
-    expect(all.menu).toContain("ادامهٔ دستِ نیمه‌تمام");
+    expect(all.menu).toContain("ادامه بازی");
+    expect(all.menu).toContain("شروع دست تازه");
   });
 
   it("the page is set up for full-screen portrait touch play", () => {
@@ -85,7 +91,10 @@ describe("small portrait screens (structural audit)", () => {
 
   it("the main touch buttons are at least 44 px tall", () => {
     const tall = new Set(["min-h-11", "min-h-12", "min-h-13", "h-11", "h-12", "h-13", "h-16"]);
-    expect(classes(all.menu).some((c) => tall.has(c))).toBe(true);
+    const css = readFileSync("src/index.css", "utf8");
+    expect(css).toMatch(/\.cinematic-menu-play\s*\{[^}]*min-height:\s*clamp\(72px/s);
+    expect(css).toMatch(/\.cinematic-menu-bottom-link\s*\{[^}]*min-height:\s*79px/s);
+    expect(css).toMatch(/\.cinematic-menu-mode\s*\{[^}]*min-height:\s*clamp\(48px/s);
     expect(classes(all.hud).some((c) => tall.has(c))).toBe(true);
   });
 });
