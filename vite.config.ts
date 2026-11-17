@@ -12,8 +12,9 @@ const __dirname = path.dirname(__filename);
 export default defineConfig({
   plugins: [react(), tailwindcss(), viteSingleFile()],
   build: {
-    // Keep the reference menu WEBP artwork embedded in offline APK/standalone HTML.
-    assetsInlineLimit: 16 * 1024,
+    // Embed four sharp HD hero scenes and portraits into the offline single-file build.
+    // This avoids a first-launch network dependency in the Capacitor WebView/PWA.
+    assetsInlineLimit: 96 * 1024,
   },
   resolve: {
     alias: {
