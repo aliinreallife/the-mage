@@ -33,8 +33,10 @@ describe("minimal game UI and detailed pause", () => {
   });
   it("menu keeps modes, hero selection, start and core progression reachable", () => {
     const html = renderToString(<Menu best={0} discovered={0} total={10} difficulty="adaptive" hero="farzan" onHero={noop} onDifficulty={noop} onStart={noop} onCodex={noop} mode="stage" onMode={noop} gold={0} bestStage={0} reducedFx={false} onReducedFx={noop} onResearch={noop} />);
-    for (const word of ["آغاز بازی", "فرزان", "بی‌پایان", "پژوهش", "سختی بازی", "گنجینه"]) expect(html).toContain(word);
-    expect(html).toContain("menu-hero-frame");
+    for (const word of ["آخرین افسونگر", "آغاز بازی", "فرزان", "بی‌پایان", "میدان آزمایش", "انتخاب قهرمان", "پژوهش", "گنجینه", "تنظیمات"]) expect(html).toContain(word);
+    expect(html).toContain("cinematic-menu-hero-options");
+    expect(html).toContain('role="radiogroup"');
+    expect(html).toContain("cinematic-menu-play");
   });
   it("rarity frame styles are distinct and shared by magic and relic choices", () => {
     const css = readFileSync("src/index.css", "utf8");
@@ -53,8 +55,10 @@ describe("touch-specific help", () => {
     expect(css).toContain(".desktop-keyboard-help { display: none !important; }");
     expect(css).toContain(".touch-game-help { display: flex !important; }");
     const menu = renderToString(<Menu best={0} discovered={0} total={10} difficulty="adaptive" hero="farzan" onHero={noop} onDifficulty={noop} onStart={noop} onCodex={noop} mode="stage" onMode={noop} gold={0} bestStage={0} reducedFx={false} onReducedFx={noop} onResearch={noop} />);
-    expect(menu).toContain("touch-game-help");
-    expect(menu).toContain("desktop-keyboard-help");
+    // The new menu is visual-first, and keeps controls for gameplay help in
+    // the settings drawer instead of duplicating desktop keyboard hints.
+    expect(menu).toContain("cinematic-menu-shell");
+    expect(menu).not.toContain("desktop-keyboard-help");
     const upgrade = renderToString(<LevelUp level={2} dealKey={2} choices={[{ id: "bolt", next: 1 }]} onChoose={noop} />);
     expect(upgrade).toContain("desktop-keyboard-help");
   });
