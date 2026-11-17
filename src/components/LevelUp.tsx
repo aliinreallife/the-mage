@@ -1,5 +1,5 @@
 import { UPGRADES } from "../game/data";
-import { CARD_RARITY, upgradeRarity } from "../game/rarity";
+import { CHOICE_TYPE_LABEL, choiceTypeFor } from "../game/choice-types";
 import { FUSIONS, MASTERIES, TALENTS, recipesForTalent } from "../game/talents";
 import type { Choice } from "../game/engine";
 import { fa } from "../game/fa";
@@ -45,27 +45,25 @@ export function LevelUp({ level, choices, dealKey, onChoose }: Props) {
             const fusion = c.fusion ? FUSIONS[c.fusion] : null;
             const special = Boolean(talent || fusion);
             const maxed = !special && c.next >= def.max;
-            const rarity = fusion ? "legendary" : talent ? "epic" : upgradeRarity(c.id, c.next);
-            const rar = CARD_RARITY[rarity];
+            const choiceType = choiceTypeFor(c);
             return (
               <button
                 key={`${c.id}-${c.talent ?? ""}-${c.mastery ?? ""}-${c.fusion ?? ""}`}
                 type="button"
                 onClick={() => onChoose(c)}
                 style={{ animationDelay: `${i * 70}ms` }}
-                data-rarity={rarity}
-                className={`choice-card card card-${rarity} group relative flex animate-rise cursor-pointer items-center gap-4 rounded-[18px] bg-night-900/90 p-4 text-right transition-transform duration-150 hover:-translate-y-1 focus-visible:-translate-y-1 active:translate-y-0 md:min-h-72 md:flex-col md:justify-start md:gap-3 md:px-5 md:pb-6 md:pt-8 md:text-center`}
+                data-choice-type={choiceType}
+                className={`choice-card card levelup-card card-type-${choiceType} group relative flex animate-rise cursor-pointer items-center gap-4 rounded-[18px] bg-night-900/90 p-4 text-right transition-transform duration-150 hover:-translate-y-1 focus-visible:-translate-y-1 active:translate-y-0 md:min-h-72 md:flex-col md:justify-start md:gap-3 md:px-5 md:pb-6 md:pt-8 md:text-center`}
               >
-                <span aria-hidden="true" className="card-rarity-rail" />
-                <span aria-hidden="true" className="card-tier-glyph">✦</span>
+                <span aria-hidden="true" className="card-type-rail" />
                 <span className="card-artwork transition-transform duration-200 group-hover:scale-105">
-                  <StarBadge color={def.color} size={rarity === "legendary" ? 78 : maxed ? 72 : 64}>
-                    <UpgradeIcon id={c.id} size={rarity === "legendary" ? 34 : maxed ? 31 : 28} />
+                  <StarBadge color={def.color} size={fusion ? 72 : maxed ? 70 : 64}>
+                    <UpgradeIcon id={c.id} size={fusion ? 32 : maxed ? 31 : 28} />
                   </StarBadge>
                 </span>
                 <span className="flex min-w-0 flex-1 flex-col md:items-center">
                   <span className="flex flex-wrap items-center justify-center gap-2">
-                    <span className="rarity-chip" style={{ color: rar.color }}>{rar.name}</span>
+                    <span className="type-chip">{CHOICE_TYPE_LABEL[choiceType]}</span>
                     <span className="text-xs font-medium" style={{ color: c.next === 1 ? "#3fd9c8" : "#f2b84b" }}>
                       {fusion
                         ? `ترکیب · ${UPGRADES[fusion.primary.spell].name} + ${UPGRADES[fusion.secondary.spell].name}`
