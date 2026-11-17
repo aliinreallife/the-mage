@@ -107,6 +107,7 @@ describe("cinematic Persian game menu", () => {
     }
     expect(css).toContain(".cinematic-menu-bottom-link + .cinematic-menu-bottom-link::before");
     expect(css).toContain(".cinematic-menu-scenery");
+    expect(css).toMatch(/\\.cinematic-menu-hero-options\\s*\\{[^}]*direction:\\s*ltr/s);
     expect(css).toContain("var(--ui-safe-top)");
     expect(css).toContain("prefers-reduced-motion: reduce");
     expect(component).toContain("HERO_MENU_ART[hero]");
