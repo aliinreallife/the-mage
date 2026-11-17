@@ -1205,3 +1205,34 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .cinematic-menu-scenery img { animation: none; }
 }
+
+/* Level-up abilities have types, not artifact rarity tiers. */
+.levelup-card.card-type-active { --card-accent: #40c7ce; --card-gleam: #b9f2f3; }
+.levelup-card.card-type-passive { --card-accent: #7fa7eb; --card-gleam: #d0dffb; }
+.levelup-card.card-type-trait { --card-accent: #aa91e2; --card-gleam: #e1d6fd; }
+.levelup-card.card-type-combination { --card-accent: #d7aa70; --card-gleam: #f6e2bf; }
+.levelup-card.card-type-recovery { --card-accent: #94baa8; --card-gleam: #dceee1; }
+.levelup-card.card {
+  border-color: color-mix(in srgb, var(--card-accent) 44%, #17213b);
+  background: linear-gradient(155deg, #1a2138 0%, #0d152e 68%, #0a1029 100%);
+}
+.levelup-card .card-type-rail {
+  position: absolute !important;
+  inset: 0 0 auto;
+  z-index: 2 !important;
+  height: 2px;
+  opacity: .65;
+  background: linear-gradient(90deg, transparent, var(--card-accent) 23%, var(--card-accent) 77%, transparent);
+}
+.levelup-card .type-chip {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid color-mix(in srgb, var(--card-accent) 52%, transparent);
+  background: color-mix(in srgb, var(--card-accent) 12%, #0b1326);
+  border-radius: 999px;
+  color: var(--card-gleam);
+  font-size: 11px;
+  font-weight: 750;
+  padding: 3px 11px;
+  line-height: 1.5;
+}
