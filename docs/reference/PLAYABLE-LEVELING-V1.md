@@ -48,3 +48,13 @@ This milestone validates the bridge between source-derived numerical functions a
 - Device behavior and source-game gameplay parity require separate live validation.
 
 Once the remaining source lifecycle scheduling and input formula evidence arrives, extend this same boundary (with new fixtures), then gate progression promotion behind comparison tests and a save migration plan. Do not globally flip production `setProgressionTable()`.
+
+## Source category audit (Magic Survival 0.9941)
+
+Evidence: research package `02-catalog-and-identities.json` dataset `research/analysis/mechanics/catalog.json` (reference_layer), and retained raw text `16-supporting-documents-and-evidence.json` document `handoff/magic-survival-0.9941-research-handoff/analysis/mechanics/raw/textassets/eng_Dictionary_Ability`.
+
+Source ability tables distinguish 21 ordinary **magic** rows (active spells), 10 **passive** rows, 24 **special_passive** rows, 66 **trait** rows, and combination entities (the broader combination extraction contains 65 stored records). They do **not** classify normal level-up spells by common/rare/epic/legendary. **Elite** occurs in enemy descriptions and is NOT an evidenced selectable ability category.
+
+The existing The Mage level-up cards now display **افسون فعال / افسون غیرفعال / ویژگی افسون / ترکیب افسون**, and a clearly local **بازیابی** fallback for heal. This is a role-based UI categorization, not a verified source-ID or offer-probability mapping. Original special-passive choices are not yet implemented; do not relabel The Mage's custom fixed-level boons as source special passives. Artifact rarity styling and metadata remain independent.
+
+When reference mode accepts level 5/10/etc., it no longer synthesizes The Mage's fixed-level boons. Source random/special queue insertion and actual choice-offer weighting have not been verified end-to-end, so that functionality remains blocked in source mode. Regular gameplay's boons are unchanged.
