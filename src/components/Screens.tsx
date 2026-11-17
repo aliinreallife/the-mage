@@ -3,7 +3,7 @@ import type { ArtifactId } from "../game/artifacts";
 import { BY_ID } from "../game/artifacts";
 import { Codex } from "./Codex";
 import { UPGRADES } from "../game/data";
-import type { Snapshot } from "../game/engine";
+import type { Difficulty, Snapshot } from "../game/engine";
 import { BY_BOON } from "../game/boons";
 import type { FusionId } from "../game/talents";
 import { fa, faTime } from "../game/fa";
@@ -44,6 +44,13 @@ function Row({ icon, label, value, color }: { icon: ReactNode; label: string; va
 
 /** Mirrors the in-game look: cape stars at 10, halo at 20, glowing eyes at 30. */
 const tierOf = (level: number) => (level >= 30 ? 3 : level >= 20 ? 2 : level >= 10 ? 1 : 0);
+
+/** Shared with pause details; cinematic menu keeps difficulty controls in Settings. */
+const DIFFICULTY: { id: Difficulty; name: string; color: string }[] = [
+  { id: "normal", name: "عادی", color: "#9be8ff" },
+  { id: "adaptive", name: "لبهٔ تیغ", color: "#f2b84b" },
+  { id: "brutal", name: "بی‌رحم", color: "#e23d4f" },
+];
 
 /* --------------------------------------------------------- shared pieces */
 
