@@ -376,7 +376,7 @@ export default function App() {
     (c: Choice) => {
       const g = gameRef.current;
       if (!g || phaseRef.current !== "levelup" || performance.now() < guardRef.current) return;
-      g.applyChoice(c);
+      if (!g.applyChoice(c)) return; // invalidated cards must not dismiss the choice screen
       sfx.play("select");
       setHud(g.snapshot());
       if (g.pending > 0) {
