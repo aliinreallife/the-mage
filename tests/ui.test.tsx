@@ -58,7 +58,7 @@ describe("screens render with the new systems", () => {
     expect(html).toContain("ث");
   });
 
-  it("talent and fusion cards use their own names and rarity tiers", () => {
+  it("talent and fusion cards use their own names and ability types", () => {
     const html = renderToString(
       <LevelUp
         level={25}
@@ -72,9 +72,9 @@ describe("screens render with the new systems", () => {
       />,
     );
     expect(html).toContain("چندپیکر");
-    expect(html).toContain("card-legendary");
+    expect(html).toContain("card-type-combination");
     expect(html).toContain("ضدجاذبه");
-    expect(html).toContain("card-epic");
+    expect(html).toContain("card-type-trait");
     expect(html).toContain("مصرف می‌شود");
   });
 
