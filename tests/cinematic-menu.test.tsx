@@ -1,5 +1,6 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
 import { Menu } from "../src/components/Screens";
 const noop = () => {};
 
@@ -53,8 +54,8 @@ describe("cinematic Persian game menu", () => {
   });
 
   it("uses only lightweight offline art and preserves mobile safe-area and accessible settings controls", () => {
-    const css = require("node:fs").readFileSync("src/index.css", "utf8") as string;
-    const component = require("node:fs").readFileSync("src/components/CinematicMenu.tsx", "utf8") as string;
+    const css = readFileSync("src/index.css", "utf8");
+    const component = require("node:fs").readFileSync("src/components/CinematicMenu.tsx", "utf8");
     expect(css).toContain(".cinematic-menu-gold");
     expect(css).toContain(".cinematic-menu-settings-overlay");
     expect(css).toContain("var(--ui-safe-top)");
