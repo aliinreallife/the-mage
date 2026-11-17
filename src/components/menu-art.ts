@@ -1,24 +1,33 @@
 import type { HeroId } from "../game/heroes";
-import farzanScene from "../assets/menu/farzan-scene.avif";
-import farzanPortrait from "../assets/menu/farzan-portrait.avif";
-import azarScene from "../assets/menu/azar-scene.avif";
-import azarPortrait from "../assets/menu/azar-portrait.avif";
-import bahmanScene from "../assets/menu/bahman-scene.avif";
-import bahmanPortrait from "../assets/menu/bahman-portrait.avif";
-import tishtarScene from "../assets/menu/tishtar-scene.avif";
-import tishtarPortrait from "../assets/menu/tishtar-portrait.avif";
+import farzanScene from "../assets/cinematic/farzan-scene.webp";
+import farzanPortrait from "../assets/cinematic/farzan-portrait.webp";
+import farzanGround from "../assets/cinematic/farzan-ground.webp";
+import azarScene from "../assets/cinematic/azar-scene.webp";
+import azarPortrait from "../assets/cinematic/azar-portrait.webp";
+import azarGround from "../assets/cinematic/azar-ground.webp";
+import bahmanScene from "../assets/cinematic/bahman-scene.webp";
+import bahmanPortrait from "../assets/cinematic/bahman-portrait.webp";
+import bahmanGround from "../assets/cinematic/bahman-ground.webp";
+import tishtarScene from "../assets/cinematic/tishtar-scene.webp";
+import tishtarPortrait from "../assets/cinematic/tishtar-portrait.webp";
+import tishtarGround from "../assets/cinematic/tishtar-ground.webp";
 
 /**
- * The actual selectable heroes are the source of truth.
- * Every hero has independent, higher-resolution menu art; no single fixed
- * painted character remains behind a name change.
- *
- * The selected concept art for Tishtar is depicted as a crowned woman.
- * Gameplay hero IDs, names, powers and saves are intentionally unchanged.
+ * Distinct menu scenery for each persistent HeroId.
+ * Each cropped artwork intentionally excludes the concept's rendered buttons,
+ * titles, selection states and currency so UI data remains genuinely live.
+ * The fourth concept uses a crowned, celestial mage for Tishtar; do not rename
+ * or migrate the saved HeroId or change the gameplay abilities.
  */
-export const HERO_MENU_ART: Readonly<Record<HeroId, Readonly<{ scene: string; portrait: string }>>> = {
-  farzan: { scene: farzanScene, portrait: farzanPortrait },
-  azar: { scene: azarScene, portrait: azarPortrait },
-  bahman: { scene: bahmanScene, portrait: bahmanPortrait },
-  tishtar: { scene: tishtarScene, portrait: tishtarPortrait },
+export interface HeroMenuArt {
+  scene: string;
+  portrait: string;
+  ground: string;
+}
+
+export const HERO_MENU_ART: Readonly<Record<HeroId, Readonly<HeroMenuArt>>> = {
+  farzan: { scene: farzanScene, portrait: farzanPortrait, ground: farzanGround },
+  azar: { scene: azarScene, portrait: azarPortrait, ground: azarGround },
+  bahman: { scene: bahmanScene, portrait: bahmanPortrait, ground: bahmanGround },
+  tishtar: { scene: tishtarScene, portrait: tishtarPortrait, ground: tishtarGround },
 };
