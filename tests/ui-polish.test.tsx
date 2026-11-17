@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { Hud } from "../src/components/Hud";
 import { Menu, Pause } from "../src/components/Screens";
 import { LevelUp } from "../src/components/LevelUp";
+import { BoonChoice } from "../src/components/BoonChoice";
 import { RelicChoice } from "../src/components/RelicChoice";
 import { makeGame } from "./helpers";
 import { UPGRADES } from "../src/game/data";
@@ -43,6 +44,7 @@ describe("minimal game UI and detailed pause", () => {
     for (const tier of ["common", "rare", "epic", "mythic", "legendary"]) expect(css).toContain(`.card-${tier}`);
     const levelUp = renderToString(<LevelUp level={25} dealKey={1} choices={[{ id: "bolt", next: 5, fusion: "polymorph" }, { id: "might", next: 1 }]} onChoose={noop} />);
     const relic = renderToString(<RelicChoice offers={["crystalseed"]} held={0} onChoose={noop} />);
+    const boon = renderToString(<BoonChoice level={5} offers={["mind"]} onChoose={noop} />);
     expect(levelUp).toContain('data-choice-type="combination"');
     expect(levelUp).toContain('data-choice-type="passive"');
     expect(levelUp).toContain("ترکیب افسون");
@@ -50,6 +52,9 @@ describe("minimal game UI and detailed pause", () => {
     expect(levelUp).not.toContain("data-rarity");
     expect(levelUp).not.toContain("card-legendary");
     expect(levelUp).toContain("card-artwork");
+    expect(boon).toContain('data-choice-type="boon"');
+    expect(boon).not.toContain("data-rarity");
+    expect(boon).not.toContain("card-legendary");
     expect(relic).toContain("data-rarity");
     expect(relic).toContain("card-artwork");
   });
