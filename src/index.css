@@ -940,6 +940,12 @@ body {
     linear-gradient(180deg, var(--menu-night) 0%, var(--menu-deep) 53%, #06141c 100%);
   padding-inline: 12px;
 }
+.cinematic-menu-shell[data-hero="farzan"] {
+  --menu-accent: #31dfd2;
+  --menu-rgb: 49 223 210;
+  --menu-night: #05171e;
+  --menu-deep: #082b32;
+}
 .cinematic-menu-shell[data-hero="azar"] {
   --menu-accent: #ff9247;
   --menu-rgb: 255 133 64;
