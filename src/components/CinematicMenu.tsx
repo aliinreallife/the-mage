@@ -56,10 +56,13 @@ export function Menu({
   // Warm the other three illustrations once so switching characters is instant.
   // All images ship in the local offline web bundle, never fetched at runtime.
   useEffect(() => {
-    const warmed = HEROES.map((item) => {
-      const image = new Image();
-      image.src = HERO_MENU_ART[item.id].scene;
-      return image;
+    const warmed = HEROES.flatMap((item) => {
+      const art = HERO_MENU_ART[item.id];
+      return [art.scene, art.ground].map((src) => {
+        const image = new Image();
+        image.src = src;
+        return image;
+      });
     });
     return () => warmed.forEach((image) => { image.onload = null; image.onerror = null; });
   }, []);
@@ -74,7 +77,16 @@ export function Menu({
   }, [settingsOpen]);
 
   return (
-    <div className="cinematic-menu-shell absolute inset-0" dir="rtl" style={{ "--hero-accent": `rgb(${selectedHero.palette.glow})` } as CSSProperties}>
+    <div
+      className={`cinematic-menu-shell absolute inset-0 ${reducedFx ? "menu-no-motion" : ""}`}
+      data-hero={hero}
+      dir="rtl"
+      style={{ "--hero-accent": `rgb(${selectedHero.palette.glow})` } as CSSProperties}
+    >
+      {/* A genuinely separate scenic layer below the live controls: no baked text/buttons. */}
+      <div className="cinematic-menu-scenery" aria-hidden="true">
+        <img key={hero} src={selectedArt.ground} alt="" draggable={false} decoding="async" />
+      </div>
       <main className="cinematic-menu" aria-label="منوی اصلی آخرین افسونگر">
         <section className="cinematic-menu-top">
           <button
