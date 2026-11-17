@@ -51,6 +51,7 @@ export function Menu({
   const [settingsOpen, setSettingsOpen] = useState(false);
   const selectedHero = BY_HERO[hero];
   const canResume = Boolean(resumable && onResumeRun);
+  const formattedGold = new Intl.NumberFormat("fa-IR").format(gold);
 
   useEffect(() => {
     if (!settingsOpen) return;
@@ -69,10 +70,10 @@ export function Menu({
             type="button"
             className="cinematic-menu-gold"
             onClick={onResearch}
-            aria-label={`طلای شما ${fa(gold)}؛ بازکردن پژوهش`}
+            aria-label={`طلای شما ${formattedGold}؛ بازکردن پژوهش`}
           >
             <span aria-hidden="true" className="cinematic-menu-coins">◉</span>
-            <span dir="ltr" className="tabular-nums">{fa(gold)}</span>
+            <span dir="ltr" className="tabular-nums">{formattedGold}</span>
           </button>
           <span className="cinematic-menu-standard" aria-hidden="true">✵</span>
           <h1 className="cinematic-menu-title">آخرین افسونگر</h1>
@@ -172,8 +173,7 @@ export function Menu({
         </nav>
       </main>
 
-      {settingsOpen && (
-        <div className="cinematic-menu-settings-overlay">
+      <div className="cinematic-menu-settings-overlay" hidden={!settingsOpen}>
           <button type="button" className="cinematic-menu-settings-backdrop" onClick={() => setSettingsOpen(false)} aria-label="بستن تنظیمات" />
           <section className="cinematic-menu-settings" role="dialog" aria-modal="true" aria-labelledby="cinematic-menu-settings-heading">
             <header className="cinematic-menu-settings-header">
@@ -214,7 +214,6 @@ export function Menu({
             <p className="cinematic-menu-settings-tip">برای حرکت، انگشتت را روی میدان بکش؛ افسون‌ها خودکار شلیک می‌شوند.</p>
           </section>
         </div>
-      )}
     </div>
   );
 }
