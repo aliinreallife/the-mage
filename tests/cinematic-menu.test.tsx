@@ -29,8 +29,8 @@ describe("cinematic Persian game menu", () => {
     const html = renderToStaticMarkup(<Menu {...props} />);
     expect(html).toContain('dir="rtl"');
     expect(html).toContain('role="radiogroup"');
-    expect(html.match(/role="radio"/g)).toHaveLength(6);
-    expect(html.match(/aria-checked="true"/g)).toHaveLength(2);
+    expect(html.match(/role="radio"/g)).toHaveLength(9);
+    expect(html.match(/aria-checked="true"/g)).toHaveLength(3);
     for (const text of ["آخرین افسونگر", "آغاز بازی", "انتخاب قهرمان", "میدان آزمایش", "بی‌پایان", "پژوهش", "گنجینه", "تنظیمات"]) {
       expect(html).toContain(text);
     }
