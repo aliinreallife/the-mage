@@ -12,9 +12,9 @@ const __dirname = path.dirname(__filename);
 export default defineConfig({
   plugins: [react(), tailwindcss(), viteSingleFile()],
   build: {
-    // Embed four sharp HD hero scenes and portraits into the offline single-file build.
+    // Embed four sharp cinematic hero scenes, portraits, and environmental strips into the offline single-file build.
     // This avoids a first-launch network dependency in the Capacitor WebView/PWA.
-    assetsInlineLimit: 96 * 1024,
+    assetsInlineLimit: 128 * 1024,
   },
   resolve: {
     alias: {
