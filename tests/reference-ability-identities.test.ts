@@ -77,9 +77,12 @@ describe("0.9941 stored source identities and conservative local crosswalk", () 
     expect(getLocalSourceLink("spell", "flash")?.sourceId).toBe(7); // Thunderstorm, NOT Flash Shock
     expect(getLocalSourceLink("spell", "fire")?.sourceId).toBe(2);
     expect(getSourceAbilityIdentity(2)?.maxLevel).toBe(7); // local Fireball max is 6
-    expect(getLocalSourceLink("talent", "doppel")?.sourceId).toBe(367);
+    expect(getLocalSourceLink("talent", "doppel")).toMatchObject({ sourceId: 367, status: "identity_only" });
     expect(getLocalSourceLink("talent", "antigrav")?.sourceId).toBe(389);
-    expect(getLocalSourceLink("talent", "void")?.sourceId).toBe(463);
+    expect(getLocalSourceLink("talent", "void")).toMatchObject({ sourceId: 463, status: "identity_only" });
+    // Original ability names and parents can agree while their effects differ.
+    for (const id of ["arrow", "doppel", "missile", "antigrav", "void"])
+      expect(getLocalSourceLink("talent", id)?.status).toBe("identity_only");
     // Matching English trait names do not override incompatible parent magic.
     expect(getLocalSourceLink("talent", "flare")).toBeNull();
     expect(getLocalSourceLink("talent", "wipeout")).toBeNull();
