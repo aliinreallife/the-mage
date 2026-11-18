@@ -14,6 +14,7 @@ import { evaluateSourceGain, type SourceGainInput } from "./reference/leveling-k
 import { inspectSourceOfferGuards, type SourceOfferGuardProbeInput, type SourceOfferGuardProbeResult } from "./reference/source-offer-guards";
 import { isAuditedEarlyPrimaryPassiveBlocked } from "./reference/local-source-links";
 import { evaluateSourceMagicEffectSlot } from "./reference/source-magic-effects";
+import { replaySourceMagicStoredEvents, type SourceReplayStartingState } from "./reference/source-magic-stored-events";
 import { newTelemetry, type RunTelemetry } from "./telemetry";
 import { makeRng as reseed } from "./rng";
 import type { SfxName } from "./audio";
@@ -555,6 +556,16 @@ export class Game {
   devReferenceMagicEffectSlotV1(magicId: number, slot: number, current: number) {
     if (!this.referenceLevelingV1) throw new Error("reference session is not active");
     return evaluateSourceMagicEffectSlot(magicId, slot, current);
+  }
+
+  /**
+   * Deterministic replay of STORED 0.9941 effect entries, given EXPLICIT
+   * source stat operands. Never deals cards, performs native scheduling,
+   * changes live projectiles or initializes assumed native AllyUnitVars.
+   */
+  devReferenceStoredMagicReplayV1(magicId: number, throughOrdinal: number, starting: SourceReplayStartingState) {
+    if (!this.referenceLevelingV1) throw new Error("reference session is not active");
+    return replaySourceMagicStoredEvents(magicId, throughOrdinal, starting);
   }
 
   private commitReferenceLevelingV1Choice() {
