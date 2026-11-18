@@ -53,7 +53,7 @@ const result = replaySourceMagicStoredEvents(1, 7, {
 
 1. Recover the exact source **ability UI choice → rank/trait → effect-event dispatch** conditions and timing.
 2. Recover `StartInformation_A` / variable reset and **reapplication order** so initial `AllyUnitVar` values can be proved rather than chosen.
-3. Trace Magic Bolt's **unit-applied damage → Bullet_Create/BulletAttack → OnCollisionEnter → EnemyUnit.Unit_Damage** argument path; the currently recovered `08-combat-and-projectiles.json` proves the generic bullet entry and collision argument transfer, but its six magic-specific create sites do **not** include an individually verified Magic Bolt site. Don't fabricate one.
+3. The **generic** `BulletAttack → OnCollisionEnter → EnemyUnit.Unit_Damage` argument-transfer path is now covered by `src/game/reference/source-bullet-transfer.ts` and `tests/reference-bullet-transfer.test.ts`: original/current attack fields, crit arguments, direct-hit zeroed specials, explosion original damage and piercing. The remaining task is to trace Magic Bolt's **individual `Bullet_Create` caller, derived `UnitApply_Attack`, modifier reset/reapplication and the enemy-side damage formula**. The six currently recovered magic-specific create sites in `08-combat-and-projectiles.json` still exclude Magic Bolt. Never fabricate one.
 4. Build deterministic replay fixtures from recovered native behavior and compare the entire output, then authorize an experimental live combat switch.
 5. Keep saved games and stable Android preview untouched until this boundary passes.
 
@@ -62,3 +62,7 @@ const result = replaySourceMagicStoredEvents(1, 7, {
 `tests/reference-stored-magic-events.test.ts` validates the complete 126-entry SHA-256, raw slots, mismatch between event ordinals and rank caps, prefix replay, exact Magic Bolt operator outputs, rejection of missing inputs, dev-only isolation, and no game-state mutation.
 
 The standard project CI and Android debug workflows continue to run on PR #16; passing these tests means **static source table/operator parity**, never native-runtime parity.
+
+## Bullet-to-enemy argument boundary added (2026-11-17)
+
+The pure `recordNativeBulletAttack` function copies the explicit `EUnitApply_Attack` to both `UnitApply_FirstAttack` and `UnitApply_Attack`, preserving the original/current split. `nativeBulletMainDamageArgs` forwards current attack; `nativeExplosionDamageArgs` forwards the **original** attack; `nativeBulletDirectDamageArgs` forwards the separately provided positive direct-attack field with zeroed specials. `nativeBulletDestroyedAfterHit` applies the native `++hitCount > pierceNum` comparison. These are source-confirmed parameter *transfers*, not numerical final-damage computations, not projectile movement/spawn reconstruction, and not gameplay changes. Provenance: `08-combat-and-projectiles.json` `bullet-spawn.json` and `damage-pipeline.json`.
