@@ -15,7 +15,7 @@
 export interface SourceEnemyDamageArgs {
   readonly magicId: number;
   readonly damage: number;
-  readonly critChance: number;   // raw native CriRan argument (not normalized)
+  readonly critChance: number;   // raw native CriRan int passed in w4 (not normalized)
   readonly critMultiplier: number; // raw native CriMultiplier (not /100)
   readonly specialVar01: number;
   readonly specialVar02: number;
@@ -53,7 +53,9 @@ export interface SourceBulletState {
 function validDamageArgs(input: SourceEnemyDamageArgs) {
   if (!input || !Number.isSafeInteger(input.magicId) || input.magicId < 0)
     throw new RangeError("Explicit native magic ID required");
-  for (const key of ["damage","critChance","critMultiplier","specialVar01","specialVar02",
+  if (!Number.isSafeInteger(input.critChance))
+    throw new RangeError("Native CriRan must be an explicit integer");
+  for (const key of ["damage","critMultiplier","specialVar01","specialVar02",
     "specialVar03","specialVar04","stunTime","freezeTime"] as const)
     if (!Number.isFinite(input[key])) throw new RangeError("Missing native damage argument: "+key);
 }
@@ -70,7 +72,7 @@ export function recordNativeBulletAttack(input: SourceBulletAttackInput): Readon
     explosionId:input.explosionId, baseExplosionId:input.explosionId,
     magicId:input.magicId,
     firstAttack:f(input.damage), attack:f(input.damage),
-    critChance:f(input.critChance), critMultiplier:f(input.critMultiplier),
+    critChance:input.critChance, critMultiplier:f(input.critMultiplier),
     pierceNum:f(input.pierceNum),
     specialVar01:f(input.specialVar01), specialVar02:f(input.specialVar02),
     specialVar03:f(input.specialVar03), specialVar04:f(input.specialVar04),
