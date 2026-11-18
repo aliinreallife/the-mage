@@ -39,7 +39,7 @@ describe("0.9941 stored source identities and conservative local crosswalk", () 
   it.each([
     ["magic", "828e910fda8a66c09a28e402949064935f2d7ef7281310829e884da1c3a0c6eb"],
     ["passive", "14d1ca06992e8b2eae7f79d71ae30a1b04052f0e6256bb9add627ae1c5f3d3c2"],
-    ["special_passive", "86f8a541376bda5e4a9973309b20395ca3b46e3e6a4f7c24c6696f3d4be3d211"],
+    ["special_passive", "08d92d56afab20361e6f1b4dfb90d7258624a50c39b9ff755586d6f725df0be0"],
     ["trait", "9291315ca9e22c8e552796693f79e7e494baa38e391cfa5be3855aa5278e47f7"],
   ] as const)("%s identity category matches its source digest", (category, expected) => {
     const rows = SOURCE_ABILITY_IDENTITIES.filter(a => a.kind === category).map(a =>
@@ -51,12 +51,12 @@ describe("0.9941 stored source identities and conservative local crosswalk", () 
   it("matches the complete stored catalog's source identity checksum", () => {
     // SHA-256 over all 121 source rows in canonical reference_layer order:
     // category|reference_id|internal_name|max_level|required_level|derived_ability_id
-    // Established from the uploaded 02-catalog-and-identities.json, not invented.
+    // Established from 02-catalog-and-identities.json (special_passives\n    // source list maps to the singular runtime category special_passive).
     const canonical = SOURCE_ABILITY_IDENTITIES.map(a =>
       [a.kind, a.sourceId, a.nameEn, a.maxLevel, a.requiredLevel, a.parentMagicId ?? 0].join("|"),
     ).join("\n");
     expect(createHash("sha256").update(canonical).digest("hex")).toBe(
-      "336a3ef13d2bfd1527bb8f3d94e831637932018b06753a4775f8faa63a213e6c",
+      "0f867baa3680afa0342b716a81fb9c14d0aa9cb037f5d0979a9ddb456488a832",
     );
   });
 
