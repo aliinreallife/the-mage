@@ -8,6 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
+    "docs:check": "node scripts/check-project-docs.mjs",
     "icons": "node scripts/make-icons.mjs",
     "prebuild": "node scripts/make-icons.mjs",
     "pretest": "node scripts/binaries.mjs restore && node scripts/make-icons.mjs",
