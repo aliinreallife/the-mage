@@ -64,3 +64,11 @@ When reference mode accepts level 5/10/etc., it no longer synthesizes The Mage's
 See [SOURCE-CHOICE-GUARDS.md](SOURCE-CHOICE-GUARDS.md) for exact source locations, original source IDs, tests and limitations. The experimental `Game.devReferenceOfferGuardsV1(input)` now composes verified static branch fragments for early-passive exclusions (31..39 at L≤3), additional IDs (9031..9039 from nine additional-magic level slots), count bounding, combination-control suppression flags, and the level-99 ultimate alternative. Inputs **must** be supplied as source IDs and native flags; no inferred identity translation, hidden default, source RNG, or playable offering is added.
 
 Run `npx vitest run tests/reference-source-offer-guards.test.ts tests/reference-playable-leveling-v1.test.ts`. Native option draw probabilities, ordinary pool construction, runtime timing, mappings to The Mage upgrades, special/random selection, and eligibility remain blocked by missing evidence.
+
+## Source ability identity integration (2026-11-17)
+
+See [SOURCE-ABILITY-MAPPING.md](SOURCE-ABILITY-MAPPING.md). The 0.9941 **121 stored magic/passive/special-passive/trait source identities** are imported with a full canonical digest gate. `local-source-links.ts` documents 19 explicitly reviewed local/source links across supported role correspondences, identity-only (mismatched trait effects) and analogy-only (numeric/rank mismatch). Missing links remain unmapped; original **Shield** is an active Magic, not The Mage's local passive.
+
+**Actual bounded dev behavior:** `Game.rollChoices` in `?ref-leveling` mode now excludes only the four supported local passives mapping to source 31, 32, 33 and 37 while source level is 1–3. Other source IDs 34–39 are NOT automatically mapped to local skills, and normal mode is unchanged. This is **not** a source-accurate draw algorithm; the old weighted draw, local spells, talents, fusions, and heal fallback remain, as do unverified queues, flags and choice effects.
+
+Verification: `npx vitest run tests/reference-ability-identities.test.ts tests/reference-source-offer-guards.test.ts` plus full CI and Android debug workflows.
