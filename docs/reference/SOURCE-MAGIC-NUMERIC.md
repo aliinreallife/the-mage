@@ -42,3 +42,7 @@ The `UnitBase_*` fields and `AllyUnitVar_*` fields are **different namespaces**.
 `tests/reference-magic-effects.test.ts` covers all 189 stored slots, 58 unique confirmed bindings, no-op slots, source operators, invalid inputs, and dev-only isolation.
 
 Run `npx vitest run tests/reference-magic-base.test.ts tests/reference-magic-effects.test.ts` plus normal CI. Never merge this isolated reference phase based only on a green Web/Android build as evidence of runtime parity.
+
+## Next confirmed stored-event milestone (2026-11-17)
+
+[Native stored magic-event stream](SOURCE-MAGIC-STORED-EVENTS.md) now cross-validates **126 non-placeholder per_level_effects across 21 magics** against the 189 raw cells and preserves effective-event ordinal → raw-slot positions. Exact SHA-256 and a read-only replay with explicit caller-supplied source stat values are tested, including Magic Bolt's raw no-op slots 4 and 7. It is **not** a rank-to-event UI scheduler, final damage formula, or a combat engine migration. Fireball's eight event entries vs its stored max rank seven illustrate why that distinction is essential.
