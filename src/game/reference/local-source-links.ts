@@ -5,7 +5,10 @@
  * The correspondences are editorial review of BOTH the source catalog's
  * English name/description/effects and The Mage's spell/trait/passive data.
  * "supported_correspondence" means matching role/core effect, NOT full
- * numeric or runtime equivalence. "analogy_only" NEVER drives source gates.
+ * numerical or runtime parity. "identity_only" means exact source name and
+ * parent magic but a substantially different local gameplay effect.
+ * "analogy_only" means role analogy with different ranks/numbers. Only the
+ * four audited corresponding passive IDs drive the dev-only early gate.
  *
  * Source: 02-catalog-and-identities.json, catalog.json.reference_layer.
  * Local: src/game/data.ts, src/game/talents.ts.
@@ -18,7 +21,7 @@ import {
 import { EARLY_PRIMARY_EXCLUDED_SOURCE_IDS } from "./source-offer-guards";
 
 export type LocalAbilityKind = "spell" | "passive" | "talent";
-export type CorrespondenceStatus = "supported_correspondence" | "analogy_only";
+export type CorrespondenceStatus = "supported_correspondence" | "identity_only" | "analogy_only";
 export type LocalAbilityId = SpellId | PassiveId | TalentId;
 
 export interface LocalSourceLink {
@@ -49,11 +52,11 @@ export const LOCAL_SOURCE_LINKS: readonly LocalSourceLink[] = Object.freeze([
   { localKind: "passive", localId: "snipe", sourceId: 37, status: "supported_correspondence", note: "Snipe +5% critical chance; max 3" },
   { localKind: "passive", localId: "swift", sourceId: 34, status: "analogy_only", note: "Haste gives +10% movement for 2 source ranks; local +8% for 5" },
   { localKind: "passive", localId: "magnet", sourceId: 38, status: "analogy_only", note: "Explorer gives +33% pickup range for 3 source ranks; local +30% for 5" },
-  { localKind: "talent", localId: "arrow", sourceId: 362, status: "supported_correspondence", note: "Magic Arrow belongs to Magic Bolt; source piercing/damage differs" },
-  { localKind: "talent", localId: "doppel", sourceId: 367, status: "supported_correspondence", note: "Doppelganger belongs to Magic Bolt; numeric effects not confirmed" },
-  { localKind: "talent", localId: "missile", sourceId: 380, status: "supported_correspondence", note: "Magic Missile belongs to Spirit; effect details unverified" },
-  { localKind: "talent", localId: "antigrav", sourceId: 389, status: "supported_correspondence", note: "Anti-Gravity belongs to Satellite; effect details unverified" },
-  { localKind: "talent", localId: "void", sourceId: 463, status: "supported_correspondence", note: "Void belongs to Cyclone; effect details unverified" },
+  { localKind: "talent", localId: "arrow", sourceId: 362, status: "identity_only", note: "Magic Arrow is source Magic Bolt trait; native pierces ALL and increases damage 1.5X/size 180%, local effect differs" },
+  { localKind: "talent", localId: "doppel", sourceId: 367, status: "identity_only", note: "Native replaces Magic Bolts with THREE mirage casters and +50% cooldown; local grants an extra bolt instead" },
+  { localKind: "talent", localId: "missile", sourceId: 380, status: "identity_only", note: "Native changes Spirit cooldown timing/scaling; local adds explosions and another spirit" },
+  { localKind: "talent", localId: "antigrav", sourceId: 389, status: "identity_only", note: "Native oscillates Satellite rotation speed up to 3X; local applies knockback and enlarges orbit" },
+  { localKind: "talent", localId: "void", sourceId: 463, status: "identity_only", note: "Native spawns nonmoving Cyclones at random locations; local draws enemies inward" },
 ]);
 
 const byLocal = new Map<string, LocalSourceLink>();
@@ -85,7 +88,7 @@ export function getLocalSourceLink(kind: LocalAbilityKind, id: string): LocalSou
  * Safe, deliberately LIMITED projection of the verified L1..3 *source-ID*
  * exclusion onto only the four audited local passive correspondences.
  *
- * Unknown/analogy-only local cards keep local game behavior, so this is NOT
+ * Unknown, identity-only and analogy-only local cards keep local game behavior; this is NOT
  * a full native selection parity claim; only used in dev reference mode.
  */
 export function isAuditedEarlyPrimaryPassiveBlocked(sourceLevel: number, localId: PassiveId): boolean {
