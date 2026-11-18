@@ -13,6 +13,7 @@ import type { LevelingLifecycleState } from "./reference/lifecycle-state";
 import { evaluateSourceGain, type SourceGainInput } from "./reference/leveling-kernel";
 import { inspectSourceOfferGuards, type SourceOfferGuardProbeInput, type SourceOfferGuardProbeResult } from "./reference/source-offer-guards";
 import { isAuditedEarlyPrimaryPassiveBlocked } from "./reference/local-source-links";
+import { evaluateSourceMagicEffectSlot } from "./reference/source-magic-effects";
 import { newTelemetry, type RunTelemetry } from "./telemetry";
 import { makeRng as reseed } from "./rng";
 import type { SfxName } from "./audio";
@@ -544,6 +545,16 @@ export class Game {
   devReferenceOfferGuardsV1(input: SourceOfferGuardProbeInput): SourceOfferGuardProbeResult {
     if (!this.referenceLevelingV1) throw new Error("reference session is not active");
     return inspectSourceOfferGuards(this.referenceLevelingV1.snapshot().level, input);
+  }
+
+  /**
+   * Read-only dev numeric probe: evaluate one native effect-slot dispatch
+   * against an explicitly supplied current SOURCE stat value.
+   * Does not mutate The Mage spells or imply rank-to-slot scheduling.
+   */
+  devReferenceMagicEffectSlotV1(magicId: number, slot: number, current: number) {
+    if (!this.referenceLevelingV1) throw new Error("reference session is not active");
+    return evaluateSourceMagicEffectSlot(magicId, slot, current);
   }
 
   private commitReferenceLevelingV1Choice() {
