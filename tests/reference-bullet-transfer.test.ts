@@ -59,6 +59,7 @@ describe("native 0.9941 bullet-field → enemy-argument transfer (static-only)",
   });
   it("rejects missing implicit global values, nonfinite and unverified negative identifiers", () => {
     expect(()=>recordNativeBulletAttack({...explicit,critMultiplier:NaN})).toThrow(/critMultiplier/);
+    expect(()=>recordNativeBulletAttack({...explicit,critChance:10.5})).toThrow(/CriRan/);
     expect(()=>recordNativeBulletAttack({...explicit,pierceNum:Infinity})).toThrow(/pierce/);
     expect(()=>recordNativeBulletAttack({...explicit,magicId:-1})).toThrow(/magic ID/);
     expect(()=>recordNativeBulletAttack({...explicit,explosionId:-1})).toThrow(/bullet\/explosion/);
