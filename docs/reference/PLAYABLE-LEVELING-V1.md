@@ -78,3 +78,7 @@ Verification: `npx vitest run tests/reference-ability-identities.test.ts tests/r
 See [SOURCE-MAGIC-NUMERIC.md](SOURCE-MAGIC-NUMERIC.md). The reference layer now retains the complete **21×9 = 189 raw magic effect slots**, **58 confirmed positive dispatcher bindings**, and **131 magic base initializer fields** (including exact float32 bits and six int values). Independent SHA256 parity gates and unit tests check both source data sets.
 
 The dev-only `Game.devReferenceMagicEffectSlotV1(magicId, slot, current)` supports an isolated single source effect with **explicit** current stat value. The `UnitBase_*` initializers and `AllyUnitVar_*` effect variables have distinct semantics. There is still no proved rank-to-raw-slot scheduling, stat refresh/reapplication, or final projectile-hit calculation, so these reference operations **do not mutate normal or experimental combat**. This prevents false source-damage claims while bringing the stored numerical mechanics into a testable executable form.
+
+## Verified source stored-event replay (2026-11-17)
+
+See [SOURCE-MAGIC-STORED-EVENTS.md](SOURCE-MAGIC-STORED-EVENTS.md) for the 126-event source crosscheck, full checksum, Magic Bolt raw-slot mapping, dev-only explicit-seed replay and remaining native scheduling/projectile blockers. The `Game.devReferenceStoredMagicReplayV1` method **does not mutate gameplay**; its `throughOrdinal` argument names an entry in the stored list, **not** necessarily a playable rank. No default seeds or native timing are inferred.
