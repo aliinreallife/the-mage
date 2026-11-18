@@ -55,7 +55,7 @@ Use `npm run package` for reproducible release archives. It restores generated P
 2. Make a small, focused change. Prefer adding a regression test first for a reproduced bug.
 3. Update `the-mage-docs/status.md` (the active handoff, same T identifier) with verified progress, blockers, tests and the next action. Older `docs/PROJECT-ROADMAP.md` is supporting historical context, not a second active task ledger.
 4. Record newly accepted material product/architecture decisions in `the-mage-docs/decisions.md` with the next stable D identifier; keep `docs/DECISIONS.md` as preserved legacy history and do not duplicate entries.
-5. Run `npm run docs:check` and relevant code tests; record exactly which checks actually ran in `status.md`, distinguishing CI, simulations and Chromium emulation from real Android phone tests.
+5. Run `node docs/check-project-docs.mjs` and relevant code tests; record exactly which checks actually ran in `status.md`, distinguishing CI, simulations and Chromium emulation from real Android phone tests.
 6. Never add secrets, private keys, decompiled APK files or paid/proprietary third-party assets to Git.
 
 ## Current priorities
