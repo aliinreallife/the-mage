@@ -28,7 +28,7 @@ beside it. See `docs/ANDROID-TESTING.md` for installation and HTTPS requirements
 
 ## Documentation
 
-**Canonical project handoff:** [PRD](the-mage-docs/PRD.md) · [decisions](the-mage-docs/decisions.md) · [current status](the-mage-docs/status.md) · [documentation update guide](the-mage-docs/how_to_update_docs.md). The PRD is a **reconstructed draft requiring approval**. Every development session should read the current status and update the same T/D records as warranted. Run `npm run docs:check` to validate the read-only four-file structure and links.
+**Canonical project handoff:** [PRD](the-mage-docs/PRD.md) · [decisions](the-mage-docs/decisions.md) · [current status](the-mage-docs/status.md) · [documentation update guide](the-mage-docs/how_to_update_docs.md). The PRD is a **reconstructed draft requiring approval**. Every development session should read the current status and update the same T/D records as warranted. Run `node docs/check-project-docs.mjs` to validate the read-only four-file structure and links.
 
 The existing `docs/DECISIONS.md`, `docs/PROJECT-ROADMAP.md` and `docs/PHASE1-STATUS.md` are preserved for provenance; use `the-mage-docs/` for future active product decisions and status.
 
