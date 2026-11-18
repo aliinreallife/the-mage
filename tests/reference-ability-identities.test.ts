@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { Game } from "../src/game/engine";
 import {
@@ -33,6 +34,18 @@ describe("0.9941 stored source identities and conservative local crosswalk", () 
     expect(getSourceAbilityIdentity(9031)).toBeNull(); // generated additional-choice ID, not catalog entity
     expect(getSourceAbilityIdentity(32.5)).toBeNull();
     expect(SOURCE_ABILITY_IDENTITIES.every(a => Object.isFrozen(a))).toBe(true);
+  });
+
+  it("matches the complete stored catalog's source identity checksum", () => {
+    // SHA-256 over all 121 source rows in canonical reference_layer order:
+    // category|reference_id|internal_name|max_level|required_level|derived_ability_id
+    // Established from the uploaded 02-catalog-and-identities.json, not invented.
+    const canonical = SOURCE_ABILITY_IDENTITIES.map(a =>
+      [a.kind, a.sourceId, a.nameEn, a.maxLevel, a.requiredLevel, a.parentMagicId ?? 0].join("|"),
+    ).join("\n");
+    expect(createHash("sha256").update(canonical).digest("hex")).toBe(
+      "336a3ef13d2bfd1527bb8f3d94e831637932018b06753a4775f8faa63a213e6c",
+    );
   });
 
   it("separates source role identities from numerical and parent mismatches", () => {
