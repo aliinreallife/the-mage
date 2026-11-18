@@ -12,6 +12,7 @@ import { ReferenceLevelingV1Session, type ReferenceLevelingV1Seed } from "./refe
 import type { LevelingLifecycleState } from "./reference/lifecycle-state";
 import { evaluateSourceGain, type SourceGainInput } from "./reference/leveling-kernel";
 import { inspectSourceOfferGuards, type SourceOfferGuardProbeInput, type SourceOfferGuardProbeResult } from "./reference/source-offer-guards";
+import { isAuditedEarlyPrimaryPassiveBlocked } from "./reference/local-source-links";
 import { newTelemetry, type RunTelemetry } from "./telemetry";
 import { makeRng as reseed } from "./rng";
 import type { SfxName } from "./audio";
@@ -1470,6 +1471,10 @@ export class Game {
       for (const m of masteriesFor(id)) if (canTakeMastery(m.id, this.masteryView())) pool.push({ id, next: l, mastery: m.id, w: 0.9 });
     }
     for (const id of PASSIVE_IDS) {
+      // In dev reference mode only, apply the source L1..3 exclusion to the
+      // four local passives with audited source ID/core-effect correspondence.
+      // All unmapped/analogy-only options remain local placeholders.
+      if (this.referenceLevelingV1 && isAuditedEarlyPrimaryPassiveBlocked(this.level, id)) continue;
       const l = this.passives.get(id) ?? 0;
       if (l < C[id].max) pool.push({ id, next: l + 1, w: l > 0 ? 1.3 : 1 });
     }
