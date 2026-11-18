@@ -69,6 +69,10 @@ export const DEV_TOOLS = import.meta.env.MODE !== "production";
  */
 export const REFERENCE_MODE = resolveConfigMode(import.meta.env.MODE, typeof location !== "undefined" ? location.search : "");
 
+/** Developer-only: ?ref-leveling&limitRatio=0.0035 (ratio is an explicit test input, not a recovered default). */
+export const REFERENCE_LEVELING_V1 = DEV_TOOLS && typeof location !== "undefined" &&
+  new URLSearchParams(location.search).has("ref-leveling");
+
 /** Datasets a developer loads by hand: localStorage["afsungar.reference"] = JSON array of datasets. */
 function loadReferenceDatasets(): ImportedDataset[] {
   if (!REFERENCE_MODE) return [];
@@ -126,6 +130,7 @@ export default function App() {
   const settledRef = useRef<Game | null>(null);
   /** an unfinished stage run that can be resumed (never one that was already paid out) */
   const [checkpoint, setCheckpoint] = useState<Checkpoint | null>(() => {
+    if (REFERENCE_LEVELING_V1) return null; // experimental runs never resume saved production runs
     const st = safeStorage();
     return st ? loadCheckpoint(st, BOOT.settledRuns) : null;
   });
@@ -149,6 +154,17 @@ export default function App() {
       if (settledRef.current === g) return;
       settledRef.current = g;
       const s = g.snapshot();
+      if (g.referenceLevelingV1Enabled) {
+        // Experimental mechanics must never award gold, record history,
+        // settle an existing run or delete a production checkpoint.
+        setRunGold(0);
+        setVictory(won);
+        setRecord(false);
+        setHud(s);
+        joyRef.current = null;
+        setPhase("over");
+        return;
+      }
       const survived = s.mode === "stage" ? s.clock : s.time;
       const gold = goldForRun({ time: survived, kills: s.kills, wavesCleared: s.wavesCleared, victory: won, difficulty: s.difficulty });
       const cur = saveRef.current;
@@ -247,7 +263,7 @@ export default function App() {
   /** Save a resumable checkpoint when the run is between waves with nothing pending. */
   const writeCheckpoint = useCallback(() => {
     const g = gameRef.current;
-    if (!g || settledRef.current === g) return;
+    if (!g || settledRef.current === g || g.referenceLevelingV1Enabled) return;
     const cp = g.toCheckpoint();
     const store = safeStorage();
     if (cp && store && saveCheckpoint(store, cp)) setCheckpoint(cp);
@@ -261,10 +277,20 @@ export default function App() {
     g.setMode(saveRef.current.mode);
     g.setResearch(saveRef.current.research);
     g.reducedFx = saveRef.current.reducedFx;
-    if (REFERENCE_MODE) {
-      // Experimental: apply only complete, validated datasets; never partial data.
+    if (REFERENCE_MODE === "reference-experimental" && !REFERENCE_LEVELING_V1) {
+      // Legacy reference-data test mode; separate from the native-derived choice lifecycle.
       const report = applyReferenceData(g, loadReferenceDatasets());
       console.info("[reference] mode", report.mode, report);
+    }
+    if (REFERENCE_LEVELING_V1) {
+      const explicit = new URLSearchParams(location.search).get("limitRatio");
+      const ratio = explicit === null || explicit.trim() === "" ? NaN : Number(explicit);
+      if (Number.isFinite(ratio) && ratio >= 0) {
+        g.enableReferenceLevelingV1({ limitRatio: ratio });
+        console.info("[reference-leveling-v1] experimental explicit event scheduling; saves and payouts disabled", { limitRatio: ratio });
+      } else {
+        console.warn("[reference-leveling-v1] refused: supply an explicit non-negative limitRatio; reference native default is unresolved");
+      }
     }
     gameRef.current = g;
     return g;
@@ -276,8 +302,8 @@ export default function App() {
     const g = newGame();
     g.setDifficulty(difficulty);
     const store = safeStorage();
-    if (store) clearCheckpoint(store);
-    setCheckpoint(null);
+    if (store && !g.referenceLevelingV1Enabled) clearCheckpoint(store);
+    if (!g.referenceLevelingV1Enabled) setCheckpoint(null);
     joyRef.current = null;
     setHud(g.snapshot());
     setRecord(false);
@@ -293,6 +319,7 @@ export default function App() {
 
   /** Continue an unfinished stage run from its last checkpoint. */
   const resumeRun = useCallback(() => {
+    if (REFERENCE_LEVELING_V1) return; // source save semantics not yet integrated
     const store = safeStorage();
     const cp = store ? loadCheckpoint(store, saveRef.current.settledRuns) : null;
     if (!cp) {
@@ -349,7 +376,7 @@ export default function App() {
     (c: Choice) => {
       const g = gameRef.current;
       if (!g || phaseRef.current !== "levelup" || performance.now() < guardRef.current) return;
-      g.applyChoice(c);
+      if (!g.applyChoice(c)) return; // invalidated cards must not dismiss the choice screen
       sfx.play("select");
       setHud(g.snapshot());
       if (g.pending > 0) {
@@ -680,7 +707,7 @@ export default function App() {
             gameRef.current?.setDifficulty(d);
           }}
           onStart={start}
-          resumable={checkpoint ? { level: checkpoint.level, wavesCleared: checkpoint.wavesCleared, clock: checkpoint.stageTime } : null}
+          resumable={!REFERENCE_LEVELING_V1 && checkpoint ? { level: checkpoint.level, wavesCleared: checkpoint.wavesCleared, clock: checkpoint.stageTime } : null}
           onResumeRun={resumeRun}
           onCodex={() => setCodexOpen(true)}
           mode={save.mode}

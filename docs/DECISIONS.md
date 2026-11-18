@@ -1,5 +1,13 @@
 # Project decisions
 
+## 2026-11-16 — Source leveling V1 is development-only and event-driven
+
+- Source-indexed mana thresholds and the static-code-derived choice lifecycle are integrated into the actual Game behind `?ref-leveling&limitRatio=…` **only in non-production builds**. The limit ratio must be explicitly supplied and is not claimed as a verified default.
+- Each collected gem triggers one explicit source leveling call; no eager multi-level loop. Primary level changes only after a successful ordinary card and mode2 cost refresh. The origin of gem input and Unity post-choice scheduling remain unknown and are not guessed.
+- The experimental session is intentionally **not serialized** into the existing checkpoint format. Old saves, checkpoints, rewards and unlocks remain isolated; no Android production exposure.
+- This is a bridge validation milestone, **not** full source-game parity or permission to enable the new engine globally. See [the source-leveling integration guide](reference/PLAYABLE-LEVELING-V1.md).
+
+
 Keep durable architecture and gameplay decisions here. Add a dated entry for each substantial change.
 
 ## 2026-11-14 — Reaffirm original mechanical-fidelity mandate
