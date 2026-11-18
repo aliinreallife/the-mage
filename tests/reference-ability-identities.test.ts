@@ -36,6 +36,18 @@ describe("0.9941 stored source identities and conservative local crosswalk", () 
     expect(SOURCE_ABILITY_IDENTITIES.every(a => Object.isFrozen(a))).toBe(true);
   });
 
+  it.each([
+    ["magic", "828e910fda8a66c09a28e402949064935f2d7ef7281310829e884da1c3a0c6eb"],
+    ["passive", "14d1ca06992e8b2eae7f79d71ae30a1b04052f0e6256bb9add627ae1c5f3d3c2"],
+    ["special_passive", "86f8a541376bda5e4a9973309b20395ca3b46e3e6a4f7c24c6696f3d4be3d211"],
+    ["trait", "9291315ca9e22c8e552796693f79e7e494baa38e391cfa5be3855aa5278e47f7"],
+  ] as const)("%s identity category matches its source digest", (category, expected) => {
+    const rows = SOURCE_ABILITY_IDENTITIES.filter(a => a.kind === category).map(a =>
+      [a.kind, a.sourceId, a.nameEn, a.maxLevel, a.requiredLevel, a.parentMagicId ?? 0].join("|"),
+    ).join("\n");
+    expect(createHash("sha256").update(rows).digest("hex")).toBe(expected);
+  });
+
   it("matches the complete stored catalog's source identity checksum", () => {
     // SHA-256 over all 121 source rows in canonical reference_layer order:
     // category|reference_id|internal_name|max_level|required_level|derived_ability_id
