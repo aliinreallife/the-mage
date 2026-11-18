@@ -28,14 +28,17 @@ beside it. See `docs/ANDROID-TESTING.md` for installation and HTTPS requirements
 
 ## Documentation
 
+**Canonical project handoff:** [PRD](the-mage-docs/PRD.md) · [decisions](the-mage-docs/decisions.md) · [current status](the-mage-docs/status.md) · [documentation update guide](the-mage-docs/how_to_update_docs.md). The PRD is a **reconstructed draft requiring approval**. Every development session should read the current status and update the same T/D records as warranted. Run `npm run docs:check` to validate the read-only four-file structure and links.
+
+The existing `docs/DECISIONS.md`, `docs/PROJECT-ROADMAP.md` and `docs/PHASE1-STATUS.md` are preserved for provenance; use `the-mage-docs/` for future active product decisions and status.
+
 `docs/VERIFICATION.md` (what was run), `docs/BALANCE.md` (hero tuning), `docs/SECURITY.md`
 (dependency audit), `docs/QA-CHECKLIST.md` (human Android test plan),
 `docs/evidence/` (before/after source, manifests), `docs/qa/` (screenshots, browser logs).
 
 ## Status
 
-Functionally complete and export-verified; **pending physical Android validation and human
-playtesting** before an Android release. See `docs/PHASE1-STATUS.md`.
+The Phase 1 scaffold is export-verified, **not** 0.9941 runtime parity and **not** phone-release validated. Physical Android QA and human playtesting remain outstanding. See [current status](the-mage-docs/status.md) and historic `docs/PHASE1-STATUS.md`.
 
 ## Continue development with ChatGPT and GitHub
 
