@@ -72,3 +72,9 @@ See [SOURCE-ABILITY-MAPPING.md](SOURCE-ABILITY-MAPPING.md). The 0.9941 **121 sto
 **Actual bounded dev behavior:** `Game.rollChoices` in `?ref-leveling` mode now excludes only the four supported local passives mapping to source 31, 32, 33 and 37 while source level is 1–3. Other source IDs 34–39 are NOT automatically mapped to local skills, and normal mode is unchanged. This is **not** a source-accurate draw algorithm; the old weighted draw, local spells, talents, fusions, and heal fallback remain, as do unverified queues, flags and choice effects.
 
 Verification: `npx vitest run tests/reference-ability-identities.test.ts tests/reference-source-offer-guards.test.ts` plus full CI and Android debug workflows.
+
+## Source-native numerical magic records (2026-11-17)
+
+See [SOURCE-MAGIC-NUMERIC.md](SOURCE-MAGIC-NUMERIC.md). The reference layer now retains the complete **21×9 = 189 raw magic effect slots**, **58 confirmed positive dispatcher bindings**, and **131 magic base initializer fields** (including exact float32 bits and six int values). Independent SHA256 parity gates and unit tests check both source data sets.
+
+The dev-only `Game.devReferenceMagicEffectSlotV1(magicId, slot, current)` supports an isolated single source effect with **explicit** current stat value. The `UnitBase_*` initializers and `AllyUnitVar_*` effect variables have distinct semantics. There is still no proved rank-to-raw-slot scheduling, stat refresh/reapplication, or final projectile-hit calculation, so these reference operations **do not mutate normal or experimental combat**. This prevents false source-damage claims while bringing the stored numerical mechanics into a testable executable form.
